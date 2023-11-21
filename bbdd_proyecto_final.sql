@@ -71,6 +71,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Donaciones` (
     REFERENCES `mydb`.`Libros` (`idLibros`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+/*
+INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo)
+VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000),
+('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000),
+('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000);
 
 INSERT INTO Libros (Titulo, Genero, Autor, Num_pag, Estado, Valor)
 VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1200, 'Decente', 45.99),
@@ -102,4 +107,6 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1200, 'Decente
   ('El diario de Ana Frank', 'Diario', 'Ana Frank', 283, 'Malo', 21.50),
   ('La isla del tesoro', 'Novela de aventuras', 'Robert Louis Stevenson', 311, 'Decente', 26.99),
   ('Drácula', 'Novela gótica', 'Bram Stoker', 418, 'Bueno', 32.20);
+  */
 SELECT * FROM Libros;
+SELECT * FROM Usuarios;
