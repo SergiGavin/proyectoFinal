@@ -6,6 +6,8 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -19,23 +21,42 @@ import lombok.Data;
 @Data
 public class PrestamosEntity {
 	@Id
+<<<<<<< HEAD
 	private PrestamosKey idPrestamo;
+=======
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idPrestamo;
+>>>>>>> origin
 	
-    @ManyToMany
-    @JoinTable(
-    		name = "Usuarios_idUsuarios",
-    		joinColumns = @JoinColumn(name = "donacion_id"),
-    	    inverseJoinColumns = @JoinColumn(name = "libro_id")
-    )
-    private List<UsuariosEntity> idUsuario;
+	 @Column(name = "Fecha_prestamo")
+	    private Date fechaPrestamo;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "idUsuarios")
+	 private UsuariosEntity usuarioPrestatario;
 
-    @ManyToMany
-    @JoinTable(
-    		name = "Libros_idLibros",
-    		joinColumns = @JoinColumn(name = "donacion_id"),
-            inverseJoinColumns = @JoinColumn(name = "libro_id"))
-    private List<LibrosEntity> idLibros;
+	 @ManyToOne
+	 @JoinColumn(name = "idLibros")
+	 private LibrosEntity libroPrestado;
+	 
+	 
+	 
+	 
+	
+//    @ManyToMany
+//    @JoinTable(
+//    		name = "Usuarios_idUsuarios",
+//    		joinColumns = @JoinColumn(name = "donacion_id"),
+//    	    inverseJoinColumns = @JoinColumn(name = "libro_id")
+//    )
+//    private List<UsuariosEntity> idUsuario;
+//
+//    @ManyToMany
+//    @JoinTable(
+//    		name = "Libros_idLibros",
+//    		joinColumns = @JoinColumn(name = "donacion_id"),
+//            inverseJoinColumns = @JoinColumn(name = "libro_id"))
+//    private List<LibrosEntity> idLibros;
 
-    @Column(name = "Fecha_prestamo")
-    private Date fechaPrestamo;
+   
 }
