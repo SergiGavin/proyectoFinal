@@ -1,25 +1,26 @@
+DROP DATABASE IF EXISTS `mydb`;
 CREATE DATABASE IF NOT EXISTS `mydb`;
 USE `mydb` ;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Usuarios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Usuarios` (
-  `idUsuarios` INT AUTO_INCREMENT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Usuarios` (
+  `id_usuarios` INT AUTO_INCREMENT NOT NULL,
   `Nombre` VARCHAR(45) NULL,
   `Apellidos` VARCHAR(45) NULL,
   `DNI` VARCHAR(15) NULL,
   `Correo_electronico` VARCHAR(45) NULL,
   `Telefono` INT(15) NULL,
   `Saldo` DECIMAL(10, 2) NULL,
-  PRIMARY KEY (`idUsuarios`));
+  PRIMARY KEY (`id_usuarios`));
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Libros`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Libros` (
-  `idLibros` INT AUTO_INCREMENT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Libros` (
+  `id_libros` INT AUTO_INCREMENT NOT NULL,
   `Titulo` VARCHAR(45) NULL,
   `Genero` VARCHAR(45) NULL,
   `Autor` VARCHAR(45) NULL,
@@ -27,29 +28,30 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Libros` (
   `Estado` VARCHAR(45) NULL,
   `Valor` DECIMAL(10, 2) NULL,
   `Foto_portada` TEXT,
-  PRIMARY KEY (`idLibros`));
+  `sinopsis` TEXT,
+  PRIMARY KEY (`id_libros`));
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Prestamos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Prestamos` (
-  `Usuarios_idUsuarios` INT NOT NULL,
-  `Libros_idLibros` INT NOT NULL,
-  `Fecha_prestamo` DATE NULL,
-  `idPrestamo` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Prestamos` (
+  `id_usuarios` INT NOT NULL,
+  `id_libros` INT NOT NULL,
+  `Fecha_prestamo` DATE NOT NULL,
+  `id_prestamo` INT NOT NULL,
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
-  PRIMARY KEY (`idPrestamo`),
-  INDEX `fk_Usuarios_has_Libros_Libros1_idx` (`Libros_idLibros` ASC) VISIBLE,
-  INDEX `fk_Usuarios_has_Libros_Usuarios_idx` (`Usuarios_idUsuarios` ASC) VISIBLE,
+  PRIMARY KEY (`id_prestamo`),
+  INDEX `fk_Usuarios_has_Libros_Libros1_idx` (`id_libros` ASC) VISIBLE,
+  INDEX `fk_Usuarios_has_Libros_Usuarios_idx` (`id_usuarios` ASC) VISIBLE,
   CONSTRAINT `fk_Usuarios_has_Libros_Usuarios`
-    FOREIGN KEY (`Usuarios_idUsuarios`)
-    REFERENCES `mydb`.`Usuarios` (`idUsuarios`)
+    FOREIGN KEY (`id_usuarios`)
+    REFERENCES `Usuarios` (`id_usuarios`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Usuarios_has_Libros_Libros1`
-    FOREIGN KEY (`Libros_idLibros`)
-    REFERENCES `mydb`.`Libros` (`idLibros`)
+    FOREIGN KEY (`id_libros`)
+    REFERENCES `Libros` (`id_libros`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -57,23 +59,23 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Prestamos` (
 -- -----------------------------------------------------
 -- Table `mydb`.`Donaciones`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`Donaciones` (
-  `Usuarios_idUsuarios` INT NOT NULL,
-  `Libros_idLibros` INT NOT NULL,
-  `Fecha_donacion` DATE NULL,
-  `idDonacion` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `Donaciones` (
+  `id_usuarios` INT NOT NULL,
+  `id_libros` INT NOT NULL,
+  `Fecha_donacion` DATE NOT NULL,
+  `id_donacion` INT NOT NULL,
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
-  PRIMARY KEY (`idDonacion`),
-  INDEX `fk_Usuarios_has_Libros1_Libros1_idx` (`Libros_idLibros` ASC) VISIBLE,
-  INDEX `fk_Usuarios_has_Libros1_Usuarios1_idx` (`Usuarios_idUsuarios` ASC) VISIBLE,
+  PRIMARY KEY (`id_donacion`),
+  INDEX `fk_Usuarios_has_Libros1_Libros1_idx` (`id_libros` ASC) VISIBLE,
+  INDEX `fk_Usuarios_has_Libros1_Usuarios1_idx` (`id_usuarios` ASC) VISIBLE,
   CONSTRAINT `fk_Usuarios_has_Libros1_Usuarios1`
-    FOREIGN KEY (`Usuarios_idUsuarios`)
-    REFERENCES `mydb`.`Usuarios` (`idUsuarios`)
+    FOREIGN KEY (`id_usuarios`)
+    REFERENCES `Usuarios` (`id_usuarios`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Usuarios_has_Libros1_Libros1`
-    FOREIGN KEY (`Libros_idLibros`)
-    REFERENCES `mydb`.`Libros` (`idLibros`)
+    FOREIGN KEY (`id_libros`)
+    REFERENCES `Libros` (`id_libros`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -113,5 +115,7 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente
   ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg'),
   ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg');
   
-SELECT DISTINCT * FROM Libros ORDER BY idLibros;
+SELECT * FROM Libros;
 SELECT * FROM Usuarios;
+SELECT * FROM Donaciones;
+SELECT * FROM Prestamos;

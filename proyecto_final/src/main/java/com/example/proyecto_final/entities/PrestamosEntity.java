@@ -28,11 +28,11 @@ public class PrestamosEntity {
 	    private Date fechaPrestamo;
 	 
 	 @ManyToOne
-	 @JoinColumn(name = "idUsuarios")
+	 @JoinColumn(name = "id_usuarios")
 	 private UsuariosEntity usuarioPrestatario;
 
 	 @ManyToOne
-	 @JoinColumn(name = "idLibros")
+	 @JoinColumn(name = "id_libros")
 	 private LibrosEntity libroPrestado;
 	 
 	 

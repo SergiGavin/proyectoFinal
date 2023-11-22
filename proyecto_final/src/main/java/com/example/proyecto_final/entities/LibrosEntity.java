@@ -16,8 +16,8 @@ import lombok.Data;
 public class LibrosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idLibros")
-	private Long idLibros;
+	@Column(name = "id_libros")
+	private Long id_libros;
 	
 	@Column(name = "Titulo")
 	private String titulo;
@@ -37,7 +37,7 @@ public class LibrosEntity {
 	@Column(name = "Valor")
 	private Float valor;
 	
-	@Column(name = "Sinopsis")
+	@Column(name = "sinopsis")
 	private String sinopsis;
 	
 	@Column(name = "Foto_portada")
