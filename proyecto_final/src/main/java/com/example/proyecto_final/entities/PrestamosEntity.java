@@ -18,7 +18,7 @@ import lombok.Data;
 @Table(name = "Prestamos")
 @Data
 public class PrestamosEntity {
-	@EmbeddedId
+	@Id
 	private PrestamosKey idPrestamo;
 	
     @ManyToMany

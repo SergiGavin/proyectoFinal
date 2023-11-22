@@ -18,7 +18,7 @@ import lombok.Data;
 
 @Entity
 public class DonacionesEntity {
-	@EmbeddedId
+	@Id
 	private DonacionKey idDonacion;
 	
     @ManyToMany
