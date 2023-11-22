@@ -15,14 +15,16 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+
 @Entity
 @Table(name = "Usuarios")
 @Data
+
 public class UsuariosEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idUsuarios")
-	private Long idUsuarios;
+	@Column(name = "id_usuarios")
+	private Long id_usuarios;
 
 	@Column(name = "Nombre")
 	private String nombre;

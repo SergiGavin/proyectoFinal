@@ -19,6 +19,8 @@ import lombok.Data;
 
 
 @Entity
+@Table(name = "Donaciones")
+@Data
 public class DonacionesEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +31,11 @@ public class DonacionesEntity {
 	   
 	   //Se relaciona con ManyToOne y se hace un JoinColumn a "idUsuarios". El mismo procedimiento con "idLibros"
 	   	@ManyToOne
-	    @JoinColumn(name = "idUsuarios")
+	    @JoinColumn(name = "id_usuarios")
 	    private UsuariosEntity usuarioDonante;
 
 	    @ManyToOne
-	    @JoinColumn(name = "idLibros")
+	    @JoinColumn(name = "id_libros")
 	    private LibrosEntity libroDonado;
 	   
 	   
