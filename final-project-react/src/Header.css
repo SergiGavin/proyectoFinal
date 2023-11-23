@@ -1,0 +1,24 @@
+.logo{
+    color:blueviolet;
+    font-size: 50px;
+    font-weight: bold;
+}
+.btn-inicioSesion {
+    background-color: #ff7752;
+    color: white;
+}
+
+.btn-hover:hover {
+    /* Define los estilos para el hover */
+    /* Por ejemplo, cambia el color de fondo o el color del texto */
+    background-color: #ff9a52;
+    color: white;
+}
+
+.fndo-naranja{
+    background-color: #ff9a52;
+}
+
+.buscador{
+    background-color: white;
+}
