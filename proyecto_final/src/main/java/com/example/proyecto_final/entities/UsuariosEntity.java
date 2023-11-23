@@ -52,24 +52,7 @@ public class UsuariosEntity {
 	@OneToMany(mappedBy = "usuarioPrestatario")
 	private List<PrestamosEntity> prestamos_usuarios;
 	
-	
-//	  @ManyToMany
-//	  @JoinTable(
-//	        name = "Prestamos",
-//	        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//	        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//	       
-//	    )
-//	  
-//    private List<LibrosEntity> librosPrestados;
-//	  
-//	  @ManyToMany
-//	    @JoinTable(
-//	        name = "Donaciones",
-//	        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//	        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//	    )
-//	    private List<LibrosEntity> librosDonados;
+
     
 }
 
