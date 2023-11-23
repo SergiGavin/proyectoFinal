@@ -37,13 +37,13 @@ public class UsuarioController {
 	//PUT
 	@PostMapping("editar/{id}")
 	//Pasamos como variable el id ya que se necesitará para editar el usuario en especifico.
-	public UsuariosEntity actualizar(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+	public UsuariosEntity actualizarUsuario(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
 		usuario.setId_usuarios(id);
 		return usuarioService.updateUsuario(usuario);
 	}
 	//DELETE
 	@DeleteMapping("eliminar/{id}")
-	public void eliminar(@PathVariable Long id) {
+	public void eliminarUsuario(@PathVariable Long id) {
 		usuarioService.deleteUsuarioById(id);
 	}
 }
