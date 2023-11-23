@@ -37,8 +37,8 @@ public class LibrosEntity {
 	@Column(name = "Valor")
 	private Float valor;
 	
-	@Column(name = "sinopsis")
-	private String sinopsis;
+	//@Column(name = "sinopsis")
+	//private String sinopsis;
 	
 	@Column(name = "Foto_portada")
 	private String foto_portada;
