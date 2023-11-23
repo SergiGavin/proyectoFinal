@@ -54,6 +54,7 @@ public class UsuarioController {
 	//PUT
 	@PostMapping("editar/{id}")
 	//Pasamos como variable el id ya que se necesitará para editar el usuario en especifico.
+
 	public UsuariosEntity actualizarUsuario(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
 		usuario.setId_usuarios(id);
 		return usuarioService.updateUsuario(usuario);
