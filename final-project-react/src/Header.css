@@ -1,24 +1,56 @@
-.logo{
-    color:blueviolet;
-    font-size: 50px;
+/* PALETA DE COLORES */
+:root {
+    --salmon: #ff5252;;
+    --dark-orange: #ff7752;
+    --orange: #ff9a52;
+    --dark-yellow: #ffb752;
+    --violet: #5e405b;
+  }
+  /*
+.custom-color-1 {
+    background-color: 
+}
+.custom-color-2 {
+    background-color: #ff7752;
+}
+.custom-color-3 {
+    background-color: #ff9a52;
+}
+.custom-color-4 {
+    background-color: #ffb752;
+}
+.custom-color-5 {
+    background-color: #5e405b;
+}
+*/
+.nombre{
+    color: var(--violet);
     font-weight: bold;
+    font-size: 30px;
+    margin-left: 20px;
 }
 .btn-inicioSesion {
-    background-color: #ff7752;
+    background-color: var(--violet);
     color: white;
 }
 
 .btn-hover:hover {
     /* Define los estilos para el hover */
     /* Por ejemplo, cambia el color de fondo o el color del texto */
-    background-color: #ff9a52;
+    background-color: var(--salmon);
     color: white;
 }
 
 .fndo-naranja{
-    background-color: #ff9a52;
+    background-color: var(--dark-yellow);;
+    height: 80px;
+    align-items: center;
 }
 
 .buscador{
     background-color: white;
+}
+
+.container{
+    margin: 0px;
 }
