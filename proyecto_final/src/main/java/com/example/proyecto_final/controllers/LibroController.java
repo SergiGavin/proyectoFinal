@@ -1,8 +1,10 @@
 package com.example.proyecto_final.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,58 @@ public class LibroController {
 		public List<LibrosEntity> listarLibros(){
 			return libroService.getAllLibros();
 		}
-		
+		// GET para obtener un libro por ID
+		// Si el id esta presente lo mostrará sino saldra mensaje de no encontrado.
+		// Para ello utilizamos un placeHolder en el ResponseEntity
+	    @GetMapping("id/{id}")
+	    public ResponseEntity<?> obtenerLibroPorId(@PathVariable Long id) {
+	        Optional<LibrosEntity> librosPorAutor = libroService.getLibroById(id);
+
+	        if (librosPorAutor.isPresent()) {
+	            return new ResponseEntity<>(librosPorAutor.get(), HttpStatus.OK);
+	        } else {
+	            String mensaje = "No se encontró ningún libro con el ID: " + id;
+	            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	        }
+	    }
+	    // GET para obtener un libro por genero
+	 	// Si el genero esta presente lo mostrará sino saldra mensaje de no encontrado.
+	 	// Para ello utilizamos un placeHolder en el ResponseEntity
+	    @GetMapping("/genero/{genero}")
+	    public ResponseEntity<?> obtenerLibrosPorGenero(@PathVariable String genero) {
+	        List<LibrosEntity> librosPorGenero = libroService.getLibrosByGenero(genero);
+
+	        if (!librosPorGenero.isEmpty()) {
+	            return new ResponseEntity<>(librosPorGenero, HttpStatus.OK);
+	        } else {
+	            String mensaje = "No se encontraron libros para el género: " + genero;
+	            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	        }
+	    }
+	    
+	    // GET para obtener un libro por autor
+	 	// Si el autor esta presente lo mostrará sino saldra mensaje de no encontrado.
+	    //Si pones algo parecido al nombre te saldra. Ejemplo: J.K. Rowling la puedes encontrar con "row"
+	 	// Para ello utilizamos un placeHolder en el ResponseEntity
+	    @GetMapping("/autor/{autor}")
+	    public ResponseEntity<?> obtenerLibrosPorAutor(@PathVariable String autor) {
+	        if (autor != null) {
+	            autor = autor.trim();
+	        } else {
+	            // Manejar el caso en que autor es null, por ejemplo, asignar una cadena vacía o devolver un error.
+	            return new ResponseEntity<>("Introduzca el autor", HttpStatus.BAD_REQUEST);
+	        }
+
+	        List<LibrosEntity> librosPorAutor = libroService.getLibrosByAutor(autor);
+
+	        if (!librosPorAutor.isEmpty()) {
+	            return new ResponseEntity<>(librosPorAutor, HttpStatus.OK);
+	        } else {
+	            String mensaje = "No se encontraron libros para el autor: " + autor;
+	            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	        }
+	    }
+	    
 		//POST
 		@PostMapping
 		public LibrosEntity crearLibro(@RequestBody LibrosEntity libro) {

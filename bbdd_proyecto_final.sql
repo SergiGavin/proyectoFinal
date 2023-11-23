@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS `Prestamos` (
   `id_usuarios` INT NOT NULL,
   `id_libros` INT NOT NULL,
   `Fecha_prestamo` DATE NOT NULL,
+  `Fecha_devolucion` DATE NOT NULL,
   `id_prestamo` INT NOT NULL,
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
   PRIMARY KEY (`id_prestamo`),
