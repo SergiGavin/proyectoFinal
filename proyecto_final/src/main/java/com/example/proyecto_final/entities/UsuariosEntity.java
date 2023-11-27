@@ -20,16 +20,13 @@ public class UsuariosEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuarios")
 	private Long id_usuarios;
-
 	private String nombre;
 	private String apellidos;
 	private String dni;
-
 	@Column(name = "Correo_electronico")
 	private String correo;
 	private int telefono;
 	private String saldo;
-	
 	private String username;
 	private String pass;
 

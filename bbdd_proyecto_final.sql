@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
   `Correo_electronico` VARCHAR(45) NOT NULL,
   `Telefono` INT(15) NOT NULL,
   `Saldo` DECIMAL(10, 2) NOT NULL,
-  `Username` VARCHAR(255) NOT NULL,
-  `Pass` VARCHAR(25) NOT NULL,
+  `username` VARCHAR(255) NOT NULL,
+  `pass` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`id_usuarios`));
 
 
@@ -82,10 +82,29 @@ CREATE TABLE IF NOT EXISTS `Donaciones` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo, Username, Pass)
-VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000,'chavooo95','1'),
-('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000,'sergigav','a'),
-('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000,'Arih','ç');
+
+CREATE TABLE IF NOT EXISTS `temas` (
+	`id_tema` INT PRIMARY KEY AUTO_INCREMENT,
+    `titulo_tema` VARCHAR(255),
+    `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `usuario_creador` INT,
+    FOREIGN KEY (`usuario_creador`) REFERENCES `Usuarios` (`id_usuarios`)
+);
+
+CREATE TABLE IF NOT EXISTS `mensajes` (
+	`mensaje_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `contenido` TEXT,
+    `fecha_publicacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `autor_id` INT,
+    `tema_id` INT, 
+    FOREIGN KEY (`autor_id`) REFERENCES `Usuarios`(`id_usuarios`),
+    FOREIGN KEY (`tema_id`) REFERENCES `temas`(`id_tema`)
+);
+
+INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo, username, pass)
+VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000, 'chavooo95', '1'),
+('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000, 'sergigav', 'a'),
+('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000, 'Arih', 'ç');
 
 INSERT INTO Libros (Titulo, Genero, Autor, Num_pag, Estado, Valor, Foto_portada, sinopsis)
 VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente', 19.95, 'https://medios.lamarmota.es/senor-de-los-anillos.jpeg', 'En la Tierra Media, el Señor Oscuro Sauron ordenó a los Elfos que forjaran los Grandes Anillos de Poder. Tres para los reyes Elfos, siete para los Señores Enanos, y nueve para los Hombres Mortales. Pero Saurón también forjó, en secreto, el Anillo Único, que tiene el poder de esclavizar toda la Tierra Media. Con la ayuda de sus amigos y de valientes aliados, el joven hobbit Frodo emprende un peligroso viaje con la misión de destruir el Anillo Único. Pero el malvado Sauron ordena la persecución del grupo, compuesto por Frodo y sus leales amigos hobbits, un mago, un hombre, un elfo y un enano. La misión es casi suicida pero necesaria, pues si Sauron con su ejército de orcos lograra recuperar el Anillo, sería el final de la Tierra Media.'),
@@ -100,7 +119,6 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente
   ('El gran Gatsby', 'Drama', 'F. Scott Fitzgerald', 192, 'Bueno', 18.95, 'https://m.media-amazon.com/images/I/61z0MrB6qOS._AC_UF1000,1000_QL80_.jpg', 'Situada en plena Belle Époque estadounidense, luego de la Primera Guerra Mundial, en la zona residencial de Long Island, El gran Gatsby cuenta la historia de un dramático “pentágono” amoroso, a la vez que deja entrever las consecuencias inadvertidas del conflicto bélico, la corrupción económica disfrazada de oportunidad financiera y el declive de una clase social amenazada por su propia ceguera. Jay Gatsby, un hombre atractivo y misterioso, ha vuelto de los campos de batalla en Europa e intenta reconquistar a Daisy, al principio con amagos de opulencia. La joven está casada con Tom Buchanan, fiel creyente en los valores del establishment, incluida la supremacía de la raza blanca y la respetabilidad familiar, lo que no le impide tener amoríos clandestinos. Nick Carraway, el célebre narrador, intentará mostrar los hechos sin juzgar a los actores. El jazz, el lujo, las fiestas, el alcohol y una sexualidad que aspira a romper los corsés impuestos circundan una trama impecable –Francis Scott Fitzgerald consideró que había escrito “la mejor novela de Estados Unidos” hasta entonces– que progresivamente adquiere tintes sombríos. Edith Wharton, T. S. Eliot, John Updike y Haruki Murakami, entre otros varios escritores, encontraron en El gran Gatsby la clave de una novela perfecta. Parábola del desengaño de los ideales juveniles y de la cortesía extrema como represalia sutil, merece ser leída nuevamente o por primera vez.'),
   ('Don Quijote de la Mancha', 'Clásica', 'Miguel de Cervantes', 1560, 'Decente', 23.95, 'https://www.marcialpons.es/media/img/portadas/2023/4/18/9788408270881jfif', 'El ingenioso hidalgo don Quijote de la Mancha narra las aventuras de Alonso Quijano, un hidalgo pobre que de tanto leer novelas de caballería acaba enloqueciendo y creyendo ser un caballero andante, nombrándose a sí mismo como don Quijote de la Mancha.'),
   ('Los miserables', 'Clásica', 'Victor Hugo', 1312, 'Decente', 19.95, 'https://www.aglutinaeditores.com/media/resources/public/5d/5dfd/5dfd32726fe7415e8910d01df88b96fa', 'Es la historia de Jean Valjean, un convicto que estuvo injustamente encarcelado por 19 años por haberse robado una rebanada de pan. Al ser liberado de su injusta condena, Valjean trata de escapar de su pasado, lleno de maldad y depravación, para vivir una vida digna y honesta.'),
-  ('En el camino', 'Autobiografia', 'Jack Kerouac', 400, 'Bueno', 13.90, 'https://images.cdn1.buscalibre.com/fit-in/360x360/bc/28/bc28f57ef643d98abc7328a1405158b9.jpg', 'Sal Paradise, el protagonista de esta historia, sigue los pasos de Dean Moriarty, trasunto del legendario Neal Cassady, el icono de la Generación Beat. Atravesando América de costa a costa, el viaje acaba convertido en camino perpetuo sin apenas sentido, en el que se dan cita la amistad y la muerte, el amor y el desamparo, la soledad, el alcohol y el sexo. Todo se mezcla en una narración de ritmo alterado y trepidante, conmovedora y a la vez profundamente dolorosa. El estado febril en que parece que fue creada, así como un estilo endiabladamente improvisado y esa voz narrativa que todo lo invade, son las claves de esta novela iniciática que no solo retrata a un grupo de poetas y amigos sino a toda una generación. Algunos libros te arrastran hacia lugares que intuyes pero a los que jamás podrías llegar sin su compañía y su fuerza. En el camino pertenece a esa estirpe y nos convoca a todos nosotros desde las primeras páginas.'),
   ('Rayuela', 'Ficción', 'Julio Cortázar', 736, 'Bueno', 11.95, 'https://m.media-amazon.com/images/I/41UfZV4MqfL.jpg', 'La historia se desarrolla en la ciudad de París, donde Horacio Oliveira vaga por los puentes de la ciudad en busca de su amante, una mujer uruguaya llamada Lucía. Su relación es apasionada pero sus caracteres son bien distintos: Lucía, más tarde conocida como La Maga, de temperamento pasional, está enamorada de Horacio, más analítico y frío, mientras que él parece no querer involucrarse emocionalmente con ella.'),
   ('El retrato de Dorian Gray', 'Filosofia', 'Oscar Wilde', 240, 'Decente', 4.95, 'https://www.udllibros.com/imagenes/9788494/978849490630.JPG', 'El joven Dorian Grey es retratado por su amigo el pintor Basil Hallward. Y a partir de ese momento el cuadro comienza a sufrir una serie de transformaciones, que reflejan los cambios del alma de Dorian Grey. La acción está ambientada en Londres, a finales del siglo XIX. Esta novela de Oscar Wilde está considerada como una de las cumbres de la literatura universal. '),
   ('Crimen y castigo', 'Policiaca', 'Fiodor Dostoievski', 752, 'Bueno', 13.95, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/6254541d8ae4df16d4e69bc8_6034d7d1f3e0f54529b2b1a1_Crimen-y-castigo-fiodor-dostoyevski-editorial-alma.jpeg', 'Nadie ha retratado la psicología humana como lo hizo Fiódor Dostoyevski. Su obra, fiel reflejo de una personalidad compleja y atormentada, marca una de las cimas de la narrativa universal. Admirada por generaciones de lectores y autores, Crimen y castigo narra el asesinato cometido por Rodión Raskólnikov, un estudiante arrogante y endeudado cuyo nihilismo anticipa la literatura existencialista. Su descenso a los infierno corre en paralelo al de la ciudad de San Petersburgo, en plena decadencia, que Dostoyevski retrata con pulso firme y una galería de personajes absolutamente memorables.'),
@@ -118,7 +136,7 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente
   ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg', 'Jim Hawkins regenta, junto a sus padres, la posada Almirante Benbow. Su  vida discurre tranquila entre la barra y las mesas hasta que, un día, un  viejo marinero entra en su fonda acarreando un pesado secreto... De la  noche a la mañana el joven Jim se encuentra en la cubierta de la Hispaniola, rodeado de rudos marineros, agasajado por un  misterioso cocinero cojo, ansiosos todos ellos por encontrar el codiciado tesoro del capitán Flint.'),
   ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
   
-SELECT * FROM Libros;
-SELECT * FROM Usuarios;
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;
+SELECT * FROM Libros;
+SELECT * FROM Usuarios;
