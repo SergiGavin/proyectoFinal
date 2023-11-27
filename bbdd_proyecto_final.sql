@@ -7,12 +7,14 @@ USE `mydb`;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Usuarios` (
   `id_usuarios` INT AUTO_INCREMENT NOT NULL,
-  `Nombre` VARCHAR(45) NULL,
-  `Apellidos` VARCHAR(45) NULL,
-  `DNI` VARCHAR(15) NULL,
-  `Correo_electronico` VARCHAR(45) NULL,
-  `Telefono` INT(15) NULL,
-  `Saldo` DECIMAL(10, 2) NULL,
+  `Nombre` VARCHAR(45) NOT NULL,
+  `Apellidos` VARCHAR(45) NOT NULL,
+  `DNI` VARCHAR(15) NOT NULL,
+  `Correo_electronico` VARCHAR(45) NOT NULL,
+  `Telefono` INT(15) NOT NULL,
+  `Saldo` DECIMAL(10, 2) NOT NULL,
+  `Username` VARCHAR(255) NOT NULL,
+  `Pass` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`id_usuarios`));
 
 
@@ -21,12 +23,12 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Libros` (
   `id_libros` INT AUTO_INCREMENT NOT NULL,
-  `Titulo` VARCHAR(45) NULL,
-  `Genero` VARCHAR(45) NULL,
-  `Autor` VARCHAR(45) NULL,
-  `Num_pag` INT NULL,
-  `Estado` VARCHAR(45) NULL,
-  `Valor` DECIMAL(10, 2) NULL,
+  `Titulo` VARCHAR(45)NOT NULL,
+  `Genero` VARCHAR(45)NOT NULL,
+  `Autor` VARCHAR(45)NOT NULL,
+  `Num_pag` INT NOT NULL,
+  `Estado` VARCHAR(45) NOT NULL,
+  `Valor` DECIMAL(10, 2)NOT NULL,
   `Foto_portada` TEXT,
   `sinopsis` TEXT,
   PRIMARY KEY (`id_libros`));
@@ -80,10 +82,10 @@ CREATE TABLE IF NOT EXISTS `Donaciones` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo)
-VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000),
-('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000),
-('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000);
+INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo, Username, Pass)
+VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000,'chavooo95','1'),
+('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000,'sergigav','a'),
+('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000,'Arih','ç');
 
 INSERT INTO Libros (Titulo, Genero, Autor, Num_pag, Estado, Valor, Foto_portada, sinopsis)
 VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente', 19.95, 'https://medios.lamarmota.es/senor-de-los-anillos.jpeg', 'En la Tierra Media, el Señor Oscuro Sauron ordenó a los Elfos que forjaran los Grandes Anillos de Poder. Tres para los reyes Elfos, siete para los Señores Enanos, y nueve para los Hombres Mortales. Pero Saurón también forjó, en secreto, el Anillo Único, que tiene el poder de esclavizar toda la Tierra Media. Con la ayuda de sus amigos y de valientes aliados, el joven hobbit Frodo emprende un peligroso viaje con la misión de destruir el Anillo Único. Pero el malvado Sauron ordena la persecución del grupo, compuesto por Frodo y sus leales amigos hobbits, un mago, un hombre, un elfo y un enano. La misión es casi suicida pero necesaria, pues si Sauron con su ejército de orcos lograra recuperar el Anillo, sería el final de la Tierra Media.'),

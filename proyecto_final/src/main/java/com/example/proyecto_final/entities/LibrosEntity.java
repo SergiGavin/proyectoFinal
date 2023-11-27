@@ -2,10 +2,13 @@ package com.example.proyecto_final.entities;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -19,28 +22,13 @@ public class LibrosEntity {
 	@Column(name = "id_libros")
 	private Long id_libros;
 	
-	@Column(name = "Titulo")
 	private String titulo;
-
-	@Column(name = "Genero")
 	private String genero;
-
-	@Column(name = "Autor")
 	private String autor;
-
-	@Column(name = "Num_pag")
 	private int num_pag;
-
-	@Column(name = "Estado")
 	private String estado;
-	
-	@Column(name = "Valor")
 	private Float valor;
-	
-	@Column(name = "sinopsis")
 	private String sinopsis;
-	
-	@Column(name = "Foto_portada")
 	private String foto_portada;
 	
 	
