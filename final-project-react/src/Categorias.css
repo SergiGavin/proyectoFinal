@@ -1,0 +1,32 @@
+:root {
+    --salmon: #ff5252;
+    ;
+    --dark-orange: #ff7752;
+    --orange: #ff9a52;
+    --dark-yellow: #ffb752;
+    --violet: #5e405b;
+}
+
+.navbar{
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.nav-bar-bg {
+    background-color: var(--violet);
+    justify-content: center;
+}
+
+.btn-textcolor {
+    color: white;
+}
+
+.btn:hover {
+    color: var(--dark-yellow);
+    /* Cambia el color del texto a rojo al pasar el cursor sobre el botón */
+
+}
+
+.btn:active {
+    color: var(--dark-yellow);
+}
