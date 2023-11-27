@@ -21,28 +21,17 @@ public class UsuariosEntity {
 	@Column(name = "id_usuarios")
 	private Long id_usuarios;
 
-	@Column(name = "Nombre")
 	private String nombre;
-
-	@Column(name = "Apellidos")
 	private String apellidos;
-
-	@Column(name = "DNI")
 	private String dni;
 
 	@Column(name = "Correo_electronico")
 	private String correo;
 
-	@Column(name = "Telefono")
 	private int telefono;
-
-	@Column(name = "Saldo")
 	private String saldo;
 	
-	@Column(name = "username")
 	private String username;
-	
-	@Column(name = "pass")
 	private String pass;
 
 	// Se indica la relacion OneToMany y se mappea--> "usuarioDonante" es el nombre
