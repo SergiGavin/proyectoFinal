@@ -25,7 +25,7 @@ public class LibrosEntity {
 	private String titulo;
 	private String genero;
 	private String autor;
-	private int num_pag;
+	private Integer num_pag;
 	private String estado;
 	private Float valor;
 	private String sinopsis;

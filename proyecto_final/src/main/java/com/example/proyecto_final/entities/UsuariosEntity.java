@@ -25,7 +25,7 @@ public class UsuariosEntity {
 	private String dni;
 	@Column(name = "Correo_electronico")
 	private String correo;
-	private int telefono;
+	private Integer telefono;
 	private String saldo;
 	private String username;
 	private String pass;

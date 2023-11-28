@@ -19,10 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.services.LibroService;
 
-
 @RestController
 @RequestMapping("/libros")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000" })
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5500" })
 public class LibroController {
 
 	@Autowired
@@ -99,9 +98,37 @@ public class LibroController {
 	@PatchMapping("/{id}")
 	// Pasamos como variable el id ya que se necesitará para editar el libro en
 	// especifico.
-	public LibrosEntity actualizarLibro(@RequestBody LibrosEntity libro, @PathVariable Long id) {
-		libro.setId_libros(id);
-		return libroService.updateLibro(libro);
+	public ResponseEntity<?> actualizarLibro(@RequestBody LibrosEntity libro, @PathVariable Long id) {
+		Optional<LibrosEntity> libroActualizar = libroService.getLibroById(id);
+		if (libroActualizar.isPresent()) {
+			LibrosEntity libroExistente = libroActualizar.get();
+			if (libro.getTitulo() != null) {
+				libroExistente.setTitulo(libro.getTitulo());
+			}
+			if (libro.getGenero() != null) {
+				libroExistente.setGenero(libro.getGenero());
+			}
+			if (libro.getAutor() != null) {
+				libroExistente.setAutor(libro.getAutor());
+			}
+			if (libro.getNum_pag() != null) {
+				libroExistente.setNum_pag(libro.getNum_pag());
+			}
+			if (libro.getEstado() != null) {
+				libroExistente.setEstado(libro.getEstado());
+			}
+			if (libro.getValor() != null) {
+				libroExistente.setValor(libro.getValor());
+			}
+			if (libro.getSinopsis() != null) {
+				libroExistente.setSinopsis(libro.getSinopsis());
+			}
+			LibrosEntity libroActualizado = libroService.updateLibro(libroExistente);
+			return new ResponseEntity<>(libroActualizado, HttpStatus.OK);
+		} else {
+			String mensaje = "No se encontró ningún libro con el ID: " + id;
+			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		}
 	}
 
 	// DELETE
