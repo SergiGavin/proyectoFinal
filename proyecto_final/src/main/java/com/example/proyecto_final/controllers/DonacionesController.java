@@ -16,7 +16,7 @@ import com.example.proyecto_final.services.DonacionService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@RequestMapping("swap-reads/donacion")
+@RequestMapping("/donaciones")
 public class DonacionesController {
 
 	@Autowired

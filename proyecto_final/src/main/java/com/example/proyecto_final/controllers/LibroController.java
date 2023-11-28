@@ -2,6 +2,7 @@ package com.example.proyecto_final.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -86,6 +87,21 @@ public class LibroController {
 			String mensaje = "No se encontraron libros para el autor: " + autor;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	//MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
+	@GetMapping("/random")
+	public ResponseEntity<?> obtenerLibroRandom() {
+	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+	    if (todosLosLibros.isEmpty()) {
+	        // Si no hay ningún libro en la bbdd, devolver un error not found
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
+	    Random random = new Random();
+	    int idAleatorio = random.nextInt(todosLosLibros.size());
+	    LibrosEntity libroAleatorio = todosLosLibros.get(idAleatorio);
+
+	    return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
 	}
 
 	// Put
