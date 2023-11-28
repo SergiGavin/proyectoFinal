@@ -1,6 +1,7 @@
-import React from 'react';
+
+import React from "react";
 import "./Sugerencias.css"
-import Libro from './Libro';
+import Libro from "./Libro";
 
 interface Tag {
     id: number
@@ -17,6 +18,7 @@ function Sugerencias() {
     ];
 
     return (
+
         <div>
             {Tags.map(tag => (
                 <div key={tag.id}>

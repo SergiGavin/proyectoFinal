@@ -19,15 +19,6 @@ const Book = () => {
     //       console.error('Error al obtener los datos del libro:', error);
     //     });
     // }, []);
-
-    return (
-        <div className='container'>
-            {/* Aquí muestras la información del libro */}
-            <p>Título: Yumi y noseque mas</p>
-            <p>Autor: Brandon Sanderson</p>
-            <img src="images\book.png" alt={book.title} />
-        </div>
-    );
 };
 
 const Libro = () => {

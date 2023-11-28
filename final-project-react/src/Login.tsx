@@ -1,7 +1,6 @@
-import React from 'react';
-import './Login.css'; // Archivo CSS para estilos
+import React from 'react';// Archivo CSS para estilos
 
-const LoginPage: React.FC = () => {
+const Login: React.FC = () => {
     return (
         <div className="container">
             <h1 className="title">SwapReads</h1>
@@ -23,4 +22,4 @@ const LoginPage: React.FC = () => {
     );
 };
 
-export default LoginPage;
+export default Login;
