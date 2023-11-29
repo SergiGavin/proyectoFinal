@@ -1,47 +1,44 @@
 package com.example.proyecto_final.entities;
 
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Data;
-
 
 @Entity
 @Table(name = "Donaciones")
 @Data
 public class DonacionesEntity {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDonacion;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id_prestamo;
+	@Column (name = "Fecha_prestamo")
+	private Date fecha_prestamo;
+	@Column (name = "Fecha_devolucion")
+	private Date fecha_devolucion;
 	
-	   @Column(name = "Fecha_donacion")
-	    private Date fechaDonacion;
+//    private Long idDonacion;
+	
+//	   @Column(name = "Fecha_donacion")
+//	    private Date fechaDonacion;
 	   
 	   //Se relaciona con ManyToOne y se hace un JoinColumn a "idUsuarios". El mismo procedimiento con "idLibros"
 	   	@ManyToOne
 	    @JoinColumn(name = "id_usuarios")
 	   	//@JsonBackReference
 	    private UsuariosEntity usuarioDonante;
-
-	    @ManyToOne
-	    @JoinColumn(name = "id_libros")
-	    //@JsonBackReference
-	    private LibrosEntity libroDonado;
-	   
+//
+//	    @ManyToOne
+//	    @JoinColumn(name = "id_libros")
+//	    //@JsonBackReference
+//	    private LibrosEntity libroDonado;
 	   
 	
 //    @ManyToMany

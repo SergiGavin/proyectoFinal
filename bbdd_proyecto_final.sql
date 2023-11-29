@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `Prestamos` (
   `id_libros` INT NOT NULL,
   `Fecha_prestamo` DATE NOT NULL,
   `Fecha_devolucion` DATE NOT NULL,
-  `id_prestamo` INT NOT NULL,
+  `id_prestamo` INT NOT NULL AUTO_INCREMENT,
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
   PRIMARY KEY (`id_prestamo`),
   INDEX `fk_Usuarios_has_Libros_Libros1_idx` (`id_libros` ASC) VISIBLE,
@@ -135,7 +135,8 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente
   ('El diario de Ana Frank', 'Histórica', 'Ana Frank', 128, 'Malo', 14.95, 'https://images.cdn2.buscalibre.com/fit-in/360x360/ca/68/ca68f22e2929bf812303fdc9cbe05624.jpg', 'Anne Marie Frank (Frankfurt, 1929 – campo de concentración de Bergen-Belsen, Alemania, 1945) fue hija de una familia germana de origen judío. Se trasladó con los suyos a los Países Bajos con la llegada de Hitler al poder en 1933. Durante la Segunda Guerra Mundial, después de la invasión alemana de Holanda en 1940 y de padecer las primeras consecuencias de las leyes antisemitas, Ana y su familia consiguieron esconderse en unas habitaciones traseras, abandonadas y aisladas, de un edificio de oficinas de Ámsterdam, donde permanecieron ocultos desde 1942 hasta 1944, cuando fueron descubiertos por la Gestapo. Ana llevó un diario de ese periodo de reclusión, que su padre, único superviviente de la familia, dio a conocer acabada la guerra, después de que Ana y el resto de la familia hubieran sido detenidos y confinados en un campo de exterminio, donde murieron.'),
   ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg', 'Jim Hawkins regenta, junto a sus padres, la posada Almirante Benbow. Su  vida discurre tranquila entre la barra y las mesas hasta que, un día, un  viejo marinero entra en su fonda acarreando un pesado secreto... De la  noche a la mañana el joven Jim se encuentra en la cubierta de la Hispaniola, rodeado de rudos marineros, agasajado por un  misterioso cocinero cojo, ansiosos todos ellos por encontrar el codiciado tesoro del capitán Flint.'),
   ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
-  
+INSERT INTO `mydb`.`Prestamos` (`id_usuarios`, `id_libros`, `Fecha_prestamo`, `Fecha_devolucion`) VALUES ('1', '1', '2023-02-20', '2023-02-25'), ('3', '24', '2023-02-20', '2023-02-25');
+
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;
 SELECT * FROM Libros;

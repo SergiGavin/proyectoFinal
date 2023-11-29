@@ -45,4 +45,8 @@ public class UsuarioService {
 		usuariosRepository.deleteById(id);
 	}
 
+    public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
+        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
+        return usuarioOptional.orElse(null);
+    }
 }
