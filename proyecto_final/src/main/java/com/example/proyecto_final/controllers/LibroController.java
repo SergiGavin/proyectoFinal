@@ -1,5 +1,7 @@
 package com.example.proyecto_final.controllers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -22,7 +24,8 @@ import com.example.proyecto_final.services.LibroService;
 
 @RestController
 @RequestMapping("/libros")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5500",
+		"http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173" })
 public class LibroController {
 
 	@Autowired
@@ -39,15 +42,63 @@ public class LibroController {
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerLibroPorId(@PathVariable Long id) {
-		Optional<LibrosEntity> librosPorAutor = libroService.getLibroById(id);
+		Optional<LibrosEntity> librosPorId = libroService.getLibroById(id);
 
-		if (librosPorAutor.isPresent()) {
-			return new ResponseEntity<>(librosPorAutor.get(), HttpStatus.OK);
+		if (librosPorId.isPresent()) {
+			return new ResponseEntity<>(librosPorId.get(), HttpStatus.OK);
 		} else {
 			String mensaje = "No se encontró ningún libro con el ID: " + id;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	private List<LibrosEntity> generarListaLibrosAleatorios(int capacidadLista, List<LibrosEntity> todosLosLibros) {
+	    List<LibrosEntity> librosEnLista = new ArrayList<>(todosLosLibros);
+	    List<LibrosEntity> librosAleatorios = new ArrayList<>();
+
+	    Random random = new Random();
+
+	    while (librosAleatorios.size() < capacidadLista && !librosEnLista.isEmpty()) {
+	        // Generar un número aleatorio
+	        int numRandom = random.nextInt(librosEnLista.size());
+
+	        // Obtener el libro correspondiente al número aleatorio
+	        LibrosEntity libroRandom = librosEnLista.get(numRandom);
+
+	        // Añadir el libro a la lista de libros aleatorios
+	        librosAleatorios.add(libroRandom);
+
+	        // Eliminar el libro seleccionado de la lista de disponibles
+	        librosEnLista.remove(libroRandom);
+	    }
+
+	    return librosAleatorios;
+	}
+	@GetMapping("/populares")
+	public ResponseEntity<?> obtenerLibrosPopulares() {
+	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+	    List<LibrosEntity> librosPopulares = generarListaLibrosAleatorios(10, todosLosLibros);
+	    return ResponseEntity.ok(librosPopulares);
+	}
+
+	@GetMapping("/disponibles")
+	public ResponseEntity<?> obtenerLibrosDisponibles() {
+	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+	    List<LibrosEntity> librosDisponibles = new ArrayList<>(todosLosLibros);
+	    List<LibrosEntity> librosDisponiblesAleatorios = generarListaLibrosAleatorios(10, librosDisponibles);
+	    return ResponseEntity.ok(librosDisponiblesAleatorios);
+	}
+
+	@GetMapping("/recientes")
+	public ResponseEntity<?> obtenerLibrosRecientes() {
+	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+	    List<LibrosEntity> librosRecientes = generarListaLibrosAleatorios(10, todosLosLibros);
+	    return ResponseEntity.ok(librosRecientes);
+	}
+
+	
+	
+
 
 	// GET para obtener un libro por genero
 	// Si el genero esta presente lo mostrará sino saldra mensaje de no encontrado.
@@ -88,20 +139,20 @@ public class LibroController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	//MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
+
+	// MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
 	@GetMapping("/random")
 	public ResponseEntity<?> obtenerLibroRandom() {
-	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
-	    if (todosLosLibros.isEmpty()) {
-	        // Si no hay ningún libro en la bbdd, devolver un error not found
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-	    Random random = new Random();
-	    int idAleatorio = random.nextInt(todosLosLibros.size());
-	    LibrosEntity libroAleatorio = todosLosLibros.get(idAleatorio);
+		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+		if (todosLosLibros.isEmpty()) {
+			// Si no hay ningún libro en la bbdd, devolver un error not found
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		Random random = new Random();
+		int idAleatorio = random.nextInt(todosLosLibros.size());
+		LibrosEntity libroAleatorio = todosLosLibros.get(idAleatorio);
 
-	    return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
+		return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
 	}
 
 	// Put

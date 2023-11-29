@@ -1,11 +1,14 @@
 package com.example.proyecto_final.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +23,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/prestamos")
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
 public class PrestamosController {
 
 	@Autowired
@@ -33,7 +37,6 @@ public class PrestamosController {
 		@GetMapping("/{id}")
 		public ResponseEntity<?> getPrestamoById(@PathVariable Long id) {
 		    Optional<PrestamosEntity> prestamoPorId = prestamoService.getPrestamosById(id);
-
 		    if (prestamoPorId.isPresent()) {
 		        return new ResponseEntity<>(prestamoPorId, HttpStatus.OK);
 		    } else {
@@ -41,6 +44,26 @@ public class PrestamosController {
 				return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		    }
 		}
+		/*@GetMapping("/{id}")
+		public ResponseEntity<?> getPrestamoById(@PathVariable Long id) {
+		    Optional<PrestamosEntity> prestamoPorId = prestamoService.getPrestamosById(id);
+		    
+		    if (prestamoPorId.isPresent()) {
+		        PrestamosEntity prestamo = prestamoPorId.get();
+		        
+		        // Crear un objeto simplificado solo con los datos del préstamo
+		        Map<String, Object> prestamoSimplificado = new HashMap<>();
+		        prestamoSimplificado.put("idPrestamo", prestamo.getIdPrestamo());
+		        prestamoSimplificado.put("fechaPrestamo", prestamo.getFechaPrestamo());
+		        prestamoSimplificado.put("fechaDevolucion", prestamo.getFechaDevolucion());
+
+		        return new ResponseEntity<>(prestamoSimplificado, HttpStatus.OK);
+		    } else {
+		        String mensaje = "No se encontró ningún préstamo con el ID: " + id;
+		        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		    }
+		}*/
+
 
 		
 		//POST

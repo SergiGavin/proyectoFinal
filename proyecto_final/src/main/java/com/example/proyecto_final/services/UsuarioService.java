@@ -44,5 +44,9 @@ public class UsuarioService {
 	public void deleteUsuarioById(Long id) {
 		usuariosRepository.deleteById(id);
 	}
+	/*public boolean verificarCredenciales(String username, String pass) {
+		usuariosRepository.findByUsernameAndPassword(username, pass);
+        return 
+    }*/
 
 }

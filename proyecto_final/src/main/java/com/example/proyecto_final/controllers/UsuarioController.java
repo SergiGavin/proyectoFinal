@@ -21,7 +21,7 @@ import com.example.proyecto_final.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
 public class UsuarioController {
 
 	@Autowired
@@ -38,9 +38,9 @@ public class UsuarioController {
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Long id) {
-		Optional<UsuariosEntity> usuarioOptional = usuarioService.getUsuarioById(id);
-		if (usuarioOptional.isPresent()) {
-			return new ResponseEntity<>(usuarioOptional.get(), HttpStatus.OK);
+		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);
+		if (usuarioPorId.isPresent()) {
+			return new ResponseEntity<>(usuarioPorId.get(), HttpStatus.OK);
 		} else {
 			String mensaje = "No se encontró ningún usuario con el ID: " + id;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
@@ -48,6 +48,9 @@ public class UsuarioController {
 	}
 	
 
+	
+	
+	
 	// PUT
 	@PutMapping
 	public UsuariosEntity crearUsuario(@RequestBody UsuariosEntity usuario) {
@@ -82,4 +85,12 @@ public class UsuarioController {
 	public void eliminarUsuario(@PathVariable Long id) {
 		usuarioService.deleteUsuarioById(id);
 	}
+	
+	
+	
+	//CIFRAR CONTRASEÑA, DONDE EL METODO DE COMPROBAR SI LA CONTRASEÑA ES CORRECTA.
+	
+	
+	
+	
 }
