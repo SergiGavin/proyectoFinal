@@ -3,6 +3,8 @@ package com.example.proyecto_final.entities;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -32,10 +34,12 @@ public class DonacionesEntity {
 	   //Se relaciona con ManyToOne y se hace un JoinColumn a "idUsuarios". El mismo procedimiento con "idLibros"
 	   	@ManyToOne
 	    @JoinColumn(name = "id_usuarios")
+	   	//@JsonBackReference
 	    private UsuariosEntity usuarioDonante;
 
 	    @ManyToOne
 	    @JoinColumn(name = "id_libros")
+	    //@JsonBackReference
 	    private LibrosEntity libroDonado;
 	   
 	   

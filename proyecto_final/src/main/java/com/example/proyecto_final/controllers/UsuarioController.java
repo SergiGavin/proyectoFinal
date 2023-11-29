@@ -21,7 +21,8 @@ import com.example.proyecto_final.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = { "http://localhost:5500", "http://127.0.0.1:5500", "http://localhost:3000", "http://127.0.0.1:3000"})
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+
 public class UsuarioController {
 
 	@Autowired
@@ -33,7 +34,7 @@ public class UsuarioController {
 		return usuarioService.getAllUsuarios();
 	}
 
-	// GET para obtener un libro por ID
+	// GET para obtener un usuario por ID
 	// Si el id esta presente lo mostrará sino saldra mensaje de no encontrado.
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
@@ -46,6 +47,7 @@ public class UsuarioController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+	
 
 	// PUT
 	@PutMapping
@@ -58,9 +60,22 @@ public class UsuarioController {
 	@PatchMapping("/{id}")
 	// Pasamos como variable el id ya que se necesitará para editar el usuario en
 	// especifico.
-	public UsuariosEntity actualizarUsuario(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
-		usuario.setId_usuarios(id);
-		return usuarioService.updateUsuario(usuario);
+	public ResponseEntity<?> actualizarPass(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+		Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+	    if (usuarioActualizar.isPresent()) {
+	    	UsuariosEntity usuarioExistente = usuarioActualizar.get();
+	    	if (usuario.getPass() != null) {
+	    		usuarioExistente.setPass(usuario.getPass());
+	    	}
+	    //Para guardar en la bbdd
+	    UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
+	   
+        return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+	    }else{
+	    	 // Responder con un mensaje indicando que no se encontró el usuario
+	        String mensaje = "No se encontró ningún usuario con el ID: " + id;
+	        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	    }
 	}
 
 	// DELETE

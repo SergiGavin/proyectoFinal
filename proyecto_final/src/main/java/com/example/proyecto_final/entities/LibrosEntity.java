@@ -4,6 +4,10 @@ package com.example.proyecto_final.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +19,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "Libros")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_libros")
 @Data
 public class LibrosEntity {
 	@Id
@@ -25,7 +30,7 @@ public class LibrosEntity {
 	private String titulo;
 	private String genero;
 	private String autor;
-	private int num_pag;
+	private Integer num_pag;
 	private String estado;
 	private Float valor;
 	private String sinopsis;
@@ -37,38 +42,15 @@ public class LibrosEntity {
 	
 	//Se indica la relacion OneToMany y se mappea--> "libroDonado" es el nombre de la variable de Donaciones 
 	// que tiene un JoinColumn a idLibro de la BBDD. En el caso de "libroPrestado" lo mismo pero con Prestamos.
-		
+
 	@OneToMany(mappedBy = "libroDonado")
+	//@JsonManagedReference
     private List<DonacionesEntity> donaciones_libros;
 
     @OneToMany(mappedBy = "libroPrestado")
+   // @JsonManagedReference
     private List<PrestamosEntity> prestamos_libros;
 	
 	
-	
-	
-//	@ManyToMany(mappedBy = "usuarios")
-//    private List<DonacionesEntity> donaciones;
-	
-//	@ManyToMany
-//	  @JoinTable(
-//	        name = "Prestamos",
-//	        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//	        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//	       
-//	    )
-//	  
-//  private List<UsuariosEntity>usuariosPrestadores;
-//	
-////	@ManyToMany(mappedBy = "usuarios")
-////	private List<PrestamosEntity> prestamos;
-//	
-//	@ManyToMany
-//    @JoinTable(
-//        name = "Donaciones",
-//        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//    )
-//    private List<UsuariosEntity> usuariosDonadores;
 	
 }
