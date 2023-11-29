@@ -35,12 +35,12 @@ public class DonacionesController {
 		}
 		
 		//PUT
-		@PostMapping("editar/{id}")
-		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
-		public DonacionesEntity actualizarDonacion(@RequestBody DonacionesEntity donacion, @PathVariable Long id) {
-			donacion.setIdDonacion(id);
-			return donacionService.updateDonacion(donacion);
-		}
+//		@PostMapping("editar/{id}")
+//		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
+//		public DonacionesEntity actualizarDonacion(@RequestBody DonacionesEntity donacion, @PathVariable Long id) {
+//			donacion.setIdDonacion(id);
+//			return donacionService.updateDonacion(donacion);
+//		}
 		//DELETE
 		@DeleteMapping("eliminar/{id}")
 		public void eliminarDonacion(@PathVariable Long id) {

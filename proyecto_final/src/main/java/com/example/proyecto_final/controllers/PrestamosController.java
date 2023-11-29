@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.proyecto_final.DTO.PrestamoDTO;
 import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.PrestamoService;
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -27,18 +27,18 @@ public class PrestamosController {
 	
 		//GET
 		@GetMapping
-		 public List<PrestamoDTO> getAllPrestamos() {
+		 public List<PrestamosEntity> getAllPrestamos() {
 	        return prestamoService.getAllPrestamos();
 	    }
 		@GetMapping("/{id}")
-		public ResponseEntity<PrestamoDTO> getPrestamoById(@PathVariable Long id) {
-		    Optional<PrestamosEntity> prestamo = prestamoService.getPrestamosById(id);
+		public ResponseEntity<?> getPrestamoById(@PathVariable Long id) {
+		    Optional<PrestamosEntity> prestamoPorId = prestamoService.getPrestamosById(id);
 
-		    if (prestamo.isPresent()) {
-		        PrestamoDTO prestamoDTO = prestamoService.prestamoToDTO(prestamo.get());
-		        return new ResponseEntity<>(prestamoDTO, HttpStatus.OK);
+		    if (prestamoPorId.isPresent()) {
+		        return new ResponseEntity<>(prestamoPorId, HttpStatus.OK);
 		    } else {
-		        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		    	String mensaje = "No se encontró ningún prestamo con el ID: " + id;
+				return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		    }
 		}
 
@@ -50,12 +50,12 @@ public class PrestamosController {
 		}
 		
 		//PUT
-		@PostMapping("editar/{id}")
-		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
-		public PrestamosEntity actualizarPrestamo(@RequestBody PrestamosEntity prestamo, @PathVariable Long id) {
-			prestamo.setIdPrestamo(id);
-			return prestamoService.updatePrestamo(prestamo);
-		}
+//		@PostMapping("editar/{id}")
+//		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
+//		public PrestamosEntity actualizarPrestamo(@RequestBody PrestamosEntity prestamo, @PathVariable Long id) {
+//			prestamo.setIdPrestamo(id);
+//			return prestamoService.updatePrestamo(prestamo);
+//		}
 		//DELETE
 		@DeleteMapping("eliminar/{id}")
 		public void eliminarPrestamo(@PathVariable Long id) {

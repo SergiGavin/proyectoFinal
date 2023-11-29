@@ -2,14 +2,11 @@ package com.example.proyecto_final.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.proyecto_final.DTO.PrestamoDTO;
 import com.example.proyecto_final.entities.PrestamosEntity;
-import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.repository.PrestamosRepository;
 
 @Service
@@ -19,19 +16,14 @@ public class PrestamoService {
 	private PrestamosRepository prestamosRepository;
 
 	// Mostrar prestamos
-	public List<PrestamoDTO> getAllPrestamos() {
-		List<PrestamosEntity> prestamosEntities = prestamosRepository.findAll();
-		return prestamosEntities.stream().map(this::prestamoToDTO).collect(Collectors.toList());
+
+	public List<PrestamosEntity> getAllPrestamos() {
+		return prestamosRepository.findAll();
 	}
 	public Optional<PrestamosEntity> getPrestamosById(Long id) {
 		return prestamosRepository.findById(id);
 	}
-	/*
-	  public List<PrestamoDTO> getPrestamosByUsuarioId(Long idUsuario) {
-	        List<PrestamosEntity> prestamosEntities = prestamosRepository.findByUsuarioPrestatarioId(idUsuario);
-	        return prestamosEntities.stream().map(this::prestamoToDTO).collect(Collectors.toList());
-	  }
-*/
+	
 	// Crear un prestamo
 	public PrestamosEntity createPrestamo(PrestamosEntity prestamo) {
 		return prestamosRepository.save(prestamo);
@@ -48,7 +40,7 @@ public class PrestamoService {
 	public void deletePrestamoById(Long id) {
 		prestamosRepository.deleteById(id);
 	}
-
+	/*
 	public PrestamoDTO prestamoToDTO(PrestamosEntity prestamoEntity) {
 		PrestamoDTO prestamoDTO = new PrestamoDTO();
 		prestamoDTO.setIdPrestamo(prestamoEntity.getIdPrestamo());
@@ -67,6 +59,6 @@ public class PrestamoService {
         prestamoDTO.setIdLibro(prestamoEntity.getLibroPrestado().getId_libros());
 
         return prestamoDTO;
-    }
+    }*/
 
 }

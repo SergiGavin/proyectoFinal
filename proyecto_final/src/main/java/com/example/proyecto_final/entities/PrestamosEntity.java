@@ -2,10 +2,12 @@ package com.example.proyecto_final.entities;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,14 +29,16 @@ public class PrestamosEntity {
 	 @Column(name = "Fecha_devolucion")
 	    private Date fechaDevolucion;
 	 
-	 @JsonIgnore
+	 
 	 @ManyToOne
 	 @JoinColumn(name = "id_usuarios")
+	 //@JsonBackReference
 	 private UsuariosEntity usuarioPrestatario;
 	 
-	 @JsonIgnore
+	 
 	 @ManyToOne
 	 @JoinColumn(name = "id_libros")
+	 //@JsonBackReference
 	 private LibrosEntity libroPrestado;
 	 
    

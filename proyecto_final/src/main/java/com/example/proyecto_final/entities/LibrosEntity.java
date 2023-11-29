@@ -4,7 +4,9 @@ package com.example.proyecto_final.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +19,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "Libros")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_libros")
 @Data
 public class LibrosEntity {
 	@Id
@@ -41,36 +44,13 @@ public class LibrosEntity {
 	// que tiene un JoinColumn a idLibro de la BBDD. En el caso de "libroPrestado" lo mismo pero con Prestamos.
 
 	@OneToMany(mappedBy = "libroDonado")
+	//@JsonManagedReference
     private List<DonacionesEntity> donaciones_libros;
 
     @OneToMany(mappedBy = "libroPrestado")
+   // @JsonManagedReference
     private List<PrestamosEntity> prestamos_libros;
 	
 	
-	
-	
-//	@ManyToMany(mappedBy = "usuarios")
-//    private List<DonacionesEntity> donaciones;
-	
-//	@ManyToMany
-//	  @JoinTable(
-//	        name = "Prestamos",
-//	        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//	        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//	       
-//	    )
-//	  
-//  private List<UsuariosEntity>usuariosPrestadores;
-//	
-////	@ManyToMany(mappedBy = "usuarios")
-////	private List<PrestamosEntity> prestamos;
-//	
-//	@ManyToMany
-//    @JoinTable(
-//        name = "Donaciones",
-//        joinColumns = @JoinColumn(name = "Usuarios_idUsuarios", referencedColumnName = "idUsuarios"),
-//        inverseJoinColumns = @JoinColumn(name = "Libros_idLibros", referencedColumnName = "idLibros")
-//    )
-//    private List<UsuariosEntity> usuariosDonadores;
 	
 }
