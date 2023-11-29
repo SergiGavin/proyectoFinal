@@ -53,3 +53,7 @@ ul{
 .footer-text{
     text-align: end;
 }
+
+.row {
+    margin-right: 0px;
+}
