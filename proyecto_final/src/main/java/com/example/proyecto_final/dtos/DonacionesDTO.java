@@ -2,8 +2,8 @@ package com.example.proyecto_final.dtos;
 
 import java.util.Date;
 
+import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.entities.LibrosEntity;
-import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.services.LibroService;
 import com.example.proyecto_final.services.UsuarioService;
@@ -11,29 +11,27 @@ import com.example.proyecto_final.services.UsuarioService;
 import lombok.Data;
 
 @Data
-public class PrestamosDTO {
-    private Long idPrestamo;
-    private Date fechaPrestamo;
-    private Date fechaDevolucion;
-    private UsuariosDTO usuarioPrestatario;
-    private LibrosDTO libroPrestado;
-    private Long idUsuario;  // Asegúrate de tener un campo para el ID del usuario en PrestamosEntity
+public class DonacionesDTO {
+	private Long idDonacion;
+    private Date fechaDonacion;
+    private UsuariosDTO usuarioDonante;
+    private LibrosDTO libroDonado;
+    private Long idUsuario; 
     private Long idLibro;
     
-    public PrestamosDTO(PrestamosEntity prestamosEntity) {
-        this.idPrestamo = prestamosEntity.getIdPrestamo();
-        this.fechaPrestamo = prestamosEntity.getFechaPrestamo();
-        this.fechaDevolucion = prestamosEntity.getFechaDevolucion();
-        this.idUsuario = prestamosEntity.getId_usuarios();  // Ajusta según la estructura real de PrestamosEntity
-        this.idLibro = prestamosEntity.getId_libros();
+    public DonacionesDTO(DonacionesEntity donacionesEntity) {
+        this.idDonacion = donacionesEntity.getId_donacion();
+        this.fechaDonacion = donacionesEntity.getFecha_donacion();
+        this.idUsuario = donacionesEntity.getId_usuarios() ; 
+        this.idLibro = donacionesEntity.getId_libros();
         
         // Aquí deberías implementar la lógica para obtener la información del usuario desde UsuariosDTO
         // Supongamos que tienes un método en tu servicio para obtener UsuariosDTO por ID
         if (idUsuario != null) {
-            this.usuarioPrestatario = obtenerUsuarioDTO(idUsuario);
+            this.usuarioDonante = obtenerUsuarioDTO(idUsuario);
         }
         if (idLibro != null) {
-            this.libroPrestado = obtenerLibroDTO(idLibro);
+            this.libroDonado = obtenerLibroDTO(idLibro);
         }
     }
 
@@ -48,3 +46,4 @@ public class PrestamosDTO {
         return new LibrosDTO(librosEntity);
     }
 }
+

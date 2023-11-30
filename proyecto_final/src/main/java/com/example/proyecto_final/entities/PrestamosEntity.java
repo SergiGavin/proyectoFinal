@@ -24,5 +24,6 @@ public class PrestamosEntity {
 	@Column(name = "Fecha_devolucion")
 	private Date fechaDevolucion;
 	private Long id_usuarios;
+	private Long id_libros;
 
 }
