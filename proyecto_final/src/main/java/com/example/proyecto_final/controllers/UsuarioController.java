@@ -1,5 +1,8 @@
 package com.example.proyecto_final.controllers;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.services.UsuarioService;
 
+
 @RestController
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
 public class UsuarioController {
 
 	@Autowired
@@ -38,15 +43,18 @@ public class UsuarioController {
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerUsuarioPorId(@PathVariable Long id) {
-		Optional<UsuariosEntity> usuarioOptional = usuarioService.getUsuarioById(id);
-		if (usuarioOptional.isPresent()) {
-			return new ResponseEntity<>(usuarioOptional.get(), HttpStatus.OK);
+		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);
+		if (usuarioPorId.isPresent()) {
+			return new ResponseEntity<>(usuarioPorId.get(), HttpStatus.OK);
 		} else {
 			String mensaje = "No se encontró ningún usuario con el ID: " + id;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
 
+	
+	
+	
 	// PUT
 	@PutMapping
 	public UsuariosEntity crearUsuario(@RequestBody UsuariosEntity usuario) {
@@ -68,4 +76,58 @@ public class UsuarioController {
 	public void eliminarUsuario(@PathVariable Long id) {
 		usuarioService.deleteUsuarioById(id);
 	}
+	
+	
+	
+	//SOLUCIONAR ERROR RECIBO HASH NULL EN BACK.
+		
+	@PostMapping("/iniciarsesion")
+    public String iniciarSesion(@RequestBody UsuariosEntity usuario) {
+        // Obtener usuario por nombre de usuario
+        Optional<UsuariosEntity> usuarioExistente = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
+      
+        if (usuarioExistente.isPresent()) {
+            // Verificar la contraseña
+        	UsuariosEntity usuarioEncontrado = usuarioExistente.get();
+        	  System.out.println(usuarioEncontrado.getUsername());        	
+        	  System.out.println("Hash almacenado en la base de datos: " + usuarioEncontrado.getPass());
+        	  System.out.println(usuario.getUsername());
+        	  System.out.println("Hash recibido desde el cliente: " + usuario.getPass());
+
+        	  if (usuarioEncontrado.getPass().equals(usuario.getPass())) {
+                return "Inicio de sesión exitoso";
+            } else {
+                return "Datos incorrectos";
+            }
+        } else {
+            return "Usuario no encontrado";
+        }
+    }
+	
+	
+	
+	
+	  // Función para cifrar la contraseña con SHA-256
+	//ENCRIPTAR PARA EL REGISTRO.
+    public static String encryptPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
+            for (byte b : encodedHash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
+	
 }

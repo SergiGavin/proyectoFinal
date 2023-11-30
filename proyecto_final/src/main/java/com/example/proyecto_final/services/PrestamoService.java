@@ -40,6 +40,8 @@ public class PrestamoService {
 	public void deletePrestamoById(Long id) {
 		prestamosRepository.deleteById(id);
 	}
+	
+	
 	/*
 	public PrestamoDTO prestamoToDTO(PrestamosEntity prestamoEntity) {
 		PrestamoDTO prestamoDTO = new PrestamoDTO();

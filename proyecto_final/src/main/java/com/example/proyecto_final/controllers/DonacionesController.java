@@ -12,15 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.proyecto_final.dtos.DonacionesDTO;
 import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.services.DonacionService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+
 
 @RestController
 @RequestMapping("/donaciones")
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
 public class DonacionesController {
 
 	@Autowired

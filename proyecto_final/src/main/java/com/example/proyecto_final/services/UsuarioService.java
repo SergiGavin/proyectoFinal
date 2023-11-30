@@ -2,6 +2,7 @@ package com.example.proyecto_final.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class UsuarioService {
 	public void deleteUsuarioById(Long id) {
 		usuariosRepository.deleteById(id);
 	}
+	 public Optional<UsuariosEntity> obtenerUsuarioPorNombre(String nombreUsuario) {
+	        return usuariosRepository.findAll().stream()
+	                .filter(u -> u.getUsername().equals(nombreUsuario))
+	                .findFirst();
+	    }
 
     public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
         Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
