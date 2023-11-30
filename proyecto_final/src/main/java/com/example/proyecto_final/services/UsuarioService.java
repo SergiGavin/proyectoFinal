@@ -27,7 +27,7 @@ public class UsuarioService {
 		return usuariosRepository.findById(id);
 	}
 
-	// Crear un usuario
+	//Registrar un usuario
 	public UsuariosEntity createUsuario(UsuariosEntity usuario) {
 		System.out.println("Datos del usuario en el servicio: " + usuario.toString());
 		return usuariosRepository.save(usuario);
@@ -45,4 +45,8 @@ public class UsuarioService {
 		usuariosRepository.deleteById(id);
 	}
 
+    public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
+        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
+        return usuarioOptional.orElse(null);
+    }
 }
