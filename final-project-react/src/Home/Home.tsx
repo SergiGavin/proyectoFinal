@@ -1,7 +1,8 @@
-import Categorias from "./Categorias"
-import Footer from "./Footer"
-import Header from "./Header"
-import Sugerencias from "./Sugerencias"
+
+import Categorias from "../Categorias/Categorias"
+import Footer from "../Footer/Footer"
+import Header from "../Header/Header"
+import Sugerencias from "../Sugerencias/Sugerencias"
 
 
 function Home() {

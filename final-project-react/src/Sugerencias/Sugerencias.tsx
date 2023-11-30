@@ -1,7 +1,6 @@
 
-import React from "react";
 import "./Sugerencias.css"
-import Libro from "./Libro";
+import Libro from "../Libro/Libro";
 
 interface Tag {
     id: number
