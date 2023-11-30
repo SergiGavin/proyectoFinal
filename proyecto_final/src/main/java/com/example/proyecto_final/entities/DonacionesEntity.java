@@ -42,24 +42,5 @@ public class DonacionesEntity {
 	    //@JsonBackReference
 	    private LibrosEntity libroDonado;
 	   
-	   
-	
-//    @ManyToMany
-//    @JoinTable(
-//    		name = "Usuarios_idUsuarios",
-//    		joinColumns = @JoinColumn(name = "donacion_id"),
-//            inverseJoinColumns = @JoinColumn(name = "libro_id"))
-//    private  List<UsuariosEntity> idUsuario;
-//
-//    @ManyToMany
-//    @JoinTable(
-//        name = "Donaciones_Libros",
-//        joinColumns = @JoinColumn(name = "donacion_id"),
-//        inverseJoinColumns = @JoinColumn(name = "libro_id")
-//    )
-//    private List<LibrosEntity> idLibros;
-
-    
- 
 	
 }

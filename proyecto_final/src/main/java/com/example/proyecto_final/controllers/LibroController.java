@@ -1,12 +1,13 @@
 package com.example.proyecto_final.controllers;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.services.LibroService;
+
 
 @RestController
 @RequestMapping("/libros")
@@ -51,54 +53,36 @@ public class LibroController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+
 	
-	private List<LibrosEntity> generarListaLibrosAleatorios(int capacidadLista, List<LibrosEntity> todosLosLibros) {
-	    List<LibrosEntity> librosEnLista = new ArrayList<>(todosLosLibros);
-	    List<LibrosEntity> librosAleatorios = new ArrayList<>();
-
-	    Random random = new Random();
-
-	    while (librosAleatorios.size() < capacidadLista && !librosEnLista.isEmpty()) {
-	        // Generar un número aleatorio
-	        int numRandom = random.nextInt(librosEnLista.size());
-
-	        // Obtener el libro correspondiente al número aleatorio
-	        LibrosEntity libroRandom = librosEnLista.get(numRandom);
-
-	        // Añadir el libro a la lista de libros aleatorios
-	        librosAleatorios.add(libroRandom);
-
-	        // Eliminar el libro seleccionado de la lista de disponibles
-	        librosEnLista.remove(libroRandom);
-	    }
-
-	    return librosAleatorios;
-	}
 	@GetMapping("/populares")
 	public ResponseEntity<?> obtenerLibrosPopulares() {
-	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
-	    List<LibrosEntity> librosPopulares = generarListaLibrosAleatorios(10, todosLosLibros);
-	    return ResponseEntity.ok(librosPopulares);
+		List<Long> idsPopulares = Arrays.asList(1L, 5L, 6L, 8L, 9L, 11L, 16L, 12L, 17L, 2L);
+		List<LibrosEntity> librosPopulares = obtenerLibrosPorIds(idsPopulares);
+		return ResponseEntity.ok(librosPopulares);
 	}
 
 	@GetMapping("/disponibles")
 	public ResponseEntity<?> obtenerLibrosDisponibles() {
-	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
-	    List<LibrosEntity> librosDisponibles = new ArrayList<>(todosLosLibros);
-	    List<LibrosEntity> librosDisponiblesAleatorios = generarListaLibrosAleatorios(10, librosDisponibles);
-	    return ResponseEntity.ok(librosDisponiblesAleatorios);
+		List<Long> idsDisponibles = Arrays.asList(3L, 4L, 7L, 10L, 13L, 14L, 15L, 18L, 19L, 20L);
+		List<LibrosEntity> librosDisponibles = obtenerLibrosPorIds(idsDisponibles);
+		return ResponseEntity.ok(librosDisponibles);
 	}
 
 	@GetMapping("/recientes")
 	public ResponseEntity<?> obtenerLibrosRecientes() {
-	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
-	    List<LibrosEntity> librosRecientes = generarListaLibrosAleatorios(10, todosLosLibros);
-	    return ResponseEntity.ok(librosRecientes);
+		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+		List<LibrosEntity> librosRecientes = todosLosLibros.subList(todosLosLibros.size() - 10, todosLosLibros.size());
+		return ResponseEntity.ok(librosRecientes);
 	}
-
-	
-	
-
+	private List<LibrosEntity> obtenerLibrosPorIds(List<Long> ids) {
+	    List<LibrosEntity> libros = new ArrayList<>();
+	    for (Long id : ids) {
+	        Optional<LibrosEntity> libro = libroService.getLibroById(id);
+	        libro.ifPresent(libros::add);
+	    }
+	    return libros;
+	}
 
 	// GET para obtener un libro por genero
 	// Si el genero esta presente lo mostrará sino saldra mensaje de no encontrado.

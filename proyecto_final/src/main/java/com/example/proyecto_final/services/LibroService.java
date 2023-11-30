@@ -1,7 +1,9 @@
 package com.example.proyecto_final.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,7 @@ public class LibroService {
 	public Optional<LibrosEntity> getLibroById(Long id) {
 	    return librosRepository.findById(id);
 	}
+	
 	//Mostrar libros especificos por genero
 	public List<LibrosEntity> getLibrosByGenero(String genero) {
 		return librosRepository.findByGenero(genero);
@@ -32,6 +35,7 @@ public class LibroService {
 	public List<LibrosEntity> getLibrosByAutor(String autor) {
 		return librosRepository.findByAutorContainingIgnoreCase(autor);	
 	}	
+	
 	
 	
 	
