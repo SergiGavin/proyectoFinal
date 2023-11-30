@@ -1,10 +1,12 @@
 package com.example.proyecto_final.controllers;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -91,16 +93,22 @@ public class UsuarioController {
 	
 	
 	
+	//SOLUCIONAR ERROR RECIBO HASH NULL EN BACK.
 		
 	@PostMapping("/iniciarsesion")
     public String iniciarSesion(@RequestBody UsuariosEntity usuario) {
         // Obtener usuario por nombre de usuario
         Optional<UsuariosEntity> usuarioExistente = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
-
+      
         if (usuarioExistente.isPresent()) {
             // Verificar la contraseña
         	UsuariosEntity usuarioEncontrado = usuarioExistente.get();
-            if (usuarioEncontrado.getPass().equals(usuario.getPass())) {
+        	  System.out.println(usuarioEncontrado.getUsername());        	
+        	  System.out.println("Hash almacenado en la base de datos: " + usuarioEncontrado.getPass());
+        	  System.out.println(usuario.getUsername());
+        	  System.out.println("Hash recibido desde el cliente: " + usuario.getPass());
+
+        	  if (usuarioEncontrado.getPass().equals(usuario.getPass())) {
                 return "Inicio de sesión exitoso";
             } else {
                 return "Datos incorrectos";
@@ -110,5 +118,30 @@ public class UsuarioController {
         }
     }
 	
+	
+	
+	
+	  // Función para cifrar la contraseña con SHA-256
+	//ENCRIPTAR PARA EL REGISTRO.
+    public static String encryptPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder(2 * encodedHash.length);
+            for (byte b : encodedHash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    
 	
 }

@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
   `Nombre` VARCHAR(45) NOT NULL,
   `Apellidos` VARCHAR(45) NOT NULL,
   `DNI` VARCHAR(15) NOT NULL,
-  `Correo_electronico` VARCHAR(45) NOT NULL,
+  `Correo_electronico` VARCHAR(45) NOT NULL UNIQUE,
   `Telefono` INT(15) NOT NULL,
   `Saldo` DECIMAL(10, 2) NOT NULL,
-  `username` VARCHAR(255) NOT NULL,
-  `pass` VARCHAR(25) NOT NULL,
+  `username` VARCHAR(255) NOT NULL UNIQUE,
+  `pass` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_usuarios`));
 
 
@@ -102,9 +102,9 @@ CREATE TABLE IF NOT EXISTS `mensajes` (
 );
 
 INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo, username, pass)
-VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000, 'chavooo95', '1'),
-('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000, 'sergigav', 'a'),
-('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000, 'Arih', 'ç');
+VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000, 'chavooo95', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b'),
+('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000, 'sergigav', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
+('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000, 'Arih', '8bfa829b8119a6f39b91fd8decec63830b556e4d88a9da29334d7b0558829f2d');
 
 INSERT INTO Libros (Titulo, Genero, Autor, Num_pag, Estado, Valor, Foto_portada, sinopsis)
 VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente', 19.95, 'https://medios.lamarmota.es/senor-de-los-anillos.jpeg', 'En la Tierra Media, el Señor Oscuro Sauron ordenó a los Elfos que forjaran los Grandes Anillos de Poder. Tres para los reyes Elfos, siete para los Señores Enanos, y nueve para los Hombres Mortales. Pero Saurón también forjó, en secreto, el Anillo Único, que tiene el poder de esclavizar toda la Tierra Media. Con la ayuda de sus amigos y de valientes aliados, el joven hobbit Frodo emprende un peligroso viaje con la misión de destruir el Anillo Único. Pero el malvado Sauron ordena la persecución del grupo, compuesto por Frodo y sus leales amigos hobbits, un mago, un hombre, un elfo y un enano. La misión es casi suicida pero necesaria, pues si Sauron con su ejército de orcos lograra recuperar el Anillo, sería el final de la Tierra Media.'),
@@ -136,6 +136,9 @@ VALUES('El señor de los anillos', 'Fantasía', 'J.R.R. Tolkien', 1392, 'Decente
   ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg', 'Jim Hawkins regenta, junto a sus padres, la posada Almirante Benbow. Su  vida discurre tranquila entre la barra y las mesas hasta que, un día, un  viejo marinero entra en su fonda acarreando un pesado secreto... De la  noche a la mañana el joven Jim se encuentra en la cubierta de la Hispaniola, rodeado de rudos marineros, agasajado por un  misterioso cocinero cojo, ansiosos todos ellos por encontrar el codiciado tesoro del capitán Flint.'),
   ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
   
+  
+
+
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;
 SELECT * FROM Libros;
