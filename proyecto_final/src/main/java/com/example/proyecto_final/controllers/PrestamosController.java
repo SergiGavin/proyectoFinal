@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.proyecto_final.dtos.PrestamosDTO;
 import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.PrestamoService;
 
@@ -35,13 +36,15 @@ public class PrestamosController {
 	        return prestamoService.getAllPrestamos();
 	    }
 		@GetMapping("/{id}")
-		public ResponseEntity<?> getPrestamoById(@PathVariable Long id) {
+		public ResponseEntity<Object> getPrestamoById(@PathVariable Long id) {
 		    Optional<PrestamosEntity> prestamoPorId = prestamoService.getPrestamosById(id);
 		    if (prestamoPorId.isPresent()) {
-		        return new ResponseEntity<>(prestamoPorId, HttpStatus.OK);
+		        PrestamosEntity prestamoEntity = prestamoPorId.get();
+		        PrestamosDTO prestamoDTO = new PrestamosDTO(prestamoEntity);
+		        return new ResponseEntity<>(prestamoDTO, HttpStatus.OK);
 		    } else {
-		    	String mensaje = "No se encontró ningún prestamo con el ID: " + id;
-				return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		        String mensaje = "No se encontró ningún préstamo con el ID: " + id;
+		        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		    }
 		}
 		/*@GetMapping("/{id}")

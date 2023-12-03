@@ -1,0 +1,28 @@
+:root {
+    --salmon: #ff5252;
+    ;
+    --dark-orange: #ff7752;
+    --orange: #ff9a52;
+    --dark-yellow: #ffb752;
+    --violet: #5e405b;
+}
+
+
+.card {
+    padding: 0px;
+}
+
+.contenedor-imagen {
+    height: 400px;
+    /* Altura fija del contenedor */
+    overflow: hidden;
+    /* Recortar el exceso de contenido */
+    display: block;
+    /* Elimina el espacio adicional debajo de la imagen */
+    width: 100%;
+    /* La imagen ocupa todo el ancho del contenedor */
+}
+
+.texto-morado {
+    color: var(--violet);
+}
