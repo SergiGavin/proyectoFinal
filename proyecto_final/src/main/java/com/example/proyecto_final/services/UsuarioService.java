@@ -50,5 +50,11 @@ public class UsuarioService {
 	                .filter(u -> u.getUsername().equals(nombreUsuario))
 	                .findFirst();
 	    }
+	 public Optional<UsuariosEntity> obtenerUsuarioPorCorreo(String correo) {
+	        return usuariosRepository.findByCorreo(correo);
+	    }
+	 public Optional<UsuariosEntity> obtenerUsuarioPorDNI(String dni) {
+	        return usuariosRepository.findByDni(dni);
+	    }
 
 }

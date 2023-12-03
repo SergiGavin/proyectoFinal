@@ -119,7 +119,19 @@ public class UsuarioController {
         }
     }
 	
-	
+	@PutMapping("/registro")
+	public ResponseEntity<String> registro(@RequestBody UsuariosEntity usuario) {
+		System.out.println("Datos recibidos: " + usuario.toString());
+		Optional<UsuariosEntity> usuarioExistentePorNombre = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
+	    Optional<UsuariosEntity> usuarioExistentePorCorreo = usuarioService.obtenerUsuarioPorCorreo(usuario.getCorreo());
+	    Optional<UsuariosEntity> usuarioExistentePorDNI = usuarioService.obtenerUsuarioPorDNI(usuario.getDni());
+	    if (usuarioExistentePorNombre.isPresent() || usuarioExistentePorCorreo.isPresent()|| usuarioExistentePorDNI.isPresent()) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("{'status': 'error', 'message': 'El nombre de usuario, el correo electrónico o el DNI ya están registrados'}");
+	    }else{
+	    	crearUsuario(usuario);
+	    	return ResponseEntity.ok("{'status': 'success', 'message': 'Registro exitoso', 'usuario': " + usuario.toString() + "}");
+	    }
+	}
 	
 	  // Función para cifrar la contraseña con SHA-256
     public static String encryptPassword(String password) {
