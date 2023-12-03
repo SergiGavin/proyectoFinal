@@ -38,7 +38,7 @@ public class UsuarioController {
 		return usuarioService.getAllUsuarios();
 	}
 
-	// GET para obtener un libro por ID
+	// GET para obtener un usuario por ID
 	// Si el id esta presente lo mostrará sino saldra mensaje de no encontrado.
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
@@ -51,8 +51,6 @@ public class UsuarioController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
-
-	
 	
 	
 	// PUT
@@ -66,9 +64,22 @@ public class UsuarioController {
 	@PatchMapping("/{id}")
 	// Pasamos como variable el id ya que se necesitará para editar el usuario en
 	// especifico.
-	public UsuariosEntity actualizarUsuario(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
-		usuario.setId_usuarios(id);
-		return usuarioService.updateUsuario(usuario);
+	public ResponseEntity<?> actualizarPass(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+		Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+	    if (usuarioActualizar.isPresent()) {
+	    	UsuariosEntity usuarioExistente = usuarioActualizar.get();
+	    	if (usuario.getPass() != null) {
+	    		usuarioExistente.setPass(usuario.getPass());
+	    	}
+	    //Para guardar en la bbdd
+	    UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
+	   
+        return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+	    }else{
+	    	 // Responder con un mensaje indicando que no se encontró el usuario
+	        String mensaje = "No se encontró ningún usuario con el ID: " + id;
+	        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	    }
 	}
 
 	// DELETE
@@ -78,8 +89,7 @@ public class UsuarioController {
 	}
 	
 	
-	
-	//SOLUCIONAR ERROR RECIBO HASH NULL EN BACK.
+
 		
 	@PostMapping("/iniciarsesion")
     public ResponseEntity<String> iniciarSesion(@RequestBody UsuariosEntity usuario) {
@@ -119,7 +129,7 @@ public class UsuarioController {
 	    }
 	}
 	
-	  // Función para cifrar la contraseña con SHA-256
+	// Función para cifrar la contraseña con SHA-256
     public static String encryptPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

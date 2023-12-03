@@ -56,9 +56,9 @@ public class UsuarioService {
 	 public Optional<UsuariosEntity> obtenerUsuarioPorDNI(String dni) {
 	        return usuariosRepository.findByDni(dni);
 	    }
+	 public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
+	        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
+	        return usuarioOptional.orElse(null);
+	    }
 
-    public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
-        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
-        return usuarioOptional.orElse(null);
-    }
 }
