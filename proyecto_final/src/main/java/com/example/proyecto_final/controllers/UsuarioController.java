@@ -96,7 +96,7 @@ public class UsuarioController {
 	//SOLUCIONAR ERROR RECIBO HASH NULL EN BACK.
 		
 	@PostMapping("/iniciarsesion")
-    public String iniciarSesion(@RequestBody UsuariosEntity usuario) {
+    public ResponseEntity<String> iniciarSesion(@RequestBody UsuariosEntity usuario) {
         // Obtener usuario por nombre de usuario
         Optional<UsuariosEntity> usuarioExistente = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
       
@@ -104,25 +104,24 @@ public class UsuarioController {
             // Verificar la contraseña
         	UsuariosEntity usuarioEncontrado = usuarioExistente.get();
         	  System.out.println(usuarioEncontrado.getUsername());        	
-        	  System.out.println("Hash almacenado en la base de datos: " + usuarioEncontrado.getPass());
+        	  System.out.println("Hash que tenemos almacenado en la base de datos: " + usuarioEncontrado.getPass());
         	  System.out.println(usuario.getUsername());
-        	  System.out.println("Hash recibido desde el cliente: " + usuario.getPass());
-
-        	  if (usuarioEncontrado.getPass().equals(usuario.getPass())) {
-                return "Inicio de sesión exitoso";
-            } else {
-                return "Datos incorrectos";
-            }
+        	  System.out.println("Contraseña recibida desde el cliente: " + usuario.getPass());
+        	  String pass = encryptPassword(usuario.getPass());
+        	  System.out.println("Hash cifrado en el back: " + pass);
+        	  if (usuarioEncontrado.getPass().equals(pass)) {
+        		  return ResponseEntity.ok("{'status': 'success', 'message': 'Inicio de sesión exitoso'}");
+        	  } else {
+        		  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{'status': 'error', 'message': 'Datos incorrectos'}");
+        	  }
         } else {
-            return "Usuario no encontrado";
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{'status': 'error', 'message': 'Usuario no encontrado'}");
         }
     }
 	
 	
 	
-	
 	  // Función para cifrar la contraseña con SHA-256
-	//ENCRIPTAR PARA EL REGISTRO.
     public static String encryptPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
