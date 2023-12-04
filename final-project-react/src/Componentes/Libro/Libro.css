@@ -26,3 +26,8 @@
 .texto-morado {
     color: var(--violet);
 }
+
+img{
+    max-width: 100%;
+    height: auto;
+}

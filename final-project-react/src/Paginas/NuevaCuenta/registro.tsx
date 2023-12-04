@@ -5,13 +5,15 @@ import "./registro.css"
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
+        id_usuario: 0,
+        nombre: '',
+        apellidos: '',
         dni: '',
-        email: '',
-        phone: '',
+        telefono: '',
+        correo: '',
         username: '',
-        password: '',
+        pass: '',
+        saldo: 0,
     });
 
     const navigate = useNavigate();
@@ -28,8 +30,9 @@ const Register: React.FC = () => {
         navigate('/');
         e.preventDefault();
         try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
+            console.log("Datos enviados al servidor:", JSON.stringify(userData));
+            const response = await fetch('http://localhost:8080/usuarios/registro', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -37,6 +40,7 @@ const Register: React.FC = () => {
             });
 
             if (response.ok) {
+                console.log("Éxito")
             } else {
                 throw new Error('Error al registrar usuario');
             }
@@ -63,8 +67,8 @@ const Register: React.FC = () => {
                         className='borde'
                             type="text"
                             placeholder="Nombre"
-                            name="firstName"
-                            value={userData.firstName}
+                            name="nombre"
+                            value={userData.nombre}
                             onChange={handleChange}
                         />
                     </Form.Group></div>
@@ -77,8 +81,8 @@ const Register: React.FC = () => {
                             className='borde'
                                 type="text"
                                 placeholder="Apellidos"
-                                name="lastName"
-                                value={userData.lastName}
+                                name="apellidos"
+                                value={userData.apellidos}
                                 onChange={handleChange}
                             />
                         </Form.Group>
@@ -111,8 +115,8 @@ const Register: React.FC = () => {
                             className='borde'
                                 type="text"
                                 placeholder="Teléfono"
-                                name="phone"
-                                value={userData.phone}
+                                name="telefono"
+                                value={userData.telefono}
                                 onChange={handleChange}
                             />
                         </Form.Group>
@@ -129,8 +133,8 @@ const Register: React.FC = () => {
                             className='borde'
                                 type="email"
                                 placeholder="Email"
-                                name="email"
-                                value={userData.email}
+                                name="correo"
+                                value={userData.correo}
                                 onChange={handleChange}
                             />
                         </Form.Group>
@@ -163,8 +167,8 @@ const Register: React.FC = () => {
                             className='borde'
                                 type="password"
                                 placeholder="Contraseña"
-                                name="password"
-                                value={userData.password}
+                                name="pass"
+                                value={userData.pass}
                                 onChange={handleChange}
                             />
                         </Form.Group>

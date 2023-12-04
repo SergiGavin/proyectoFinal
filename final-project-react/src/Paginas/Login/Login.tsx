@@ -4,28 +4,27 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [pass, setPass] = useState('');
 
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     };
 
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
+    const handlePassdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPass(event.target.value);
     };
 
     const navigate = useNavigate(); // Aquí se declara useNavigate correctamente
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
-        navigate('/');
         try {
-            const response = await fetch('http://localhost:8080/usuarios', {
+            const response = await fetch('http://localhost:8080/usuarios/iniciarsesion', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username, pass })
             });
 
             if (response.ok) {
@@ -83,8 +82,8 @@ const Login: React.FC = () => {
                                     name="password"
                                     className="form-control input-texto borde"
                                     aria-describedby="passwordHelpInline"
-                                    value={password}
-                                    onChange={handlePasswordChange}
+                                    value={pass}
+                                    onChange={handlePassdChange}
                                     autoComplete="current-password" // Indica que este campo es para una contraseña
                                 />                                
                                 <p className="form-text apuntecontrasena">
