@@ -12,6 +12,7 @@ import Policiaca from './Paginas/Filtro/Policiaca';
 import Romance from './Paginas/Filtro/Romance';
 import Terror from './Paginas/Filtro/Terror';
 import Todos from './Paginas/Filtro/Todos';
+import React from 'react';
 
 function AppRoutes() {
     return (
