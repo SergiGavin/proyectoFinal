@@ -26,7 +26,11 @@ import com.example.proyecto_final.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuarios")
+<<<<<<< HEAD
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:5173", "http://127.0.0.1:5173", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+=======
 @CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
+>>>>>>> e506421ebf2f611247d0d5cd3c282ceb8cfb47e6
 public class UsuarioController {
 
 	@Autowired

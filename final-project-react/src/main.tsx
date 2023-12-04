@@ -5,7 +5,7 @@ import './index.css'
 <<<<<<< HEAD
 =======
 import { BrowserRouter, Router } from 'react-router-dom'
-import Home from './Home/Home'
+import Home from './Paginas/Home/Home'
 import AppRoutes from './AppRoutes'
 
 >>>>>>> 555811439ec280443fab8f68a51057e3bf51421e
