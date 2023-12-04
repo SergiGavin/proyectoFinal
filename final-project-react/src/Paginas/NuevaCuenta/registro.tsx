@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        //navigate('/');
+        navigate('/');
         e.preventDefault();
         try {
             console.log(JSON.stringify(userData))
