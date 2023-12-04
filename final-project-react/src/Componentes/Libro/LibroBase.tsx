@@ -1,3 +1,4 @@
+import React from 'react';
 import "./Libro.css"
 
 const LibroBase = ({ libro }: { libro: any }) => {
