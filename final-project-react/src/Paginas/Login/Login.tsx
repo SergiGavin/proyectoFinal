@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -58,8 +58,16 @@ const Login: React.FC = () => {
                                 <label htmlFor="inputPassword6" className="col-form-label">Usuario</label>
                             </div>
                             <div className="col-8">
-                                <input type="username" id="user" className="form-control input-texto borde" value={username} onChange={handleUsernameChange} />
-                            </div>
+                                {/* // Usuario */}
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    className="form-control input-texto borde"
+                                    value={username}
+                                    onChange={handleUsernameChange}
+                                    autoComplete="username" // Indica que este campo es para un nombre de usuario
+                                />                            </div>
                         </div>
                     </div>
                     <div className="pass">
@@ -68,7 +76,17 @@ const Login: React.FC = () => {
                                 <label htmlFor="inputPassword6" className="col-form-label passtext">Contraseña</label>
                             </div>
                             <div className="col-8">
-                                <input type="password" id="inputPassword6" className="form-control input-texto borde" aria-describedby="passwordHelpInline" value={password} onChange={handlePasswordChange} />
+                                {/* // Contraseña */}
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    className="form-control input-texto borde"
+                                    aria-describedby="passwordHelpInline"
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    autoComplete="current-password" // Indica que este campo es para una contraseña
+                                />                                
                                 <p className="form-text apuntecontrasena">
                                     Debe ser 8-20 caracteres de longitud.
                                 </p>
@@ -79,6 +97,9 @@ const Login: React.FC = () => {
                         <button type="submit" className="btn btn-login btn-lg mt-5">Iniciar Sesión</button>
                     </div>
                 </form>
+            </div>
+            <div className="row rowregistro">
+                <div className="col"> ¿No tienes una cuenta? <Link to="/register">¡Regístrate!</Link></div>
             </div>
             <div className="row rowicon">
                 <img src="icono.png" className='iconologin' alt="icono" />

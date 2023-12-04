@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Router } from 'react-router-dom'
-import Home from './Home/Home'
+import Home from './Paginas/Home/Home'
 import AppRoutes from './AppRoutes'
 
 
