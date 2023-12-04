@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.example.proyecto_final.entities.LibrosEntity;
-import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.repository.LibrosRepository;
 
 @Service
@@ -55,8 +54,8 @@ public class LibroService {
 	public void deleteLibroById(Long id) {
 		librosRepository.deleteById(id);
 	}
-    public LibrosEntity obtenerLibroPorId(Long idLibro) {
-        Optional<LibrosEntity> libroOptional = librosRepository.findById(idLibro);
-        return libroOptional.orElse(null);
-    }
+	 public LibrosEntity obtenerLibroPorId(Long idLibro) {
+	        Optional<LibrosEntity> libroOptional = librosRepository.findById(idLibro);
+	        return libroOptional.orElse(null);
+	    }
 }

@@ -27,7 +27,6 @@ import com.example.proyecto_final.services.UsuarioService;
 @RestController
 @RequestMapping("/usuarios")
 @CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
-
 public class UsuarioController {
 
 	@Autowired
@@ -39,7 +38,7 @@ public class UsuarioController {
 		return usuarioService.getAllUsuarios();
 	}
 
-	// GET para obtener un libro por ID
+	// GET para obtener un usuario por ID
 	// Si el id esta presente lo mostrará sino saldra mensaje de no encontrado.
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
@@ -52,8 +51,6 @@ public class UsuarioController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
-
-	
 	
 	
 	// PUT
@@ -67,9 +64,22 @@ public class UsuarioController {
 	@PatchMapping("/{id}")
 	// Pasamos como variable el id ya que se necesitará para editar el usuario en
 	// especifico.
-	public UsuariosEntity actualizarUsuario(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
-		usuario.setId_usuarios(id);
-		return usuarioService.updateUsuario(usuario);
+	public ResponseEntity<?> actualizarPass(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+		Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+	    if (usuarioActualizar.isPresent()) {
+	    	UsuariosEntity usuarioExistente = usuarioActualizar.get();
+	    	if (usuario.getPass() != null) {
+	    		usuarioExistente.setPass(usuario.getPass());
+	    	}
+	    //Para guardar en la bbdd
+	    UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
+	   
+        return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+	    }else{
+	    	 // Responder con un mensaje indicando que no se encontró el usuario
+	        String mensaje = "No se encontró ningún usuario con el ID: " + id;
+	        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+	    }
 	}
 
 	// DELETE
@@ -79,11 +89,10 @@ public class UsuarioController {
 	}
 	
 	
-	
-	//SOLUCIONAR ERROR RECIBO HASH NULL EN BACK.
+
 		
 	@PostMapping("/iniciarsesion")
-    public String iniciarSesion(@RequestBody UsuariosEntity usuario) {
+    public ResponseEntity<String> iniciarSesion(@RequestBody UsuariosEntity usuario) {
         // Obtener usuario por nombre de usuario
         Optional<UsuariosEntity> usuarioExistente = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
       
@@ -91,25 +100,36 @@ public class UsuarioController {
             // Verificar la contraseña
         	UsuariosEntity usuarioEncontrado = usuarioExistente.get();
         	  System.out.println(usuarioEncontrado.getUsername());        	
-        	  System.out.println("Hash almacenado en la base de datos: " + usuarioEncontrado.getPass());
+        	  System.out.println("Hash que tenemos almacenado en la base de datos: " + usuarioEncontrado.getPass());
         	  System.out.println(usuario.getUsername());
-        	  System.out.println("Hash recibido desde el cliente: " + usuario.getPass());
-
-        	  if (usuarioEncontrado.getPass().equals(usuario.getPass())) {
-                return "Inicio de sesión exitoso";
-            } else {
-                return "Datos incorrectos";
-            }
+        	  System.out.println("Contraseña recibida desde el cliente: " + usuario.getPass());
+        	  String pass = encryptPassword(usuario.getPass());
+        	  System.out.println("Hash cifrado en el back: " + pass);
+        	  if (usuarioEncontrado.getPass().equals(pass)) {
+        		  return ResponseEntity.ok("{'status': 'success', 'message': 'Inicio de sesión exitoso'}");
+        	  } else {
+        		  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{'status': 'error', 'message': 'Datos incorrectos'}");
+        	  }
         } else {
-            return "Usuario no encontrado";
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{'status': 'error', 'message': 'Usuario no encontrado'}");
         }
     }
 	
+	@PutMapping("/registro")
+	public ResponseEntity<String> registro(@RequestBody UsuariosEntity usuario) {
+		System.out.println("Datos recibidos: " + usuario.toString());
+		Optional<UsuariosEntity> usuarioExistentePorNombre = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
+	    Optional<UsuariosEntity> usuarioExistentePorCorreo = usuarioService.obtenerUsuarioPorCorreo(usuario.getCorreo());
+	    Optional<UsuariosEntity> usuarioExistentePorDNI = usuarioService.obtenerUsuarioPorDNI(usuario.getDni());
+	    if (usuarioExistentePorNombre.isPresent() || usuarioExistentePorCorreo.isPresent()|| usuarioExistentePorDNI.isPresent()) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("{'status': 'error', 'message': 'El nombre de usuario, el correo electrónico o el DNI ya están registrados'}");
+	    }else{
+	    	crearUsuario(usuario);
+	    	return ResponseEntity.ok("{'status': 'success', 'message': 'Registro exitoso', 'usuario': " + usuario.toString() + "}");
+	    }
+	}
 	
-	
-	
-	  // Función para cifrar la contraseña con SHA-256
-	//ENCRIPTAR PARA EL REGISTRO.
+	// Función para cifrar la contraseña con SHA-256
     public static String encryptPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
