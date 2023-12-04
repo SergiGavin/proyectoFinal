@@ -66,9 +66,7 @@ public class UsuarioController {
 				usuario.getSaldo(),
 				usuario.getUsername(),
 				encryptPassword(usuario.getPass()));
-		
 		return usuarioService.createUsuario(newUsuario);
-
 	}
 
 	// Patch

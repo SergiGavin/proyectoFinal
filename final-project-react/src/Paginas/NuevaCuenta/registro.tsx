@@ -5,17 +5,16 @@ import "./registro.css"
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
-        id_usuario: 0,
         nombre: '',
         apellidos: '',
         dni: '',
-        telefono: '',
         correo: '',
+        telefono: '',
         username: '',
         pass: '',
         saldo: 0,
     });
-
+    
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
