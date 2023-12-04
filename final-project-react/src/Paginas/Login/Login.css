@@ -1,0 +1,88 @@
+:root {
+  --salmon: #ff5252;
+  --dark-orange: #ff7752;
+  --orange: #ff9a52;
+  --dark-yellow: #ffb752;
+  --violet: #5e405b;
+}
+
+
+.title{
+  color: var(--violet);
+  font-weight: bold;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 50px;
+}
+
+.bg-pantalla {
+  background-color: var(--dark-yellow);
+  width: 100%;
+  height: 100%;
+}
+
+.cajatextoinicio{
+  padding: 50px;
+  font-size: 43px;
+  color: var(--dark-orange);
+  font-weight: 500;
+}
+
+.emailpasstext{
+  text-align: right;
+  color: var(--violet);
+  font-weight:600;
+  font-size: 20px;
+}
+
+.passtext{
+  margin-bottom: 41px;
+}
+
+.input-texto{
+  width: 50% ;
+}
+
+.apuntecontrasena{
+  text-align-last: left;
+  font-size: 15px;
+}
+
+.btn-login {
+  background-color: var(--salmon);
+  color: white;
+  width: 200px;
+}
+
+.btn-login:hover {
+  background-color: var(--violet);
+  color: white;
+}
+
+.btn-login:focus {
+  background-color: var(--violet);
+  color: white; 
+}
+
+.borde {
+  border: var(--bs-border-width) solid var(--dark-orange);
+}
+
+.rowbtn {
+  justify-content: center;
+}
+
+.rowicon{
+  place-content: center;
+}
+
+.iconologin{
+  
+  width: 15%;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.rowregistro{
+  margin-top: 10px;
+}
