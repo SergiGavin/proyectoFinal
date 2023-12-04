@@ -140,7 +140,8 @@ VALUES
 ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg', 'Jim Hawkins regenta, junto a sus padres, la posada Almirante Benbow. Su  vida discurre tranquila entre la barra y las mesas hasta que, un día, un  viejo marinero entra en su fonda acarreando un pesado secreto... De la  noche a la mañana el joven Jim se encuentra en la cubierta de la Hispaniola, rodeado de rudos marineros, agasajado por un  misterioso cocinero cojo, ansiosos todos ellos por encontrar el codiciado tesoro del capitán Flint.'),
 ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
 
-
+INSERT INTO `mydb`.`Prestamos` (`id_usuarios`, `id_libros`, `Fecha_prestamo`, `Fecha_devolucion`) VALUES ('2', '1', '2023-02-20', '2023-02-25'), ('3', '24', '2023-02-20', '2023-02-25');
+INSERT INTO `mydb`.`Donaciones` (`id_usuarios`, `id_libros`, `Fecha_donacion`, `username`) VALUES ('3', '8', '2017-02-20', NULL), ('1', '17', '1995-02-22', NULL);
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;
 SELECT * FROM Libros;
