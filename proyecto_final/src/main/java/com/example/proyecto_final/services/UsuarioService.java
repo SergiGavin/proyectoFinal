@@ -50,9 +50,15 @@ public class UsuarioService {
 	                .filter(u -> u.getUsername().equals(nombreUsuario))
 	                .findFirst();
 	    }
+	 public Optional<UsuariosEntity> obtenerUsuarioPorCorreo(String correo) {
+	        return usuariosRepository.findByCorreo(correo);
+	    }
+	 public Optional<UsuariosEntity> obtenerUsuarioPorDNI(String dni) {
+	        return usuariosRepository.findByDni(dni);
+	    }
+	 public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
+	        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
+	        return usuarioOptional.orElse(null);
+	    }
 
-    public UsuariosEntity obtenerUsuarioPorId(Long idUsuario) {
-        Optional<UsuariosEntity> usuarioOptional = usuariosRepository.findById(idUsuario);
-        return usuarioOptional.orElse(null);
-    }
 }
