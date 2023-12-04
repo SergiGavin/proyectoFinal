@@ -10,9 +10,15 @@ const Register: React.FC = () => {
         dni: '',
         correo: '',
         telefono: '',
+<<<<<<< HEAD
+        saldo: 0,
+        username: '',
+        pass: '',
+=======
         username: '',
         pass: '',
         saldo: 0,
+>>>>>>> 06a247d88e0ea3a9d1989686fec2af1349ab2c08
     });
     
     const navigate = useNavigate();
@@ -29,7 +35,6 @@ const Register: React.FC = () => {
         navigate('/');
         e.preventDefault();
         try {
-            console.log("Datos enviados al servidor:", JSON.stringify(userData));
             const response = await fetch('http://localhost:8080/usuarios/registro', {
                 method: 'PUT',
                 headers: {

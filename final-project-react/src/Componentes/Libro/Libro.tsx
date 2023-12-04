@@ -33,8 +33,10 @@ const Libro = () => {
 
     return (
         <div>
-            <div className="card texto-morado">
-                <img src={book.foto_portada} className="card-img-top img-fluid contenedor-imagen" alt={book.titulo} />
+            <div className="card tarjeta texto-morado">
+                <div className="container contenedor-imagen ">
+                <img src={book.foto_portada} className="card-img-top libro-img" alt={book.titulo} />
+                </div>
                 <div className="card-body">
                     <h5 className="texto-morado">{book.titulo}</h5>
                     <p className="texto-morado">{book.autor}</p>

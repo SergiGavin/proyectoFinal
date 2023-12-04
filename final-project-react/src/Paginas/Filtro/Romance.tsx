@@ -23,7 +23,7 @@ export default function Romance() {
             <Categorias />
             <div>
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => (
-                    <div key={rowIndex} className="row px-5 mt-3">
+                    <div key={rowIndex} className="row">
                         {libros.slice(rowIndex * 5, (rowIndex + 1) * 5).map((libro, colIndex) => (
                             <div key={colIndex} className="col px-5">
                                 <LibroBase libro={libro} />

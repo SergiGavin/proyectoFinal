@@ -45,5 +45,7 @@ public class UsuariosEntity {
 		this.username = username;
 		this.pass = pass;
 	}
+	
+	
 
 }
