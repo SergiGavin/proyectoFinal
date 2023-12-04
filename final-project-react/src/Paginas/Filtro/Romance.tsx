@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Header from '../../Componentes/Header/Header';
 import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
+import React from 'react';
 
 export default function Romance() {
     const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar los libros
