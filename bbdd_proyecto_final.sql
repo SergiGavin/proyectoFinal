@@ -9,12 +9,12 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
   `id_usuarios` INT AUTO_INCREMENT NOT NULL,
   `Nombre` VARCHAR(45) NOT NULL,
   `Apellidos` VARCHAR(45) NOT NULL,
-  `DNI` VARCHAR(15) NOT NULL,
-  `Correo_electronico` VARCHAR(45) NOT NULL,
+  `DNI` VARCHAR(15) NOT NULL UNIQUE,
+  `Correo_electronico` VARCHAR(45) NOT NULL UNIQUE,
   `Telefono` INT(15) NOT NULL,
   `Saldo` DECIMAL(10, 2) NOT NULL,
-  `username` VARCHAR(255) NOT NULL,
-  `pass` VARCHAR(25) NOT NULL,
+  `username` VARCHAR(255) NOT NULL UNIQUE,
+  `pass` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id_usuarios`));
 
 
@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS `Usuarios` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Libros` (
   `id_libros` INT AUTO_INCREMENT NOT NULL,
-  `Titulo` VARCHAR(45)NOT NULL,
-  `Genero` VARCHAR(45)NOT NULL,
-  `Autor` VARCHAR(45)NOT NULL,
+  `Titulo` VARCHAR(45) NOT NULL,
+  `Genero` VARCHAR(45) NOT NULL,
+  `Autor` VARCHAR(45) NOT NULL,
   `Num_pag` INT NOT NULL,
   `Estado` VARCHAR(45) NOT NULL,
-  `Valor` DECIMAL(10, 2)NOT NULL,
-  `Foto_portada` TEXT,
-  `sinopsis` TEXT,
+  `Valor` DECIMAL(10, 2) NOT NULL,
+  `Foto_portada` TEXT NOT NULL,
+  `sinopsis` TEXT NOT NULL,
   PRIMARY KEY (`id_libros`));
 
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `Prestamos` (
   `id_libros` INT NOT NULL,
   `Fecha_prestamo` DATE NOT NULL,
   `Fecha_devolucion` DATE NOT NULL,
-  `id_prestamo` INT NOT NULL,
+  `id_prestamo` INT NOT NULL AUTO_INCREMENT,
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
   PRIMARY KEY (`id_prestamo`),
   INDEX `fk_Usuarios_has_Libros_Libros1_idx` (`id_libros` ASC) VISIBLE,
@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS `Donaciones` (
   `id_usuarios` INT NOT NULL,
   `id_libros` INT NOT NULL,
   `Fecha_donacion` DATE NOT NULL,
-  `id_donacion` INT NOT NULL,
+  `id_donacion` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(15),
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
   PRIMARY KEY (`id_donacion`),
   INDEX `fk_Usuarios_has_Libros1_Libros1_idx` (`id_libros` ASC) VISIBLE,
@@ -102,9 +103,9 @@ CREATE TABLE IF NOT EXISTS `mensajes` (
 );
 
 INSERT INTO Usuarios (Nombre, Apellidos, DNI, Correo_electronico, Telefono, Saldo, username, pass)
-VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000, 'chavooo95', '1'),
-('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000, 'sergigav', 'a'),
-('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000, 'Arih', 'ç');
+VALUES('Carlos', 'Terrero', '46471738F', 'carlosterrero2@gmail.com', 662076335, 1000, 'chavooo95', '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b'),
+('Sergi', 'Gavin', '47418649T', 'sergi.gs@hotmail.es', 638454249, 1000, 'sergigav', 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb'),
+('Maria de los Angeles', 'Molina', '71243876Z', 'mariangelesmolina@gmail.com', 673928683, 1000, 'Arih', '8bfa829b8119a6f39b91fd8decec63830b556e4d88a9da29334d7b0558829f2d');
 
 INSERT INTO Libros (Titulo, Genero, Autor, Num_pag, Estado, Valor, Foto_portada, sinopsis)
 VALUES
@@ -138,6 +139,7 @@ VALUES
 ('El diario de Ana Frank', 'Histórica', 'Ana Frank', 128, 'Malo', 14.95, 'https://images.cdn2.buscalibre.com/fit-in/360x360/ca/68/ca68f22e2929bf812303fdc9cbe05624.jpg', 'Anne Marie Frank (Frankfurt, 1929 – campo de concentración de Bergen-Belsen, Alemania, 1945) fue hija de una familia germana de origen judío. Se trasladó con los suyos a los Países Bajos con la llegada de Hitler al poder en 1933. Durante la Segunda Guerra Mundial, después de la invasión alemana de Holanda en 1940 y de padecer las primeras consecuencias de las leyes antisemitas, Ana y su familia consiguieron esconderse en unas habitaciones traseras, abandonadas y aisladas, de un edificio de oficinas de Ámsterdam, donde permanecieron ocultos desde 1942 hasta 1944, cuando fueron descubiertos por la Gestapo. Ana llevó un diario de ese periodo de reclusión, que su padre, único superviviente de la familia, dio a conocer acabada la guerra, después de que Ana y el resto de la familia hubieran sido detenidos y confinados en un campo de exterminio, donde murieron.'),
 ('La isla del tesoro', 'Infantil', 'Robert Louis Stevenson', 168, 'Decente', 13.50, 'https://cdn.edelvives.es/docs/catalogo/17815/imgs/original/173313_Fic_Cub_IslaTesoro_EvWeb.jpg', 'Jim Hawkins regenta, junto a sus padres, la posada Almirante Benbow. Su  vida discurre tranquila entre la barra y las mesas hasta que, un día, un  viejo marinero entra en su fonda acarreando un pesado secreto... De la  noche a la mañana el joven Jim se encuentra en la cubierta de la Hispaniola, rodeado de rudos marineros, agasajado por un  misterioso cocinero cojo, ansiosos todos ellos por encontrar el codiciado tesoro del capitán Flint.'),
 ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
+
 
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;
