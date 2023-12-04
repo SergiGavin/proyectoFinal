@@ -57,7 +57,16 @@ public class UsuarioController {
 	@PutMapping
 	public UsuariosEntity crearUsuario(@RequestBody UsuariosEntity usuario) {
 		System.out.println("Datos del usuario recibidos: " + usuario.toString());
-		return usuarioService.createUsuario(usuario);
+		UsuariosEntity newUsuario = new UsuariosEntity(
+				usuario.getNombre(),
+				usuario.getApellidos(),
+				usuario.getDni(),
+				usuario.getCorreo(),
+				usuario.getTelefono(),
+				usuario.getSaldo(),
+				usuario.getUsername(),
+				encryptPassword(usuario.getPass()));
+		return usuarioService.createUsuario(newUsuario);
 	}
 
 	// Patch
