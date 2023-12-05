@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import "./Libro.css"
 
 const Libro = () => {
     const [book, setBook] = useState({
+        id_libros: '',
         titulo: '',
         autor: '',
         foto_portada: ''
     });
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const obtenerLibroAleatorio = async () => {
@@ -19,6 +23,7 @@ const Libro = () => {
 
                 // Asigna el libro aleatorio obtenido desde la API al estado 'book'
                 setBook({
+                    id_libros: data.id_libros,
                     titulo: data.titulo,
                     autor: data.autor,
                     foto_portada: data.foto_portada
@@ -31,9 +36,13 @@ const Libro = () => {
         obtenerLibroAleatorio();
     }, []);
 
+    const handleLibroClick = () => {
+        console.log("ID del libro seleccionado:", book.id_libros);
+        navigate(`/prestamos`, { state: { id_libros: book.id_libros } });
+    };
     return (
         <div>
-            <div className="card texto-morado">
+            <div className="card texto-morado"onClick={handleLibroClick}>
                 <img src={book.foto_portada} className="card-img-top img-fluid contenedor-imagen" alt={book.titulo} />
                 <div className="card-body">
                     <h5 className="texto-morado">{book.titulo}</h5>

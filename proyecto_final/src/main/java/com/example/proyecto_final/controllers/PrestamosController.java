@@ -1,24 +1,26 @@
 package com.example.proyecto_final.controllers;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.PrestamoService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
 @RestController
@@ -66,19 +68,22 @@ public class PrestamosController {
 
 
 		
-		//POST
-		@PostMapping
+		//Put
+		@PutMapping
 		public PrestamosEntity crearPrestamo(@RequestBody PrestamosEntity prestamo) {
-			return prestamoService.createPrestamo(prestamo);
+		
+			Date today = new Date();
+			PrestamosEntity newPrestamo = new PrestamosEntity(
+					prestamo.getFechaDevolucion(),
+					prestamo.getId_libros(),	
+					prestamo.getId_usuarios()
+			); 
+			newPrestamo.setFechaPrestamo(today);
+			System.out.println("Datos del usuario recibidos: "+newPrestamo.toString());
+			System.out.println(newPrestamo.getFechaPrestamo());
+			return prestamoService.createPrestamo(newPrestamo);
 		}
 		
-		//PUT
-//		@PostMapping("editar/{id}")
-//		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
-//		public PrestamosEntity actualizarPrestamo(@RequestBody PrestamosEntity prestamo, @PathVariable Long id) {
-//			prestamo.setIdPrestamo(id);
-//			return prestamoService.updatePrestamo(prestamo);
-//		}
 		//DELETE
 		@DeleteMapping("eliminar/{id}")
 		public void eliminarPrestamo(@PathVariable Long id) {
