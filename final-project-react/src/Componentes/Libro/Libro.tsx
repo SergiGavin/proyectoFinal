@@ -35,7 +35,7 @@ const Libro = () => {
         <div>
             <div className="card tarjeta texto-morado">
                 <div className="container contenedor-imagen ">
-                <img src={book.foto_portada} className="card-img-top libro-img" alt={book.titulo} />
+                    <img src={book.foto_portada} className="card-img-top libro-img" alt={book.titulo} />
                 </div>
                 <div className="card-body">
                     <h5 className="texto-morado">{book.titulo}</h5>

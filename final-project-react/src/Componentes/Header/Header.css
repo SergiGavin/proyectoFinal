@@ -6,55 +6,26 @@
     --dark-yellow: #ffb752;
     --violet: #5e405b;
   }
-  /*
-.custom-color-1 {
-    background-color: 
-}
-.custom-color-2 {
-    background-color: #ff7752;
-}
-.custom-color-3 {
-    background-color: #ff9a52;
-}
-.custom-color-4 {
-    background-color: #ffb752;
-}
-.custom-color-5 {
-    background-color: #5e405b;
-}
-*/
-.nombre{
-    color: var(--violet);
-    font-weight: bold;
-    font-size: 30px;
-    margin-left: 20px;
-}
-.btn-inicioSesion {
-    background-color: var(--violet);
-    color: white;
-}
-
-.btn-hover:hover {
-    /* Define los estilos para el hover */
-    /* Por ejemplo, cambia el color de fondo o el color del texto */
-    background-color: var(--salmon);
-    color: white;
-}
-
-.fndo-naranja{
-    background-color: var(--dark-yellow);;
-    height: 80px;
+.navbar{
+    display: flex;
+    place-content: space-between;
     align-items: center;
 }
 
-.buscador{
-    background-color: white;
+#free-solo-demo{
+    width: 500px;
 }
 
-.container{
-    margin: 0px;
+.negrita{
+    color: darkslategray;
 }
 
-.row {
-    margin-right: 0px;
+.titulonavbar{
+    margin-left: 10vh;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.menuusuario{
+    margin-right: 3vh;
 }
