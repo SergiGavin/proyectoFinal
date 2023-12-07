@@ -1,7 +1,9 @@
 import React from 'react';
 import "./Categorias.css"
 import { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 interface Category {
     id: number;
@@ -9,7 +11,7 @@ interface Category {
 }
 
 const Categorias: React.FC = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const categories: Category[] = [
         { id: 1, name: 'Clásica' },
@@ -59,14 +61,16 @@ const Categorias: React.FC = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg nav-bar-bg mx-5">
-                <div className="buttons-container">
-                    {categories.map((category) => (
-                        <button key={category.id} className={`btn px-5 btn-textcolor ${selectedCategoryId === category.id ? 'selected' : ''}`}
-                            onClick={() => handleCategoryClick(category.id)}>
-                            {category.name}
-                        </button>
-                    ))}
+            <nav className="navbar-cat">
+                <div className="botones">
+                    <ButtonGroup aria-label="medium secondary button group">
+                        {categories.map((category) => (
+                            <Button key={category.id} className={`${selectedCategoryId === category.id ? 'selected' : ''}`}
+                                onClick={() => handleCategoryClick(category.id)}>
+                                {category.name}
+                            </Button>
+                        ))}
+                    </ButtonGroup>
                 </div>
             </nav>
 

@@ -14,6 +14,9 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import "./Navbar.css";
+import makeStyles from '@mui/material/styles/makeStyles';
+
 
 
 export default function Navbar(): any {
@@ -54,33 +57,30 @@ export default function Navbar(): any {
     return (
         <>
             <div className="navbar">
-                <div className="container">
+                <div className="container titulonavbar">
                     Swapreads
                 </div>
-                <div className="container">
+                <div className="container buscador">
+
                     <Autocomplete
                         id="free-solo-demo"
                         freeSolo
-                        // options={books.map(book =>
-                        //     book.titulo + " - " + <p className="negrita">book.autor</p> 
-                        // )}
                         options={books.map(book => ({
                             label: `${book.titulo} - ${book.autor}`,
                             title: book.titulo,
                             author: book.autor
                         }))}
-                        //Property 'label' does not exist on type 'string | { label: string; title: String; author: String; }'. or any in option!
-                        getOptionLabel={(option: any) => option.label} 
+                        getOptionLabel={(option: any) => option.label}
                         renderOption={(props, option) => (
                             <li {...props}>
                                 <Typography className="negrita">{option.title}</Typography><Typography style={{ padding: '10px' }}>-</Typography>
                                 <Typography>{option.author}</Typography>
                             </li>
                         )}
-                        renderInput={(params) => <TextField {...params} label="Buscar libros" />}
+                        renderInput={(params) => <TextField {...params} label="Buscar" />}
                     />
                 </div>
-                <div className="container">
+                <div className="container monedas">
                     <>
                         <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                             <CurrencyExchangeIcon />

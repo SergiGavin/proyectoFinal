@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import Header from '../../Componentes/Header/Header';
 import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
+import Navbar from '../../Componentes/Header/Navbar';
 
 export default function Drama() {
     const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar los libros
@@ -19,7 +19,7 @@ export default function Drama() {
 
     return (
         <>
-            <Header />
+            <Navbar />
             <Categorias />
             <div>
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => (

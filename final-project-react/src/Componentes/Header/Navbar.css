@@ -10,10 +10,18 @@
     display: flex;
     place-content: space-between;
     align-items: center;
+    border-radius: 0%;
+    background-color: #ff9a52;
+    margin-top: 0%;
+    padding: 2vh;
 }
 
 #free-solo-demo{
-    width: 500px;
+    width: 500px;  
+}
+
+.buscador{
+    background-color: white;
 }
 
 .negrita{
@@ -21,11 +29,15 @@
 }
 
 .titulonavbar{
-    margin-left: 10vh;
     font-size: xx-large;
     font-weight: bold;
+    color: var(--violet);
 }
 
 .menuusuario{
     margin-right: 3vh;
+}
+
+.monedas{
+    color: white;
 }

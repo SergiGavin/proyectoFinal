@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Header from '../../Componentes/Header/Header';
+import Navbar from '../../Componentes/Header/Navbar';
 import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
@@ -19,7 +19,7 @@ export default function Policiaca() {
 
     return (
         <>
-            <Header />
+            <Navbar />
             <Categorias />
             <div>
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => (
