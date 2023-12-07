@@ -18,6 +18,10 @@
 
 #free-solo-demo{
     width: 500px;  
+    color: red;
+}
+.Mui-focused{
+    border-color: yellowgreen !important;
 }
 
 .buscador{

@@ -13,8 +13,6 @@ import Romance from './Paginas/Filtro/Romance';
 import Terror from './Paginas/Filtro/Terror';
 import Todos from './Paginas/Filtro/Todos';
 import React from 'react';
-import Donaciones from './Paginas/Donaciones/Donacion';
-import Prestamos from './Paginas/Prestamos/Prestamo';
 
 function AppRoutes() {
     return (
@@ -32,8 +30,6 @@ function AppRoutes() {
             <Route path='/romance' element={<Romance />} />
             <Route path='/terror' element={<Terror />} />
             <Route path='/todos' element={<Todos />} />
-            <Route path='/donaciones' element={<Donaciones />} />
-            <Route path='/prestamos' element={<Prestamos />} />
         </Routes>
     );
 }

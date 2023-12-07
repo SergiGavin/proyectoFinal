@@ -15,7 +15,7 @@ import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import "./Navbar.css";
-import makeStyles from '@mui/material/styles/makeStyles';
+import { makeStyles } from '@material-ui/core/styles';
 
 
 
@@ -54,6 +54,19 @@ export default function Navbar(): any {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const useStyles = makeStyles(theme => ({
+        autocompleteInput: {
+          '& .MuiAutocomplete-option': {
+            // Estilos para las opciones del Autocomplete
+            borderBottom: '1px solid #bdbdbd', // Borde inferior
+            '&:hover': {
+              borderBottom: '1px solid #00bcd4', // Borde inferior al pasar el ratón
+            },
+          },
+        },
+      }));
+
     return (
         <>
             <div className="navbar">
@@ -65,6 +78,7 @@ export default function Navbar(): any {
                     <Autocomplete
                         id="free-solo-demo"
                         freeSolo
+                        className={classes.autocompleteInput}
                         options={books.map(book => ({
                             label: `${book.titulo} - ${book.autor}`,
                             title: book.titulo,
