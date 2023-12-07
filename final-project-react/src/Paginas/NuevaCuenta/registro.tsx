@@ -10,9 +10,9 @@ const Register: React.FC = () => {
         dni: '',
         correo: '',
         telefono: '',
+        saldo: 0,
         username: '',
         pass: '',
-        saldo: 0,
     });
     
     const navigate = useNavigate();
@@ -29,7 +29,6 @@ const Register: React.FC = () => {
         navigate('/');
         e.preventDefault();
         try {
-            console.log(JSON.stringify(userData))
             const response = await fetch('http://localhost:8080/usuarios/registro', {
                 method: 'PUT',
                 headers: {

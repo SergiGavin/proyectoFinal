@@ -23,3 +23,15 @@
     padding-bottom: 10px;
 
 }
+
+.rowlibros{
+    text-align: -webkit-center;
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 20px;
+}
+
+.collibros{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

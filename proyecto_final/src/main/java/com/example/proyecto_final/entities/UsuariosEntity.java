@@ -33,7 +33,7 @@ public class UsuariosEntity {
 	private String pass;
 	
 	public UsuariosEntity() {}
-	 
+	
 	public UsuariosEntity(String nombre, String apellidos, String dni, String correo, Integer telefono, String saldo,
 			String username, String pass) {
 		super();
@@ -46,5 +46,7 @@ public class UsuariosEntity {
 		this.username = username;
 		this.pass = pass;
 	}
+	
+	
 
 }
