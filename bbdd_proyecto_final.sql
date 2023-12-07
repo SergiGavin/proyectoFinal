@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `Donaciones` (
   `id_libros` INT NOT NULL,
   `Fecha_donacion` DATE NOT NULL,
   `id_donacion` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(15),
+  /*`username` VARCHAR(15),*/
   -- PRIMARY KEY (`Usuarios_idUsuarios`, `Libros_idLibros`),
   PRIMARY KEY (`id_donacion`),
   INDEX `fk_Usuarios_has_Libros1_Libros1_idx` (`id_libros` ASC) VISIBLE,
@@ -141,7 +141,7 @@ VALUES
 ('Drácula', 'Terror', 'Bram Stoker', 576, 'Bueno', 19.90, 'https://global-uploads.webflow.com/6034d7d1f3e0f52c50b2adee/62545414f3a6fb9f5d120730_6034d7d1f3e0f55ec6b2b1da_Dracula-bram-stocker-editorial-alma.jpeg', 'Jonathan Harker viaja a Transilvania para cerrar un negocio inmobiliario  con un misterioso conde que acaba de comprar varias propiedades en  Londres. Despues de un viaje plagado de ominosas señales, Harker es  recogido en el paso de Borgo por un siniestro carruaje que lo llevará,  acunado por el canto de los lobos, a un castillo en ruinas. Tal es el  inquietante principio de una novela magistral que alumbró uno de los mitos más populares y poderosos de todos los tiempos: Drácula.');
 
 INSERT INTO `mydb`.`Prestamos` (`id_usuarios`, `id_libros`, `Fecha_prestamo`, `Fecha_devolucion`) VALUES ('2', '1', '2023-02-20', '2023-02-25'), ('3', '24', '2023-02-20', '2023-02-25');
-INSERT INTO `mydb`.`Donaciones` (`id_usuarios`, `id_libros`, `Fecha_donacion`, `username`) VALUES ('3', '8', '2017-02-20', NULL), ('1', '17', '1995-02-22', NULL);
+INSERT INTO `mydb`.`Donaciones` (`id_usuarios`, `id_libros`, `Fecha_donacion`) VALUES ('3', '8', '2017-02-20'), ('1', '17', '1995-02-22');
 
 SELECT * FROM Donaciones;
 SELECT * FROM Prestamos;

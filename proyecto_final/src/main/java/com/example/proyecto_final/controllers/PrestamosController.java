@@ -75,8 +75,9 @@ public class PrestamosController {
 			Date today = new Date();
 			PrestamosEntity newPrestamo = new PrestamosEntity(
 					prestamo.getFechaDevolucion(),
-					prestamo.getId_libros(),	
-					prestamo.getId_usuarios()
+					prestamo.getId_usuarios(),
+					prestamo.getId_libros()
+					
 			); 
 			newPrestamo.setFechaPrestamo(today);
 			System.out.println("Datos del usuario recibidos: "+newPrestamo.toString());

@@ -23,7 +23,8 @@ const Prestamos: React.FC = () => {
 
     //OJO CON EL ID, HACER QUE PASE EL ID DEL USUARIO -------------------------------
     // DE MOMENTO DA ERROR EL ID USUARIO.
-    const [loanForm, setLoanForm] = useState({
+    //La fecha se pasa bien. 
+    const [prestamo, setPrestamo] = useState({
         id_usuarios: 1, // Reemplaza con el ID del usuario actual
         id_libros: id_libros,
         //id_libros:1, 
@@ -38,7 +39,7 @@ const Prestamos: React.FC = () => {
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setLoanForm((prevLoanForm) => ({
+        setPrestamo((prevLoanForm) => ({
             ...prevLoanForm,
             [name]: value,
         }));
@@ -50,9 +51,9 @@ const Prestamos: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(loanForm),
+                body: JSON.stringify(prestamo),
             });
-            console.log(JSON.stringify(loanForm));
+            console.log(JSON.stringify(prestamo));
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
@@ -60,11 +61,11 @@ const Prestamos: React.FC = () => {
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
-                console.error('Error al crear el préstamo. Valores:', loanForm);
+                console.error('Error al crear el préstamo. Valores:', prestamo);
             }
         } catch (error) {
             console.error('Error al procesar la solicitud:', error);
-            console.error('Error al crear el préstamo. Valores:', loanForm);
+            console.error('Error al crear el préstamo. Valores:', prestamo);
         }
     };
     
