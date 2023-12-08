@@ -1,5 +1,7 @@
 package com.example.proyecto_final.dtos;
 
+import java.math.BigDecimal;
+
 import com.example.proyecto_final.entities.LibrosEntity;
 
 import lombok.Data;
@@ -12,7 +14,7 @@ public class LibrosDTO {
 	private String autor;
 	private Integer num_pag;
 	private String estado;
-	private Float valor;
+	private BigDecimal valor;
 	private String sinopsis;
 	private String foto_portada;
 	

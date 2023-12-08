@@ -31,6 +31,16 @@ public class DonacionesEntity {
 	private Date fecha_donacion;
 	private Long id_usuarios;
 	private Long id_libros;
+	public DonacionesEntity () {}
+	
+
+	public DonacionesEntity(Long id_usuarios, Long id_libros) {
+		super();
+		this.id_usuarios = id_usuarios;
+		this.id_libros = id_libros;
+	}
+	
 	   
+	
 	
 }

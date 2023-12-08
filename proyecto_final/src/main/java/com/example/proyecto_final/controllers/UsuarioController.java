@@ -101,7 +101,7 @@ public class UsuarioController {
 
 		
 	@PostMapping("/iniciarsesion")
-    public ResponseEntity<String> iniciarSesion(@RequestBody UsuariosEntity usuario) {
+    public ResponseEntity<?> iniciarSesion(@RequestBody UsuariosEntity usuario) {
         // Obtener usuario por nombre de usuario
         Optional<UsuariosEntity> usuarioExistente = usuarioService.obtenerUsuarioPorNombre(usuario.getUsername());
       
@@ -115,7 +115,7 @@ public class UsuarioController {
         	  String pass = encryptPassword(usuario.getPass());
         	  System.out.println("Hash cifrado en el back: " + pass);
         	  if (usuarioEncontrado.getPass().equals(pass)) {
-        		  return ResponseEntity.ok("{'status': 'success', 'message': 'Inicio de sesión exitoso'}");
+        		  return ResponseEntity.ok().body(usuarioEncontrado);
         	  } else {
         		  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{'status': 'error', 'message': 'Datos incorrectos'}");
         	  }

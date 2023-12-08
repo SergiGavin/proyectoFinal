@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Libro.css"
 
 const Libro = () => {
@@ -9,6 +9,8 @@ const Libro = () => {
         autor: '',
         foto_portada: ''
     });
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
 
     const navigate = useNavigate();
 
@@ -38,7 +40,8 @@ const Libro = () => {
 
     const handleLibroClick = () => {
         console.log("ID del libro seleccionado:", book.id_libros);
-        navigate(`/prestamos`, { state: { id_libros: book.id_libros } });
+        console.log("ID del usuario iniciado sesion:", id_usuarios);
+        navigate(`/prestamos`, { state: { id_libros: book.id_libros, id_usuarios: id_usuarios} });
     };
     return (
         <div>

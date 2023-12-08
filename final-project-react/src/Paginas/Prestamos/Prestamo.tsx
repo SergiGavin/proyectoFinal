@@ -6,6 +6,7 @@ import "./Prestamo.css"
 const Prestamos: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
+    const id_usuarios = location.state?.id_usuarios;
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -25,9 +26,8 @@ const Prestamos: React.FC = () => {
     // DE MOMENTO DA ERROR EL ID USUARIO.
     //La fecha se pasa bien. 
     const [prestamo, setPrestamo] = useState({
-        id_usuarios: 1, // Reemplaza con el ID del usuario actual
+        id_usuarios: id_usuarios, // Reemplaza con el ID del usuario actual
         id_libros: id_libros,
-        //id_libros:1, 
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();

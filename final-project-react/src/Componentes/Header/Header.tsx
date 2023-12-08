@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Header.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
     const [searchValue, setSearchValue] = useState('');
@@ -20,6 +20,12 @@ const Header: React.FC = () => {
 
     const handleLoginClick = () => {
         navigate('/login');
+    };
+    
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios
+    const handleDonarClick = () => {
+        navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios} });
     };
 
     return (
@@ -43,6 +49,9 @@ const Header: React.FC = () => {
             </div>
             <div className="col-3">
                 <button onClick={handleLoginClick} className='btn btn-inicioSesion btn-hover'>Iniciar Sesión</button>
+            </div>
+            <div className="col-3">
+                <button onClick={handleDonarClick} className='btn btn-donar btn-hover'>Donar</button>
             </div>
         </div>
     );
