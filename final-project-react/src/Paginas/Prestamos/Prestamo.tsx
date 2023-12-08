@@ -58,6 +58,8 @@ const Prestamos: React.FC = () => {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
+                //Devolvemos el id_usuario al inicio para no cortar el flujo
+                navigate(`/`, { state: { id_usuarios: id_usuarios} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
