@@ -1,46 +1,37 @@
 import React from 'react';
 import "./Footer.css"
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function Footer() {
+const Footer: React.FC = () => {
+    const navigate = useNavigate();
 
-    const [searchValue, setSearchValue] = useState('');
-
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            // Capturamos el valor del input cuando se presiona Enter
-            const searchTerm = (event.target as HTMLInputElement).value;
-            setSearchValue(searchTerm);
-
-            // Aquí puedes realizar la búsqueda en la base de datos usando el valor de searchTerm
-
-            // Limpia el input después de presionar Enter (si se necesita)
-            (event.target as HTMLInputElement).value = '';
-        }
+    const handleDonateClick = () => {
+        navigate('/donaciones');
     };
 
     return (
-        <>
-            <div className="row fndo-naranja mt-5 footer-text">
-                <div className="col">
+        <section className="footer">
+            {/* Footer */}
+            <footer className="text-center text-white">
+                <div className="container p-4 pb-0 foot-donarlibros">
+                    <section>
+                        <p className="d-flex justify-content-center align-items-center">
+                            <span className="me-3">Permite a los demás vivir las aventuras que tú ya has vivido.</span>
+                            <button data-mdb-ripple-init type="button" className="btn donar-foot-btn btn-rounded" onClick={handleDonateClick}>
+                                ¡Dona libros!
+                            </button>
+                        </p>
+                    </section>
                 </div>
-                <div className="col-4 enlaces">
-                    <ul>
-                        <li><a className="text" href="https://www.ejemplo1.com"> SOBRE NOSOTROS</a></li>
-                        <li><a className="text" href="https://www.ejemplo2.com">CONTACTO</a></li>
-                    </ul>
+                {/* Copyright */}
+                <div className="text-center p-3 foot-copy">
+                    © 2023 Copyright:
+                    <a className="text-white" href="https://mdbootstrap.com/">Swapreads.com</a>
                 </div>
-                <div className="col-4 enlaces">
-                    <ul>
-                        <li><a className="text" href="https://www.ejemplo1.com">PUNTOS DE RECOGIDA</a></li>
-                        <li><a className="text" href="https://www.ejemplo2.com">FAQs</a></li>
-                    </ul>
-                </div>
-            </div>
+                {/* Copyright */}
+            </footer>
+        </section>
+    );
+};
 
-
-        </>
-    )
-}
-
-export default Footer
+export default Footer;

@@ -7,26 +7,29 @@
     --violet: #5e405b;
 }
 
-.navbar{
-    margin-top: 20px;
-    border-radius: 10px;
-}
-
-.nav-bar-bg {
+.navbar-violet {
+    display: flex;
+    justify-content: space-around;
+    font-size: larger;
     background-color: var(--violet);
-    justify-content: center;
-}
+    padding: 2vh;
 
-.btn-textcolor {
-    color: white;
-}
+    && .boton-categoria {
+        color: white;
+        font-weight: 400;
+        font-size: larger;
+    }
 
-.btn:hover {
-    color: var(--dark-yellow);
-    /* Cambia el color del texto a rojo al pasar el cursor sobre el botón */
+    && .boton-categoria:hover {
+        color: var(--dark-yellow);
+        font-weight: 400;
+    }
 
-}
-
-.btn:active {
-    color: var(--dark-yellow);
+    && .categoria-naranja {
+        color: var(--dark-yellow);
+        font-size: larger;
+        text-decoration: underline;
+        text-underline-offset: 1rem;
+    text-decoration-thickness: -1.8em;
+    }
 }

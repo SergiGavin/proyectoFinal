@@ -8,10 +8,15 @@ interface Category {
     name: string;
 }
 
-const Categorias: React.FC = () => {
-    const navigate = useNavigate(); 
+interface CategoriasProps {
+    num: number; // Recibe el número de la categoría
+}
+
+const Categorias: React.FC<CategoriasProps> = ({ num}) => {
+    const navigate = useNavigate();
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+
     const categories: Category[] = [
         { id: 1, name: 'Clásica' },
         { id: 2, name: 'Drama' },
@@ -22,8 +27,8 @@ const Categorias: React.FC = () => {
         { id: 7, name: 'Infantil' },
         { id: 8, name: 'Romance' },
         { id: 9, name: 'Terror' },
-        { id: 10, name: 'TODOS' },
-        { id: 11, name: 'RANDOM' }
+        { id: 10, name: 'Todos' },
+        { id: 11, name: '¡Libro aleatorio!' }
         // Asegúrate de importar las imágenes correspondientes aquí
     ];
 
@@ -31,27 +36,28 @@ const Categorias: React.FC = () => {
 
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
+        navigate(`/${categories.find(cat => cat.id === categoryId)?.name.toLowerCase()}`, { state: { categoryId } });
         if (categoryId === 1) {
-            navigate(`/clasica`, { state: { id_usuarios: id_usuarios} });
+            navigate("/clasica", { state: { categoryId: categoryId } });
         } else if (categoryId === 2) {
-            navigate("/drama", { state: { id_usuarios: id_usuarios} });
+            navigate("/drama", { state: { categoryId: categoryId } });
         } else if (categoryId === 3) {
-            navigate("/ficcion", { state: { id_usuarios: id_usuarios} });
+            navigate("/ficcion", { state: { categoryId: categoryId } });
         } else if (categoryId === 4) {
-            navigate("/fantasia", { state: { id_usuarios: id_usuarios} });
+            navigate("/fantasia", { state: { categoryId: categoryId } });
         } else if (categoryId === 5) {
-            navigate("/historica", { state: { id_usuarios: id_usuarios} });
+            navigate("/historica", { state: { categoryId: categoryId } });
         } else if (categoryId === 6) {
-            navigate("/policiaca", { state: { id_usuarios: id_usuarios} });
+            navigate("/policiaca", { state: { categoryId: categoryId } });
         } else if (categoryId === 7) {
-            navigate("/infantil", { state: { id_usuarios: id_usuarios} });
+            navigate("/infantil", { state: { categoryId: categoryId } });
         } else if (categoryId === 8) {
-            navigate("/romance");
+            navigate("/romance", { state: { categoryId: categoryId } });
         } else if (categoryId === 9) {
-            navigate("/terror", { state: { id_usuarios: id_usuarios} });
+            navigate("/terror", { state: { categoryId: categoryId } });
         }
         else if (categoryId === 10) {
-            navigate("/todos", { state: { id_usuarios: id_usuarios} });
+            navigate("/todos", { state: { categoryId: categoryId } });
         }
         else if (categoryId === 11) {
             navigate("/random", { state: { id_usuarios: id_usuarios} });
@@ -60,15 +66,21 @@ const Categorias: React.FC = () => {
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg nav-bar-bg mx-5">
-                <div className="buttons-container">
+            <nav className="nav nav-underline navbar-violet">
+                <ul className="nav buttons-box">
                     {categories.map((category) => (
-                        <button key={category.id} className={`btn px-5 btn-textcolor ${selectedCategoryId === category.id ? 'selected' : ''}`}
-                            onClick={() => handleCategoryClick(category.id)}>
-                            {category.name}
-                        </button>
+                        <li className="nav-item" key={category.id}>
+                            <div className='container'>
+                                <button
+                                    className={`nav-link mx-3 ${num === category.id ? 'categoria-naranja underline-effect' : 'boton-categoria'}`}
+                                    onClick={() => handleCategoryClick(category.id)}
+                                >
+                                    {category.name}
+                                </button>
+                            </div>
+                        </li>
                     ))}
-                </div>
+                </ul>
             </nav>
 
         </div>

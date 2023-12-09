@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './Paginas/Home/Home';
+import HomeLoged from './Paginas/Home/HomeLoged';
 import Login from './Paginas/Login/Login';
 import Register from './Paginas/NuevaCuenta/registro';
 import Fantasia from './Paginas/Filtro/Fantasia';
@@ -21,6 +22,7 @@ function AppRoutes() {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/home' element={<HomeLoged />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/clasica' element={<Clasica />} />

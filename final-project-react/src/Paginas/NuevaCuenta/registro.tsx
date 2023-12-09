@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form} from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import "./registro.css"
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
@@ -49,9 +50,7 @@ const Register: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle/>
             <div className="cajatextoinicio">
                 <h2>Registro</h2>
             </div>
