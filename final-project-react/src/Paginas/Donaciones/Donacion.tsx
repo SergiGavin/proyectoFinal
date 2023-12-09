@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Donaciones: React.FC = () => {
     
@@ -137,9 +138,7 @@ const Donaciones: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle />
             <div className="cajatextoinicio">
                 <h2>¡Dona un libro!</h2>
             </div>

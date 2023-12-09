@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Prestamo.css"
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Prestamos: React.FC = () => {
     const location = useLocation();
@@ -111,9 +112,7 @@ const Prestamos: React.FC = () => {
     }, []);
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle />
             <div className="cajatextoinicio">
                 <h2>¡Alquila un libro!</h2>
             </div>

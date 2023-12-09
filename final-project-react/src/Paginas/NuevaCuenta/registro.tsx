@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form} from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import "./registro.css"
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
@@ -10,9 +11,9 @@ const Register: React.FC = () => {
         dni: '',
         correo: '',
         telefono: '',
+        saldo: 0,
         username: '',
         pass: '',
-        saldo: 0,
     });
     
     const navigate = useNavigate();
@@ -29,7 +30,6 @@ const Register: React.FC = () => {
         navigate('/');
         e.preventDefault();
         try {
-            console.log(JSON.stringify(userData))
             const response = await fetch('http://localhost:8080/usuarios/registro', {
                 method: 'PUT',
                 headers: {
@@ -50,9 +50,7 @@ const Register: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle/>
             <div className="cajatextoinicio">
                 <h2>Registro</h2>
             </div>
