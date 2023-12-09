@@ -6,7 +6,7 @@ import "./Prestamo.css"
 const Prestamos: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
-    const id_usuarios = location.state?.id_usuarios;
+    const idUsuarios = location.state?.id_usuarios;
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -26,7 +26,7 @@ const Prestamos: React.FC = () => {
     // DE MOMENTO DA ERROR EL ID USUARIO.
     //La fecha se pasa bien. 
     const [prestamo, setPrestamo] = useState({
-        id_usuarios: id_usuarios, // Reemplaza con el ID del usuario actual
+        idUsuarios: idUsuarios, // Reemplaza con el ID del usuario actual
         id_libros: id_libros,
         fechaDevolucion: defaultReturnDate,
     });
@@ -59,7 +59,7 @@ const Prestamos: React.FC = () => {
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: id_usuarios} });
+                navigate(`/`, { state: { id_usuarios: idUsuarios} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');

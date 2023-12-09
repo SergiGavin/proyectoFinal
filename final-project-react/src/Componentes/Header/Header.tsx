@@ -27,11 +27,17 @@ const Header: React.FC = () => {
     const handleDonarClick = () => {
         navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios} });
     };
+    const handleVolverInicio = () => {
+        navigate(`/`, { state: {id_usuarios: id_usuarios} });
+    };
+    const handleHistorialClick = () => {
+        navigate(`/Historial`, { state: { id_usuarios: id_usuarios} });
+    };
 
     return (
         <div className="row fndo-naranja">
             <div className="col-3">
-                <p className="nombre mt-3">SwapReads</p>
+                <p  onClick={handleVolverInicio} className="nombre mt-3">SwapReads</p>
             </div>
             <div className="col-6">
                 <div className="input-group mb-3 mt-3">
@@ -52,6 +58,9 @@ const Header: React.FC = () => {
             </div>
             <div className="col-3">
                 <button onClick={handleDonarClick} className='btn btn-donar btn-hover'>Donar</button>
+            </div>
+            <div className="col-3">
+                <button onClick={handleHistorialClick} className='btn btn-donar btn-hover'>Historial prestamos</button>
             </div>
         </div>
     );

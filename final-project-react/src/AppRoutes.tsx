@@ -15,6 +15,7 @@ import Todos from './Paginas/Filtro/Todos';
 import React from 'react';
 import Donaciones from './Paginas/Donaciones/Donacion';
 import Prestamos from './Paginas/Prestamos/Prestamo';
+import Historial from './Paginas/Historial/Historial';
 
 function AppRoutes() {
     return (
@@ -34,6 +35,7 @@ function AppRoutes() {
             <Route path='/todos' element={<Todos />} />
             <Route path='/donaciones' element={<Donaciones />} />
             <Route path='/prestamos' element={<Prestamos />} />
+            <Route path='/historial' element={<Historial />} />
         </Routes>
     );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Categorias.css"
 import { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import {useNavigate, useLocation } from 'react-router-dom';
 
 interface Category {
     id: number;
@@ -10,7 +10,8 @@ interface Category {
 
 const Categorias: React.FC = () => {
     const navigate = useNavigate(); 
-
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
     const categories: Category[] = [
         { id: 1, name: 'Clásica' },
         { id: 2, name: 'Drama' },
@@ -31,29 +32,29 @@ const Categorias: React.FC = () => {
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
         if (categoryId === 1) {
-            navigate("/clasica");
+            navigate(`/clasica`, { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 2) {
-            navigate("/drama");
+            navigate("/drama", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 3) {
-            navigate("/ficcion");
+            navigate("/ficcion", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 4) {
-            navigate("/fantasia");
+            navigate("/fantasia", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 5) {
-            navigate("/historica");
+            navigate("/historica", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 6) {
-            navigate("/policiaca");
+            navigate("/policiaca", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 7) {
-            navigate("/infantil");
+            navigate("/infantil", { state: { id_usuarios: id_usuarios} });
         } else if (categoryId === 8) {
             navigate("/romance");
         } else if (categoryId === 9) {
-            navigate("/terror");
+            navigate("/terror", { state: { id_usuarios: id_usuarios} });
         }
         else if (categoryId === 10) {
-            navigate("/todos");
+            navigate("/todos", { state: { id_usuarios: id_usuarios} });
         }
         else if (categoryId === 11) {
-            navigate("/random");
+            navigate("/random", { state: { id_usuarios: id_usuarios} });
         }
     };
 

@@ -23,14 +23,15 @@ public class PrestamosEntity {
 	private Date fechaPrestamo;
 	@Column(name = "Fecha_devolucion")
 	private Date fechaDevolucion;
-	private Long id_usuarios;
+	@Column(name = "id_usuarios")
+	private Long idUsuarios;
 	private Long id_libros;
 	public PrestamosEntity() {}
 	
 	public PrestamosEntity(Date fechaDevolucion, Long id_usuarios, Long id_libros) {
 		super();
 		this.fechaDevolucion = fechaDevolucion;
-		this.id_usuarios = id_usuarios;
+		this.idUsuarios = id_usuarios;
 		this.id_libros = id_libros;
 	}
 	 

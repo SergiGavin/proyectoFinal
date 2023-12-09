@@ -27,7 +27,7 @@ function Sugerencias() {
                         <div className="row px-5 mt-3">
                             {[...Array(5)].map((_, index) => (
                                 <div key={index} className="col px-5">
-                                    <Libro />
+                                    <Libro tagName={tag.name} />
                                 </div>
                             ))}
                         </div>

@@ -1,7 +1,5 @@
 package com.example.proyecto_final.controllers;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -46,25 +44,19 @@ public class PrestamosController {
 				return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		    }
 		}
-		/*@GetMapping("/{id}")
-		public ResponseEntity<?> getPrestamoById(@PathVariable Long id) {
-		    Optional<PrestamosEntity> prestamoPorId = prestamoService.getPrestamosById(id);
-		    
-		    if (prestamoPorId.isPresent()) {
-		        PrestamosEntity prestamo = prestamoPorId.get();
-		        
-		        // Crear un objeto simplificado solo con los datos del préstamo
-		        Map<String, Object> prestamoSimplificado = new HashMap<>();
-		        prestamoSimplificado.put("idPrestamo", prestamo.getIdPrestamo());
-		        prestamoSimplificado.put("fechaPrestamo", prestamo.getFechaPrestamo());
-		        prestamoSimplificado.put("fechaDevolucion", prestamo.getFechaDevolucion());
-
-		        return new ResponseEntity<>(prestamoSimplificado, HttpStatus.OK);
-		    } else {
-		        String mensaje = "No se encontró ningún préstamo con el ID: " + id;
-		        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
-		    }
-		}*/
+		
+		@GetMapping("/usuarios/{id_usuarios}")
+	    public ResponseEntity<?> getPrestamosById_usuarios(@PathVariable Long id_usuarios) {
+	        List<PrestamosEntity> prestamoPorUserId = prestamoService.getPrestamosByUserId(id_usuarios);
+	        if (!prestamoPorUserId.isEmpty()) {
+	            return new ResponseEntity<>(prestamoPorUserId, HttpStatus.OK);
+	        } else {
+	            String mensaje = "No se encontró ningún préstamo con el ID: " + id_usuarios;
+	            System.out.println(mensaje);
+	            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	        }
+	    }
+	
 
 
 		
@@ -75,7 +67,7 @@ public class PrestamosController {
 			Date today = new Date();
 			PrestamosEntity newPrestamo = new PrestamosEntity(
 					prestamo.getFechaDevolucion(),
-					prestamo.getId_usuarios(),
+					prestamo.getIdUsuarios(),
 					prestamo.getId_libros()
 					
 			); 
