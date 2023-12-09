@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.LibrosEntity;
+import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.LibroService;
 
 
@@ -141,8 +142,17 @@ public class LibroController {
 	// Put
 	@PutMapping
 	public LibrosEntity crearLibro(@RequestBody LibrosEntity libro) {
-		return libroService.createLibro(libro);
+		LibrosEntity newLibro = new LibrosEntity(
+				libro.getTitulo(),
+				libro.getGenero(),
+				libro.getAutor(),
+				libro.getNum_pag(),
+				libro.getEstado()
+				); 
+		System.out.println("Datos del libro creado:  "+newLibro.toString());
+		return libroService.createLibro(newLibro);
 	}
+
 
 	// Patch
 	@PatchMapping("/{id}")

@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `Libros` (
   `Autor` VARCHAR(45) NOT NULL,
   `Num_pag` INT NOT NULL,
   `Estado` VARCHAR(45) NOT NULL,
-  `Valor` DECIMAL(10, 2) NOT NULL,
-  `Foto_portada` TEXT NOT NULL,
-  `sinopsis` TEXT NOT NULL,
+  `Valor` DECIMAL(10, 2),
+  `Foto_portada` TEXT,
+  `sinopsis` TEXT,
   PRIMARY KEY (`id_libros`));
 
 

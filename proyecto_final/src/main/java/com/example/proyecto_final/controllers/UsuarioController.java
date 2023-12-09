@@ -117,7 +117,7 @@ public class UsuarioController {
         	  String pass = encryptPassword(usuario.getPass());
         	  System.out.println("Hash cifrado en el back: " + pass);
         	  if (usuarioEncontrado.getPass().equals(pass)) {
-        		  return ResponseEntity.ok(usuarioEncontrado);
+        		  return ResponseEntity.ok().body(usuarioEncontrado);
         	  } else {
         		  return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{'status': 'error', 'message': 'Datos incorrectos'}");
         	  }
