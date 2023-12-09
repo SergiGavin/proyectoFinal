@@ -1,11 +1,9 @@
 package com.example.proyecto_final.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.repository.DonacionesRepository;
 
@@ -18,9 +16,6 @@ public class DonacionService {
 	//Mostrar donacion
 	public List<DonacionesEntity> getAllDonaciones(){
 		return donacionesRepository.findAll();
-	}
-	public Optional<DonacionesEntity> getDonacionesById(Long id) {
-		return donacionesRepository.findById(id);
 	}
 	
 	//Crear un usuario 

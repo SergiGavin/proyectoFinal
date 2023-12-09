@@ -1,7 +1,6 @@
 package com.example.proyecto_final.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.Column;
@@ -32,4 +31,21 @@ public class UsuariosEntity {
 	private String saldo;
 	private String username;
 	private String pass;
+	public UsuariosEntity () {}
+	
+	public UsuariosEntity(String nombre, String apellidos, String dni, String correo, Integer telefono, String saldo,
+			String username, String pass) {
+		super();
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
+		this.correo = correo;
+		this.telefono = telefono;
+		this.saldo = saldo;
+		this.username = username;
+		this.pass = pass;
+	}
+	
+	
+
 }

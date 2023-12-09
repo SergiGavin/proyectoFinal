@@ -1,5 +1,10 @@
 package com.example.proyecto_final.entities;
 
+
+
+import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -26,25 +31,8 @@ public class LibrosEntity {
 	private String autor;
 	private Integer num_pag;
 	private String estado;
-	private Float valor;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
+    private BigDecimal valor;
 	private String sinopsis;
-	private String foto_portada;
-	
-	
-	
-	
-	
-	//Se indica la relacion OneToMany y se mappea--> "libroDonado" es el nombre de la variable de Donaciones 
-	// que tiene un JoinColumn a idLibro de la BBDD. En el caso de "libroPrestado" lo mismo pero con Prestamos.
-
-//	@OneToMany(mappedBy = "libroDonado")
-//	//@JsonManagedReference
-//    private List<DonacionesEntity> donaciones_libros;
-//
-//    @OneToMany(mappedBy = "libroPrestado")
-//   // @JsonManagedReference
-//    private List<PrestamosEntity> prestamos_libros;
-//	
-	
-	
+	private String foto_portada;	
 }

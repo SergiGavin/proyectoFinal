@@ -1,5 +1,7 @@
 package com.example.proyecto_final.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -20,9 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.services.LibroService;
 
+
 @RestController
 @RequestMapping("/libros")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500" })
+@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5500",
+		"http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173" })
 public class LibroController {
 
 	@Autowired
@@ -39,14 +43,44 @@ public class LibroController {
 	// Para ello utilizamos un placeHolder en el ResponseEntity
 	@GetMapping("/{id}")
 	public ResponseEntity<?> obtenerLibroPorId(@PathVariable Long id) {
-		Optional<LibrosEntity> librosPorAutor = libroService.getLibroById(id);
+		Optional<LibrosEntity> librosPorId = libroService.getLibroById(id);
 
-		if (librosPorAutor.isPresent()) {
-			return new ResponseEntity<>(librosPorAutor.get(), HttpStatus.OK);
+		if (librosPorId.isPresent()) {
+			return new ResponseEntity<>(librosPorId.get(), HttpStatus.OK);
 		} else {
 			String mensaje = "No se encontró ningún libro con el ID: " + id;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
+	}
+
+	
+	@GetMapping("/populares")
+	public ResponseEntity<?> obtenerLibrosPopulares() {
+		List<Long> idsPopulares = Arrays.asList(1L, 5L, 6L, 8L, 9L, 11L, 16L, 12L, 17L, 2L);
+		List<LibrosEntity> librosPopulares = obtenerLibrosPorIds(idsPopulares);
+		return ResponseEntity.ok(librosPopulares);
+	}
+
+	@GetMapping("/disponibles")
+	public ResponseEntity<?> obtenerLibrosDisponibles() {
+		List<Long> idsDisponibles = Arrays.asList(3L, 4L, 7L, 10L, 13L, 14L, 15L, 18L, 19L, 20L);
+		List<LibrosEntity> librosDisponibles = obtenerLibrosPorIds(idsDisponibles);
+		return ResponseEntity.ok(librosDisponibles);
+	}
+
+	@GetMapping("/recientes")
+	public ResponseEntity<?> obtenerLibrosRecientes() {
+		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+		List<LibrosEntity> librosRecientes = todosLosLibros.subList(todosLosLibros.size() - 10, todosLosLibros.size());
+		return ResponseEntity.ok(librosRecientes);
+	}
+	private List<LibrosEntity> obtenerLibrosPorIds(List<Long> ids) {
+	    List<LibrosEntity> libros = new ArrayList<>();
+	    for (Long id : ids) {
+	        Optional<LibrosEntity> libro = libroService.getLibroById(id);
+	        libro.ifPresent(libros::add);
+	    }
+	    return libros;
 	}
 
 	// GET para obtener un libro por genero
@@ -88,20 +122,20 @@ public class LibroController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	//MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
+
+	// MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
 	@GetMapping("/random")
 	public ResponseEntity<?> obtenerLibroRandom() {
-	    List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
-	    if (todosLosLibros.isEmpty()) {
-	        // Si no hay ningún libro en la bbdd, devolver un error not found
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-	    Random random = new Random();
-	    int idAleatorio = random.nextInt(todosLosLibros.size());
-	    LibrosEntity libroAleatorio = todosLosLibros.get(idAleatorio);
+		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
+		if (todosLosLibros.isEmpty()) {
+			// Si no hay ningún libro en la bbdd, devolver un error not found
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		Random random = new Random();
+		int idAleatorio = random.nextInt(todosLosLibros.size());
+		LibrosEntity libroAleatorio = todosLosLibros.get(idAleatorio);
 
-	    return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
+		return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
 	}
 
 	// Put
