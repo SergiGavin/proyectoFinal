@@ -167,11 +167,14 @@ const Register: React.FC = () => {
                                 type="password"
                                 placeholder="Contraseña"
                                 name="pass"
+                                minLength={8}
                                 value={userData.pass}
                                 onChange={handleChange}
                             />
                         </Form.Group>
-
+                        <p className="form-text apuntecontrasena">
+                            Debe ser 8-20 caracteres de longitud.
+                        </p>
                     </div>
                 </div>
                 <div className="row rowbtn p-2 rowsinputsregis">

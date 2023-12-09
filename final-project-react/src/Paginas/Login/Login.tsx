@@ -94,9 +94,7 @@ const Login: React.FC = () => {
                                     onChange={handlePassdChange}
                                     autoComplete="current-password" // Indica que este campo es para una contraseña
                                 />                                
-                                <p className="form-text apuntecontrasena">
-                                    Debe ser 8-20 caracteres de longitud.
-                                </p>
+                                
                             </div>
                         </div>
                     </div>
