@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Donaciones: React.FC = () => {
     const [book, setBook] = useState({
@@ -48,9 +49,7 @@ const Donaciones: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle />
             <div className="cajatextoinicio">
                 <h2>¡Dona un libro!</h2>
             </div>
@@ -61,7 +60,7 @@ const Donaciones: React.FC = () => {
                     </div>
                     <div className="col-4"><Form.Group controlId="formTitulo">
                         <Form.Control
-                        className='borde'
+                            className='borde'
                             type="text"
                             placeholder="Titulo"
                             name="titulo"
@@ -75,8 +74,8 @@ const Donaciones: React.FC = () => {
                         <Form.Label className='texto-color'>Género</Form.Label>
                     </div>
                     <div className="col-3">
-                        <Form.Select 
-                        className='texto-color text-center'required>
+                        <Form.Select
+                            className='texto-color text-center' required>
                             <option value="">Seleccione genero</option>
                             <option value="clasica">Clásica</option>
                             <option value="fantasia">Fantasía</option>
@@ -85,19 +84,19 @@ const Donaciones: React.FC = () => {
                             <option value="policiaca">Policiaca</option>
                             <option value="romance">Romance</option>
                             <option value="terror">Terror</option>
-                        Genero                        
+                            Genero
                         </Form.Select>
-                    </div>                    
+                    </div>
                 </div>
                 <div className="row p-2 rowsinputsregis">
 
-                <div className="col-2">
+                    <div className="col-2">
                         <Form.Label className='texto-color'>Autor</Form.Label>
                     </div>
                     <div className="col-4">
                         <Form.Group controlId="formAutor">
                             <Form.Control
-                            className='borde'
+                                className='borde'
                                 type="text"
                                 placeholder="Autor"
                                 name="autor"
@@ -112,24 +111,24 @@ const Donaciones: React.FC = () => {
                         <Form.Label className='texto-color'>Estado</Form.Label>
                     </div>
                     <div className="col-3">
-                        <Form.Select className='texto-color text-center'required>Estado
+                        <Form.Select className='texto-color text-center' required>Estado
                             <option value="">Seleccione estado</option>
                             <option value="bueno">Bueno</option>
                             <option value="decente">Decente</option>
                             <option value="malo">Malo</option>
                         </Form.Select>
                     </div>
-                    
-                    
+
+
                 </div>
                 <div className="row p-2 rowsinputsregis">
-                <div className="col-2">
+                    <div className="col-2">
                         <Form.Label className='texto-color'>Núm. de pág</Form.Label>
                     </div>
                     <div className="col-4">
                         <Form.Group controlId="formNumPag">
                             <Form.Control
-                            className='borde'
+                                className='borde'
                                 type="number"
                                 placeholder="Número de páginas"
                                 name="num_pag"
@@ -141,10 +140,10 @@ const Donaciones: React.FC = () => {
                             />
                         </Form.Group>
                     </div>
-                </div>                
+                </div>
                 <div className="row rowbtn p-2 rowsinputsregis">
                     <div className="col">
-                    <button type="submit" className="btn btn-login btn-lg mt-5">Donar libro</button>
+                        <button type="submit" className="btn btn-login btn-lg mt-5">Donar libro</button>
                     </div>
                 </div>
             </Form>

@@ -7,12 +7,29 @@
     --violet: #5e405b;
 }
 
-.navbar-cat{
-    padding: 3vh;
+.navbar-violet {
+    display: flex;
+    justify-content: space-around;
+    font-size: larger;
     background-color: var(--violet);
-    justify-content: center;
-}
+    padding: 2vh;
 
-.botones{
-    color: white;
+    && .boton-categoria {
+        color: white;
+        font-weight: 400;
+        font-size: larger;
+    }
+
+    && .boton-categoria:hover {
+        color: var(--dark-yellow);
+        font-weight: 400;
+    }
+
+    && .categoria-naranja {
+        color: var(--dark-yellow);
+        font-size: larger;
+        text-decoration: underline;
+        text-underline-offset: 1rem;
+    text-decoration-thickness: -1.8em;
+    }
 }

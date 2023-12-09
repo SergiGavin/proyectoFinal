@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -43,9 +44,7 @@ const Login: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
-            </div>
+            <HeaderOnlyTitle/>
             <div className="cajatextoinicio">
                 <h2>Iniciar Sesión</h2>
             </div>

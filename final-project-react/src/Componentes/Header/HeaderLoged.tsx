@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { useNavigate } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown de Bootstrap
 
-const Header: React.FC = () => {
+
+const HeaderLoged: React.FC = () => {
 
     interface Book {
         id: number;
@@ -41,18 +43,20 @@ const Header: React.FC = () => {
         }
     };
 
+    const coins: number = 500;
+
     const navigate = useNavigate();
 
-    const handleLoginClick = () => {
-        navigate('/home');
-    };
-
-    const handleSearch = () => {
+    const handleLoginSearch = () => {
         navigate('/login');
     };
 
     const handleHomeClick = () => {
         navigate('/');
+    };
+
+    const handleDonateClick = () => {
+        navigate('/donaciones');
     };
 
     const [query, setQuery] = useState('');
@@ -74,13 +78,27 @@ const Header: React.FC = () => {
                                 </option>
                             ))}
                         </datalist>
-                        <button className="btn buscar-btn" onClick={handleSearch} type="submit">Buscar</button>
+                        <button className="btn buscar-btn" onClick={handleLoginSearch} type="submit">Buscar</button>
                     </form>
-                        <button className="btn sesion-btn" onClick={handleLoginClick} type="submit">Iniciar Sesión</button>
+                    <div className='d-flex mt-4'>
+                        <p className='coins'>{coins} <img src="./images/coin (3).png" className='coin' alt="coin" /> Bookcoins</p>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" className='loged-button'>
+                                Usuario
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Mis préstamos</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Ajustes de cuenta</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
                 </div>
             </nav>
         </>
     );
 };
 
-export default Header;
+export default HeaderLoged;

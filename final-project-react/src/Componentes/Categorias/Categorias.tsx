@@ -2,15 +2,17 @@ import React from 'react';
 import "./Categorias.css"
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 
 interface Category {
     id: number;
     name: string;
 }
 
-const Categorias: React.FC = () => {
+interface CategoriasProps {
+    num: number; // Recibe el número de la categoría
+}
+
+const Categorias: React.FC<CategoriasProps> = ({ num}) => {
     const navigate = useNavigate();
 
     const categories: Category[] = [
@@ -23,8 +25,8 @@ const Categorias: React.FC = () => {
         { id: 7, name: 'Infantil' },
         { id: 8, name: 'Romance' },
         { id: 9, name: 'Terror' },
-        { id: 10, name: 'TODOS' },
-        { id: 11, name: 'RANDOM' }
+        { id: 10, name: 'Todos' },
+        { id: 11, name: '¡Libro aleatorio!' }
         // Asegúrate de importar las imágenes correspondientes aquí
     ];
 
@@ -32,27 +34,28 @@ const Categorias: React.FC = () => {
 
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
+        navigate(`/${categories.find(cat => cat.id === categoryId)?.name.toLowerCase()}`, { state: { categoryId } });
         if (categoryId === 1) {
-            navigate("/clasica");
+            navigate("/clasica", { state: { categoryId: categoryId } });
         } else if (categoryId === 2) {
-            navigate("/drama");
+            navigate("/drama", { state: { categoryId: categoryId } });
         } else if (categoryId === 3) {
-            navigate("/ficcion");
+            navigate("/ficcion", { state: { categoryId: categoryId } });
         } else if (categoryId === 4) {
-            navigate("/fantasia");
+            navigate("/fantasia", { state: { categoryId: categoryId } });
         } else if (categoryId === 5) {
-            navigate("/historica");
+            navigate("/historica", { state: { categoryId: categoryId } });
         } else if (categoryId === 6) {
-            navigate("/policiaca");
+            navigate("/policiaca", { state: { categoryId: categoryId } });
         } else if (categoryId === 7) {
-            navigate("/infantil");
+            navigate("/infantil", { state: { categoryId: categoryId } });
         } else if (categoryId === 8) {
-            navigate("/romance");
+            navigate("/romance", { state: { categoryId: categoryId } });
         } else if (categoryId === 9) {
-            navigate("/terror");
+            navigate("/terror", { state: { categoryId: categoryId } });
         }
         else if (categoryId === 10) {
-            navigate("/todos");
+            navigate("/todos", { state: { categoryId: categoryId } });
         }
         else if (categoryId === 11) {
             navigate("/random");
@@ -61,17 +64,21 @@ const Categorias: React.FC = () => {
 
     return (
         <div>
-            <nav className="navbar-cat">
-                <div className="botones">
-                    <ButtonGroup aria-label="medium secondary button group">
-                        {categories.map((category) => (
-                            <Button key={category.id} className={`${selectedCategoryId === category.id ? 'selected' : ''}`}
-                                onClick={() => handleCategoryClick(category.id)}>
-                                {category.name}
-                            </Button>
-                        ))}
-                    </ButtonGroup>
-                </div>
+            <nav className="nav nav-underline navbar-violet">
+                <ul className="nav buttons-box">
+                    {categories.map((category) => (
+                        <li className="nav-item" key={category.id}>
+                            <div className='container'>
+                                <button
+                                    className={`nav-link mx-3 ${num === category.id ? 'categoria-naranja underline-effect' : 'boton-categoria'}`}
+                                    onClick={() => handleCategoryClick(category.id)}
+                                >
+                                    {category.name}
+                                </button>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </nav>
 
         </div>
