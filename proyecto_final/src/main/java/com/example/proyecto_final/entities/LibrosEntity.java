@@ -3,10 +3,7 @@ package com.example.proyecto_final.entities;
 
 
 import java.math.BigDecimal;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> a16079e3029cb44c522ebbdc489d5057c52e723e
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -37,11 +34,9 @@ public class LibrosEntity {
 	private Integer num_pag;
 	private String estado;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
-<<<<<<< HEAD
     private BigDecimal valor;
 	private String sinopsis;
 	private String foto_portada;	
-=======
 	private BigDecimal valor;
 	private String sinopsis;
 	private String foto_portada;
@@ -55,7 +50,4 @@ public class LibrosEntity {
 		this.estado = estado;
 	}
 	
-	
-	
->>>>>>> a16079e3029cb44c522ebbdc489d5057c52e723e
 }
