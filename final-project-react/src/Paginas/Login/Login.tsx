@@ -3,15 +3,20 @@ import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
+    const [id_usuarios, setIdUsuario] = useState('');
     const [username, setUsername] = useState('');
     const [pass, setPass] = useState('');
-
+    let userData;
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     };
 
     const handlePassdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPass(event.target.value);
+    };
+    const handleUsuarioInicioSesion = () => {
+        console.log('ID del usuario en handleUsuarioInicioSesion:', userData.id_usuarios);
+        navigate(`/`, { state: { id_usuarios: userData.id_usuarios } });
     };
 
     const navigate = useNavigate(); // Aquí se declara useNavigate correctamente
@@ -29,11 +34,14 @@ const Login: React.FC = () => {
 
             if (response.ok) {
                 // Manejar la autenticación exitosa aquí, como redirigir a otra página.
-                console.log('Autenticación exitosa');
-                navigate('/');
+                userData = await response.json();
+                    setIdUsuario(userData.id_usuarios);
+                    console.log('ID del usuario que ha iniciado sesion:', userData.id_usuarios);
+                    handleUsuarioInicioSesion();
             } else {
                 // Manejar la autenticación fallida aquí, mostrar mensaje de error, etc.
-                console.error('Error en la autenticación');
+                const errorMessage = await response.text();
+                console.error('Error en la autenticación:', errorMessage);
             }
         } catch (error) {
             // Manejar errores de conexión, etc.

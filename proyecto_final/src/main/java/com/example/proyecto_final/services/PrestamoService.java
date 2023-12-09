@@ -24,6 +24,11 @@ public class PrestamoService {
 		return prestamosRepository.findById(id);
 	}
 	
+	public List<PrestamosEntity> getPrestamosByUserId(Long id_usuarios) {
+		System.out.println("Error en el service");
+		return prestamosRepository.findByIdUsuarios(id_usuarios);
+	}
+	
 	// Crear un prestamo
 	public PrestamosEntity createPrestamo(PrestamosEntity prestamo) {
 		return prestamosRepository.save(prestamo);

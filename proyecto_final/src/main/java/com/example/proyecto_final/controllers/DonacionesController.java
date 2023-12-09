@@ -1,5 +1,6 @@
 package com.example.proyecto_final.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,16 +36,18 @@ public class DonacionesController {
 		//PUT
 		@PutMapping
 		public DonacionesEntity crearDonacion(@RequestBody DonacionesEntity donacion) {
+			Date today = new Date();
+			DonacionesEntity newDonacion = new DonacionesEntity(
+						donacion.getId_usuarios(),
+						donacion.getId_libros()
+					);
+			
+			newDonacion.setFecha_donacion(today);
+			System.out.println("Datos del usuario recibidos: "+newDonacion.toString());
+			System.out.println("Fecha donacion de newDonacion: "+newDonacion.getFecha_donacion());
 			return donacionService.createDonacion(donacion);
 		}
 		
-		//PUT
-//		@PostMapping("editar/{id}")
-//		//Pasamos como variable el id ya que se necesitará para editar la donacion en especifico.
-//		public DonacionesEntity actualizarDonacion(@RequestBody DonacionesEntity donacion, @PathVariable Long id) {
-//			donacion.setIdDonacion(id);
-//			return donacionService.updateDonacion(donacion);
-//		}
 		//DELETE
 		@DeleteMapping("eliminar/{id}")
 		public void eliminarDonacion(@PathVariable Long id) {

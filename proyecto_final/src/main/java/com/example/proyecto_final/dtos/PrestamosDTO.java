@@ -24,7 +24,7 @@ public class PrestamosDTO {
         this.idPrestamo = prestamosEntity.getIdPrestamo();
         this.fechaPrestamo = prestamosEntity.getFechaPrestamo();
         this.fechaDevolucion = prestamosEntity.getFechaDevolucion();
-        this.idUsuario = prestamosEntity.getId_usuarios();  // Ajusta según la estructura real de PrestamosEntity
+        this.idUsuario = prestamosEntity.getIdUsuarios();  // Ajusta según la estructura real de PrestamosEntity
         this.idLibro = prestamosEntity.getId_libros();
         
         // Aquí deberías implementar la lógica para obtener la información del usuario desde UsuariosDTO

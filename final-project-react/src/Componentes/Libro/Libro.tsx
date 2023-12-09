@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Libro.css"
-
+/*
+interface LibroProps {
+        tagName: string;
+    }*/
 const Libro = () => {
+//const Libro: React.FC<LibroProps> = (props) => {
+  //  const tagName = props.tagName.toLowerCase();
+
     const [book, setBook] = useState({
         id_libros: '',
         titulo: '',
         autor: '',
         foto_portada: ''
     });
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
+    
 
     const navigate = useNavigate();
 
     useEffect(() => {
+        
         const obtenerLibroAleatorio = async () => {
             try {
-                const response = await fetch('http://localhost:8080/libros/random');
+                //const response = await fetch(`http://localhost:8080/libros/${tagName}`);
+                const response = await fetch(`http://localhost:8080/libros/random`);
+                console.log("Estado de la respuesta:", response.status);
+
                 if (!response.ok) {
                     throw new Error('No se pudo obtener el libro');
                 }
                 const data = await response.json();
-
                 // Asigna el libro aleatorio obtenido desde la API al estado 'book'
                 setBook({
                     id_libros: data.id_libros,
@@ -38,7 +50,8 @@ const Libro = () => {
 
     const handleLibroClick = () => {
         console.log("ID del libro seleccionado:", book.id_libros);
-        navigate(`/prestamos`, { state: { id_libros: book.id_libros } });
+        console.log("ID del usuario iniciado sesion:", id_usuarios);
+        navigate(`/prestamos`, { state: { id_libros: book.id_libros, id_usuarios: id_usuarios} });
     };
     return (
         <div>

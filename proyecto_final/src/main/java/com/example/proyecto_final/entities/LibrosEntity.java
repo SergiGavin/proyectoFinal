@@ -2,11 +2,14 @@ package com.example.proyecto_final.entities;
 
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,9 +35,19 @@ public class LibrosEntity {
 	private String autor;
 	private Integer num_pag;
 	private String estado;
-	private Float valor;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
+	private BigDecimal valor;
 	private String sinopsis;
 	private String foto_portada;
+	public LibrosEntity () {}
+	public LibrosEntity(String titulo, String genero, String autor, Integer num_pag, String estado) {
+		super();
+		this.titulo = titulo;
+		this.genero = genero;
+		this.autor = autor;
+		this.num_pag = num_pag;
+		this.estado = estado;
+	}
 	
 	
 	
