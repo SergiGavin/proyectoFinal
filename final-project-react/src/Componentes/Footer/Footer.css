@@ -8,52 +8,28 @@
     --violet: #5e405b;
 }
 
-/*
-.custom-color-1 {
-    background-color: 
-}
-.custom-color-2 {
-    background-color: #ff7752;
-}
-.custom-color-3 {
-    background-color: #ff9a52;
-}
-.custom-color-4 {
-    background-color: #ffb752;
-}
-.custom-color-5 {
-    background-color: #5e405b;
-}
-*/
 
-.fndo-naranja {
-    background-color: var(--dark-yellow);
-    ;
-    height: 80px;
-    align-items: center;
-}
+.footer{
+        background-color: var(--dark-yellow);
+        
 
+    && .foot-donarlibros{
+        color: var(--violet);
 
-.container {
-    margin: 0px;
-}
+        && .donar-foot-btn:hover {
+            background-color: var(--dark-orange);
+        }
+    
+        && .donar-foot-btn{
+            background-color: var(--violet);
+            color: white;
+            border: none;
+            width: 15vh;
+            font-size: large;
+        }
+    }
 
-li {
-    list-style: none
-}
-
-.text{
-    color: var(--violet);
-}
-
-ul{
-    list-style-type: none;
-}
-
-.footer-text{
-    text-align: end;
-}
-
-.row {
-    margin-right: 0px;
+    .foot-copy{
+        background-color: var(--orange);
+    }
 }
