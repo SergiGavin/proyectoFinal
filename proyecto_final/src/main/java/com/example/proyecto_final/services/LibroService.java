@@ -35,6 +35,15 @@ public class LibroService {
 	public List<LibrosEntity> getLibrosByAutor(String autor) {
 		return librosRepository.findByAutorContainingIgnoreCase(autor);	
 	}	
+	public List<LibrosEntity> getLibrosByTitulo(String titulo) {
+		return librosRepository.findByTituloContainingIgnoreCase(titulo);	
+	}	
+	public List<LibrosEntity> getLibrosByTituloAndAutor(String titulo, String autor) {
+	    System.out.println("Buscando libros con titulo: " + titulo + " y autor: " + autor);
+	    List<LibrosEntity> result = librosRepository.findByTituloContainingIgnoreCaseAndAutorContainingIgnoreCase(titulo.trim(), autor.trim());
+	    System.out.println("Libros encontrados: " + result.size());
+	    return result;
+	}
 	
 	
 	

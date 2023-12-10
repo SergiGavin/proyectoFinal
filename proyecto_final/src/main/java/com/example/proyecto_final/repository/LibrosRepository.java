@@ -11,4 +11,7 @@ import com.example.proyecto_final.entities.LibrosEntity;
 public interface LibrosRepository extends JpaRepository <LibrosEntity, Long>{
 	List<LibrosEntity> findByGenero(String genero);
 	List<LibrosEntity> findByAutorContainingIgnoreCase(String autor);
+	List<LibrosEntity> findByTituloContainingIgnoreCase(String titulo);
+	List<LibrosEntity> findByTituloContainingIgnoreCaseAndAutorContainingIgnoreCase(String titulo, String autor);
+
 }
