@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown de Bootstrap
 
 
@@ -73,10 +73,11 @@ const HeaderLoged: React.FC = () => {
     const navigate = useNavigate();
 
     const handleHomeClick = () => {
+        console.log('Valor de id_usuarios:', id_usuarios);
         if (!id_usuarios){
             navigate('/');
         } else {
-            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+            navigate(`/home`, { state: {id_usuarios, username, saldo } });
         }
         
         
@@ -96,11 +97,13 @@ const HeaderLoged: React.FC = () => {
 
     const [query, setQuery] = useState('');
 
+
+    console.log("id usuario: "+id_usuarios+" username: "+username)
     return (
         <>
             <nav className="navbar navbarOrange">
                 <div className="container-fluid">
-                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick} href="#">
+                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick}>
                         <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
                         SwapReads
                     </a>
