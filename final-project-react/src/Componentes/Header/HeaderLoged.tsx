@@ -5,13 +5,25 @@ import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown
 
 
 const HeaderLoged: React.FC = () => {
-
     interface Book {
         id: number;
         titulo: String;
         autor: String;
     }
 
+    interface User {
+        id: number;
+        username: String;
+        bookcoins: number;
+    }
+
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+
+    const currentPath = window.location.pathname.toLowerCase();
+    
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
@@ -55,32 +67,31 @@ const HeaderLoged: React.FC = () => {
         }
     };
 
-    const coins: number = 500;
-
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
     const navigate = useNavigate();
 
-    const handleLoginSearch = () => {
-        navigate('/login');
-    };
-
     const handleHomeClick = () => {
-        navigate('/');
+        if (!id_usuarios){
+            navigate('/');
+        } else {
+            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        }
+        
+        
     };
 
     const handleDonateClick = () => {
-        navigate('/donaciones');
+        navigate(`/donaciones`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
     const handleHistorialClick = () => {
-        navigate('/historial');
+        navigate(`/historial`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
-    const location = useLocation();
-    const id_usuarios = location.state?.id_usuarios
+    
     const handleBuscarClick = () => {
-        navigate('/Buscador', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
+        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue, username: username, saldo: saldo } });
     };
 
     const [query, setQuery] = useState('');
@@ -106,10 +117,10 @@ const HeaderLoged: React.FC = () => {
                         <button className="btn buscar-btn" onClick={handleBuscarClick} type="submit">Buscar</button>
                     </form>
                     <div className='d-flex mt-4'>
-                        <p className='coins'>{coins} <img src="./images/coin (3).png" className='coin' alt="coin" /> Bookcoins</p>
+                        <p className='coins'>{saldo} <img src="./images/coin (3).png" className='coin' alt="coin" /> BookCoins</p>
                         <Dropdown>
                             <Dropdown.Toggle variant="primary" id="dropdown-basic" className='loged-button'>
-                                Usuario
+                                {username}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item href="#/action-1" onClick={handleDonateClick}>Donar libros</Dropdown.Item>

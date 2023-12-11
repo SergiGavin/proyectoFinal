@@ -28,6 +28,7 @@ const Header: React.FC = () => {
 
         fetchBooks();
     }, []);
+
     const [searchValue, setSearchValue] = useState('');
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -38,12 +39,12 @@ const Header: React.FC = () => {
                 const response = await fetch(`http://localhost:8080/libros/tituloautor/${searchTerm}/${searchTerm}`);
                 if (response.ok) {
                     const data: Book[] = await response.json();
-                    console.log("info del data:  "+data);
+                    console.log("info del data:  " + data);
                     setBooks(data);
-                }else{
+                } else {
                     console.log("error");
                 }
-                
+
             } catch (error) {
                 console.error('Error al obtener los libros:', error);
             }
@@ -52,19 +53,11 @@ const Header: React.FC = () => {
             (event.target as HTMLInputElement).value = '';
         }
     };
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value);
-    };
 
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate('/home');
-    };
-
-    const handleSearch = () => {
         navigate('/login');
-        //navigate(')
     };
 
     const location = useLocation();
@@ -72,9 +65,7 @@ const Header: React.FC = () => {
     const handleDonarClick = () => {
         navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios } });
     };
-    const handleVolverInicio = () => {
-        navigate(`/`, { state: { id_usuarios: id_usuarios } });
-    };
+
     const handleHistorialClick = () => {
         navigate(`/Historial`, { state: { id_usuarios: id_usuarios } });
     };
@@ -83,12 +74,31 @@ const Header: React.FC = () => {
         navigate('/');
     };
 
+    const currentPath = window.location.pathname.toLowerCase();
+
     const handleBuscarClick = () => {
-        navigate('/Buscador', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
+        if (currentPath === '/buscador') {
+            navigate('/buscador#', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
+        } else {
+            navigate('/buscador', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
+        }
+        
     };
-    
-    const [query, setQuery] = useState('');
-    console.log("dato del usuario introducido: " + searchValue)
+
+    // MOSTRAR 5 RESULTADOS DEL BUSCADOR Y QUE SE ACTUALICE
+
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+        setInputValue(event.target.value);
+    };
+
+    const filteredBooks = books.filter((book) =>
+        book.titulo.toLowerCase().includes(inputValue.toLowerCase()) ||
+        book.autor.toLowerCase().includes(inputValue.toLowerCase())
+    ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
+
     return (
         <>
             <nav className="navbar navbarOrange">
@@ -103,16 +113,26 @@ const Header: React.FC = () => {
                         copiar de Filtro una y adaptarla a ResultadoBuscador
                     */}
                     <form className="d-flex" role="search">
-                        <input className="form-control me-2 buscador" onKeyPress={handleKeyPress} onChange={handleInputChange} type="search" list="datalistOptions" placeholder="Buscar" aria-label="Buscar" />
+                        <input
+                            className="form-control me-2 buscador"
+                            onChange={handleInputChange}
+                            onKeyPress={handleKeyPress}
+                            type="search"
+                            list="datalistOptions"
+                            placeholder="Buscar"
+                            aria-label="Buscar"
+                            value={searchValue} // Usar searchValue en lugar de inputValue
+                        />
                         <datalist id="datalistOptions">
-                            {books.map((book, index) => (
+                            {filteredBooks.map((book, index) => (
                                 <option key={index} value={`${book.titulo}`}>
-                                    <strong className='negrita'>{book.autor}</strong>
+                                    <p className='negrita'>{book.autor}</p>
                                 </option>
                             ))}
                         </datalist>
-                        {/* <button className="btn buscar-btn" onClick={handleSearch} type="submit">Buscar</button> */}
-                        <button className="btn buscar-btn" onClick={handleBuscarClick} type="submit">Buscar</button>
+                        <button className="btn buscar-btn" type="submit" onClick={handleBuscarClick}>
+                            Buscar
+                        </button>
                     </form>
                     <button className="btn sesion-btn" onClick={handleLoginClick} type="submit">Iniciar Sesión</button>
                 </div>
@@ -122,3 +142,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+

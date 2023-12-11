@@ -7,21 +7,82 @@
     --violet: #5e405b;
 }
 
+.container-infolibro {
 
-.contenedor-imagen {
-    height: 75vh;
-    /* Altura fija del contenedor */
-    overflow: hidden;
-    /* Recortar el exceso de contenido */
-    display: block;
-    /* Elimina el espacio adicional debajo de la imagen */
-    width: 30vw;
-    /* La imagen ocupa todo el ancho del contenedor */
+    && .contenedor-imagen {
+        width: 45vh;
+        /* Ancho del contenedor */
+        height: 60vh;
+        /* Altura del contenedor */
+        overflow: hidden;
+        /* Recorta cualquier contenido que se salga del contenedor */
+        display: flex;
+        /* Usa flexbox para centrar la imagen */
+        justify-content: center;
+        /* Centra horizontalmente */
+        align-items: center;
+        /* Recorta cualquier contenido que se salga del contenedor */
+    }
+
+    && .imagen {
+        max-width: 100%;
+        /* Ajusta el ancho de la imagen al contenedor */
+        max-height: 100%;
+        /* Ajusta la altura de la imagen al contenedor */
+        display: block;
+        /* Asegura que la imagen se muestre como bloque */
+        margin: auto;
+    }
+
+    && .boton-prestamo {
+        background-color: var(--dark-orange);
+        color: white;
+        font-size: large;
+        width: 20vh;
+    }
+
+    && .boton-prestamo:hover {
+        background-color: var(--violet);
+    }
+
+    && .texto-morado {
+        color: var(--violet);
+    }
+
+    && .texto-justificado {
+        text-align: justify;
+    }
+
+    && .col-imagen{
+        text-align: -webkit-right;
+    margin-right: 17vh;
+    }
+
+    && .col-info{
+        text-align: left;
+    margin-right: 18vh;
+    }
+
+    && card-body{
+        width: 60vh;
+    }
+
+    && .boton{
+        text-align: center;
+    }
+
+    && .container-info{
+        font-size: larger;
+    }
+
 }
 
-.texto-morado {
-    color: var(--violet);
+.boton-dev {
+    background: var(--dark-orange);
+    color: white;
+    border: var(--dark-orange);
 }
-.texto-justificado {
-    text-align: justify;
-}
+
+.boton-dev:hover {
+    background: var(--violet);}
+
