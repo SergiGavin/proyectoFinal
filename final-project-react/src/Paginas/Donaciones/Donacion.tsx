@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
+import Footer from "../../Componentes/Footer/Footer";
+import "./Donaciones.css";
 
 const Donaciones: React.FC = () => {
-    
+
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
     const [book, setBook] = useState({
@@ -21,7 +23,7 @@ const Donaciones: React.FC = () => {
     // FALTA QUE PILLE EL LIBRO RECIEN CREADO.
     const [donacion, setDonacion] = useState({
         id_usuarios: id_usuarios,
-        id_libros: null,  
+        id_libros: null,
         fecha_donacion: today.toISOString(),
     });
 
@@ -29,23 +31,23 @@ const Donaciones: React.FC = () => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-    
+
         setBook({
             ...book,
             [name]: value,
         });
     };
-    
+
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
-    
+
         setBook({
             ...book,
             [name]: value,
         });
     };
-    
-    
+
+
 
     const registrarLibro = async () => {
         try {
@@ -70,7 +72,7 @@ const Donaciones: React.FC = () => {
         }
     }
 
-    
+
     const registrarDonacion = async () => {
         try {
             const response = await fetch('http://localhost:8080/donaciones', {
@@ -93,17 +95,17 @@ const Donaciones: React.FC = () => {
         }
     };
 
-        const [donacionRegistrada, setDonacionRegistrada] = useState(false);
+    const [donacionRegistrada, setDonacionRegistrada] = useState(false);
 
-        // Inserta el id libro usando el useEffect pero hace bucle al volver.
-        useEffect(() => {
-            // Verifica si la donación ya se ha registrado para evitar el bucle
-            if (donacion.id_libros !== null && !donacionRegistrada) {
-                registrarDonacion();
-                // Marca la donación como registrada para evitar el bucle
-                setDonacionRegistrada(true);
-            }
-        }, [donacion.id_libros, donacionRegistrada]);
+    // Inserta el id libro usando el useEffect pero hace bucle al volver.
+    useEffect(() => {
+        // Verifica si la donación ya se ha registrado para evitar el bucle
+        if (donacion.id_libros !== null && !donacionRegistrada) {
+            registrarDonacion();
+            // Marca la donación como registrada para evitar el bucle
+            setDonacionRegistrada(true);
+        }
+    }, [donacion.id_libros, donacionRegistrada]);
 
     const registrarLibroAndDonacion = async () => {
         try {
@@ -112,12 +114,13 @@ const Donaciones: React.FC = () => {
             const id_libros = libroResponse?.id_libros;
 
             if (id_libros) {
-                
+
                 // Asignar id_libros a donacion
                 setDonacion({
                     ...donacion,
-                    id_libros: id_libros})
-            
+                    id_libros: id_libros
+                })
+
 
                 // Registrar la donacion
                 await registrarDonacion();
@@ -144,115 +147,104 @@ const Donaciones: React.FC = () => {
     return (
         <>
             <HeaderOnlyTitle />
-            <div className="cajatextoinicio">
-                <h2>¡Dona un libro!</h2>
+            <div className="container donaciones-box">
+                <h2 className='text-donacion my-5'>¡Comparte lo que has vivido!</h2>
+                <div className="card donaciones-box d-flex justify-content-center align-items-center text-donacionesinputs my-4">
+                    <Form>
+                        <div className="row my-4">
+                            <div className="col">
+                                <Form.Label className='texto-color'>Titulo</Form.Label>
+                                <Form.Group controlId="formTitulo">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Titulo"
+                                        name="titulo"
+                                        value={book.titulo}
+                                        onChange={handleInputChange}
+                                        maxLength={100}
+                                        required
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col">
+                                <Form.Label className='texto-color'>Género</Form.Label>
+                                <Form.Select
+                                    className='input-texto'
+                                    required
+                                    name="genero"
+                                    onChange={handleSelectChange}>
+                                    <option value="">Seleccione genero</option>
+                                    <option value="clasica">Clásica</option>
+                                    <option value="fantasia">Fantasía</option>
+                                    <option value="ficcion">Ficción</option>
+                                    <option value="infantil">Infantil</option>
+                                    <option value="policiaca">Policiaca</option>
+                                    <option value="romance">Romance</option>
+                                    <option value="terror">Terror</option>
+                                    Genero
+                                </Form.Select>
+                            </div>
+                        </div>
+                        <div className="row my-4">
+                            <div className="col">
+                                <Form.Label className='texto-color'>Autor</Form.Label>
+                                <Form.Group controlId="formAutor">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Autor"
+                                        name="autor"
+                                        value={book.autor}
+                                        onChange={handleInputChange}
+                                        maxLength={50}
+                                        required
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col">
+                                <Form.Label className='texto-color'>Estado</Form.Label>
+                                <Form.Select
+                                    className='input-texto'
+                                    required
+                                    name="estado"
+                                    onChange={handleSelectChange}
+                                >Estado
+                                    <option value="">Seleccione estado</option>
+                                    <option value="bueno">Bueno</option>
+                                    <option value="decente">Decente</option>
+                                    <option value="malo">Malo</option>
+                                </Form.Select>
+                            </div>
+                        </div>
+                        <div className="row my-4">
+                            <div className="col">
+                                <Form.Label className='texto-color'>Núm. de pág</Form.Label>
+                                <Form.Group controlId="formNumPag">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="number"
+                                        placeholder="Número de páginas"
+                                        name="num_pag"
+                                        value={book.num_pag}
+                                        onChange={handleInputChange}
+                                        required
+                                        step="1" //Esto asegura que sean números enteros.
+                                        min="2" //Obliga a que el número de paginas sea 2 como minimo
+
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col"></div>
+                        </div>
+                        <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
+                    </Form>
+
+                </div>
+
             </div>
-            <Form>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Titulo</Form.Label>
-                    </div>
-                    <div className="col-4"><Form.Group controlId="formTitulo">
-                        <Form.Control
-                            className='borde'
-                            type="text"
-                            placeholder="Titulo"
-                            name="titulo"
-                            value={book.titulo}
-                            onChange={handleInputChange}
-                            maxLength={100}
-                            required
-                        />
-                    </Form.Group></div>
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Género</Form.Label>
-                    </div>
-                    <div className="col-3">
-                        <Form.Select
-                            className='texto-color text-center'
-                            required
-                            name="genero"
-                            onChange={handleSelectChange}>
-                            <option value="">Seleccione genero</option>
-                            <option value="clasica">Clásica</option>
-                            <option value="fantasia">Fantasía</option>
-                            <option value="ficcion">Ficción</option>
-                            <option value="infantil">Infantil</option>
-                            <option value="policiaca">Policiaca</option>
-                            <option value="romance">Romance</option>
-                            <option value="terror">Terror</option>
-                            Genero
-                        </Form.Select>
-                    </div>
-                </div>
-                <div className="row p-2 rowsinputsregis">
 
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Autor</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formAutor">
-                            <Form.Control
-                                className='borde'
-                                type="text"
-                                placeholder="Autor"
-                                name="autor"
-                                value={book.autor}
-                                onChange={handleInputChange}
-                                maxLength={50}
-                                required
-                            />
-                        </Form.Group>
-                    </div>
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Estado</Form.Label>
-                    </div>
-                    <div className="col-3">
-                        <Form.Select 
-                        className='texto-color text-center'
-                        required
-                        name="estado"
-                        onChange={handleSelectChange}
-                        >Estado
-                            <option value="">Seleccione estado</option>
-                            <option value="bueno">Bueno</option>
-                            <option value="decente">Decente</option>
-                            <option value="malo">Malo</option>
-                        </Form.Select>
-                    </div>
-
-
-                </div>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Núm. de pág</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formNumPag">
-                            <Form.Control
-                                className='borde'
-                                type="number"
-                                placeholder="Número de páginas"
-                                name="num_pag"
-                                value={book.num_pag}
-                                onChange={handleInputChange}
-                                required
-                                step="1" //Esto asegura que sean números enteros.
-                                min="2" //Obliga a que el número de paginas sea 2 como minimo
-
-                            />
-                        </Form.Group>
-                    </div>
-                </div>
-                <div className="row rowbtn p-2 rowsinputsregis">
-                    <div className="col">
-                        <button type="submit" onClick={handleDonarClick} className="btn btn-login btn-lg mt-5">Donar libro</button>
-                    </div>
-                </div>
-            </Form>
-            <div className="row rowicon">
-                <img src="icono.png" className='iconologin' alt="icono" />
-            </div>
+            <Footer />
 
         </>
     );
