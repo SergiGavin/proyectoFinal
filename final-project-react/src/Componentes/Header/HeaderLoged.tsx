@@ -94,7 +94,7 @@ const HeaderLoged: React.FC = () => {
                         SwapReads
                     </a>
                     <form className="d-flex" role="search">
-                        <input className="form-control me-2 buscador" type="search" list="datalistOptions" placeholder="Buscar" aria-label="Buscar" />
+                        <input className="form-control me-2 buscador" type="search" list="datalistOptions" onChange={handleInputChange} placeholder="Buscar" aria-label="Buscar" />
                         <datalist id="datalistOptions">
                             {books.map((book, index) => (
                                 <option key={index} value={`${book.titulo}`}>

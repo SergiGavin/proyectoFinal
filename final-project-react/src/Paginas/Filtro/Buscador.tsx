@@ -23,14 +23,12 @@ export default function Todos() {
 
                 const data = await response.json();
 
-                // Verifica si la respuesta es un objeto con propiedades de libros
                 const librosResponseTitulo = data.titulo;
                 const librosResponseAutor = data.autor;
 
                 // Combina los resultados de título y autor en un solo array
                 const librosResponse = librosResponseTitulo.concat(librosResponseAutor);
 
-                // Imprimir datos para depurar
                 console.log("Libros obtenidos:", JSON.stringify(librosResponse, null, 2));
 
                 setLibros(librosResponse);
