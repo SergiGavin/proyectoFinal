@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Form} from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import "./registro.css"
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
+import Footer from "../../Componentes/Footer/Footer";
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
@@ -14,7 +16,7 @@ const Register: React.FC = () => {
         pass: '',
         saldo: 0,
     });
-    
+
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,142 +51,123 @@ const Register: React.FC = () => {
 
     return (
         <>
-            <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
+            <HeaderOnlyTitle />
+            <div className="register-box">
+                <h2 className='text-register my-5'>¡Comienza tu nueva aventura en Swapreads!</h2>
+                <div className="card container-form register-box d-flex justify-content-center align-items-center text-inputs my-5">
+                    <Form onSubmit={handleSubmit}>
+                        {/* NOMBRE Y APELLIDOS */}
+                        <div className="row my-4 box-inputs">
+                            <div className="col">
+                                <Form.Label>Nombre</Form.Label>
+                                <Form.Group controlId="formFirstName">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Nombre"
+                                        name="nombre"
+                                        value={userData.nombre}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col">
+                                <Form.Label>Apellidos</Form.Label>
+                                <Form.Group controlId="formLastName">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Apellidos"
+                                        name="apellidos"
+                                        value={userData.apellidos}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
+                        {/* DNI Y TELEFONO */}
+                        <div className="row my-4 box-inputs">
+                            <div className="col">
+                                <Form.Label>DNI</Form.Label>
+                                <Form.Group controlId="formDNI">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="DNI"
+                                        name="dni"
+                                        value={userData.dni}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col">
+                                <Form.Label>Teléfono</Form.Label>
+                                <Form.Group controlId="formPhone">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Teléfono"
+                                        name="telefono"
+                                        value={userData.telefono}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
+                        {/* CORREO */}
+                        <div className="row my-4 box-inputs">
+                            <div className="col">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Group controlId="formEmail">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="email"
+                                        placeholder="Email"
+                                        name="correo"
+                                        value={userData.correo}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
+                        {/* USUARIO Y CONTRASEÑA */}
+                        <div className="row box-inputs">
+                            <div className="col">
+                                <Form.Label>Usuario</Form.Label>
+                                <Form.Group controlId="formUsername">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="text"
+                                        placeholder="Usuario"
+                                        name="username"
+                                        value={userData.username}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                            </div>
+                            <div className="col">
+                                <Form.Label>Contraseña</Form.Label>
+                                <Form.Group controlId="formPassword">
+                                    <Form.Control
+                                        className='input-texto'
+                                        type="password"
+                                        placeholder="Contraseña"
+                                        name="pass"
+                                        value={userData.pass}
+                                        onChange={handleChange}
+                                    />
+                                </Form.Group>
+                                <p className='pass-text'>Debe contener 8 carácteres con una mayúsula y un número.</p>
+                            </div>
+                        </div>
+                        {/* BOTÓN */}
+                        <div className="container box-button mt-3">
+                        <button type="submit" className="btn boton-register btn-lg my-4">Registrarse</button>
+                        </div>
+                    </Form>
+                </div>
             </div>
-            <div className="cajatextoinicio">
-                <h2>Registro</h2>
-            </div>
-            <Form onSubmit={handleSubmit}>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Nombre</Form.Label>
-                    </div>
-                    <div className="col-4"><Form.Group controlId="formFirstName">
-                        <Form.Control
-                        className='borde'
-                            type="text"
-                            placeholder="Nombre"
-                            name="nombre"
-                            value={userData.nombre}
-                            onChange={handleChange}
-                        />
-                    </Form.Group></div>
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Apellidos</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formLastName">
-                            <Form.Control
-                            className='borde'
-                                type="text"
-                                placeholder="Apellidos"
-                                name="apellidos"
-                                value={userData.apellidos}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </div>
-                </div>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>DNI</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formDNI">
-
-                            <Form.Control
-                            className='borde'
-                                type="text"
-                                placeholder="DNI"
-                                name="dni"
-                                value={userData.dni}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </div>
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Teléfono</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formPhone">
-
-                            <Form.Control
-                            className='borde'
-                                type="text"
-                                placeholder="Teléfono"
-                                name="telefono"
-                                value={userData.telefono}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </div>
-                </div>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-4">
-                        <Form.Label className='texto-color'>Email</Form.Label>
-                    </div>
-                    <div className="col-8">
-                        <Form.Group controlId="formEmail">
-
-                            <Form.Control
-                            className='borde'
-                                type="email"
-                                placeholder="Email"
-                                name="correo"
-                                value={userData.correo}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </div>
-                </div>
-                <div className="row p-2 rowsinputsregis">
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Nombre de usuario</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formUsername">
-
-                            <Form.Control
-                            className='borde'
-                                type="text"
-                                placeholder="Nombre de usuario"
-                                name="username"
-                                value={userData.username}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </div>
-                    <div className="col-2">
-                        <Form.Label className='texto-color'>Contraseña</Form.Label>
-                    </div>
-                    <div className="col-4">
-                        <Form.Group controlId="formPassword">
-
-                            <Form.Control
-                            className='borde'
-                                type="password"
-                                placeholder="Contraseña"
-                                name="pass"
-                                value={userData.pass}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-
-                    </div>
-                </div>
-                <div className="row rowbtn p-2 rowsinputsregis">
-                    <div className="col">
-                    <button type="submit" className="btn btn-login btn-lg mt-5">Registrarse</button>
-                    </div>
-                </div>
-
-            </Form>
-
-            <div className="row rowicon">
-                <img src="icono.png" className='iconologin' alt="icono" />
-            </div>
-
+            <Footer />
         </>
     );
 };

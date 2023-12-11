@@ -32,7 +32,24 @@ public class LibrosEntity {
 	private Integer num_pag;
 	private String estado;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.00")
-    private BigDecimal valor;
+	private BigDecimal valor;
 	private String sinopsis;
-	private String foto_portada;	
+	private String foto_portada;
+	public LibrosEntity () {}
+	public LibrosEntity(String titulo, String genero, String autor, Integer num_pag, String estado) {
+		super();
+		this.titulo = titulo;
+		this.genero = genero;
+		this.autor = autor;
+		this.num_pag = num_pag;
+		this.estado = estado;
+	}
+	public LibrosEntity(String titulo, String autor) {
+		super();
+		this.titulo = titulo;
+		this.autor = autor;
+	}
+	
+	
+	
 }

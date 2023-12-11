@@ -1,60 +1,91 @@
 /* PALETA DE COLORES */
 :root {
-    --salmon: #ff5252;;
+    --salmon: #ff5252;
+    ;
     --dark-orange: #ff7752;
     --orange: #ff9a52;
     --dark-yellow: #ffb752;
     --violet: #5e405b;
-  }
-  /*
-.custom-color-1 {
-    background-color: 
 }
-.custom-color-2 {
-    background-color: #ff7752;
+
+
+
+.navbarOrange {
+    background-color: var(--dark-yellow);
+    padding-left: 5vh;
+    padding-right: 5vh;
+
+    && .logoSR {
+        width: 10vh;
+        height: 10vh;
+    }
+
+    && .swapreadsTitulo {
+        color: white;
+        font-weight: 500;
+        font-size: -webkit-xxx-large;
+    }
+
+    && .buscador {
+        width: 40vh;
+        font-size: larger;
+    }
+
+    && .buscador:focus {
+        border-color: var(--dark-orange);
+        box-shadow: 0 0 5px var(--dark-orange)
+    }
+
+    && .buscar-btn {
+        background-color: var(--dark-orange);
+        color: white;
+        font-size: large;
+    }
+
+    && .buscar-btn:hover {
+        background-color: var(--violet);
+    }
+
+    && .sesion-btn {
+
+        background-color: var(--violet);
+        color: white;
+        margin-left: 26vh;
+        font-size: large;
+    }
+
+    && .sesion-btn:hover {
+        background-color: var(--dark-orange);
+    }
+
+    && .loged-button{
+        background-color: var(--violet);
+        color: white;
+        border: none;
+        width: 15vh;
+        font-size: large;
+    }
+
+    && .loged-button:hover{
+        background-color: var(--dark-orange);
+    }
+
+    && .coins{
+        color: var(--violet);
+        font-size: larger;
+        font-weight: 500;
+        margin-right: 5vh;
+        font-size: x-large;
+
+        && .coin{
+            height: 5vh;
+            width: 5vh;
+        }
+
+    }
 }
-.custom-color-3 {
-    background-color: #ff9a52;
-}
-.custom-color-4 {
-    background-color: #ffb752;
-}
-.custom-color-5 {
-    background-color: #5e405b;
-}
-*/
-.nombre{
-    color: var(--violet);
-    font-weight: bold;
-    font-size: 30px;
-    margin-left: 20px;
-}
-.btn-inicioSesion {
-    background-color: var(--violet);
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: var(--orange);
     color: white;
-}
-
-.btn-hover:hover {
-    /* Define los estilos para el hover */
-    /* Por ejemplo, cambia el color de fondo o el color del texto */
-    background-color: var(--salmon);
-    color: white;
-}
-
-.fndo-naranja{
-    background-color: var(--dark-yellow);;
-    height: 80px;
-    align-items: center;
-}
-
-.buscador{
-    background-color: white;
-}
-
-.container{
-    margin: 0px;
-}
-
-.row {
-    margin-right: 0px;
 }

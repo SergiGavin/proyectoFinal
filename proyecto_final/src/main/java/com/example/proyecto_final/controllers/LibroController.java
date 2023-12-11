@@ -2,7 +2,9 @@ package com.example.proyecto_final.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.LibrosEntity;
+import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.LibroService;
 
 
@@ -122,8 +126,25 @@ public class LibroController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/titulo/{titulo}")
+    public ResponseEntity<?> obtenerLibrosPorTitulo(@PathVariable String titulo) {
+        if (titulo != null) {
+            titulo = titulo.trim();
+        } else {
+            return new ResponseEntity<>("Introduzca el título", HttpStatus.BAD_REQUEST);
+        }
 
-	// MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
+        List<LibrosEntity> librosPorTitulo = libroService.getLibrosByTitulo(titulo);
+
+        if (!librosPorTitulo.isEmpty()) {
+            return new ResponseEntity<>(librosPorTitulo, HttpStatus.OK);
+        } else {
+            String mensaje = "No se encontraron libros para el título: " + titulo;
+            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+        }
+    }
+
 	@GetMapping("/random")
 	public ResponseEntity<?> obtenerLibroRandom() {
 		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
@@ -137,12 +158,60 @@ public class LibroController {
 
 		return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
 	}
+	@GetMapping("/tituloautor/{titulo}/{autor}")
+	public ResponseEntity<?> buscarLibros(
+	        @PathVariable(name = "titulo", required = false) String titulo,
+	        @PathVariable(name = "autor", required = false) String autor) {
+
+	    // Si ambos parámetros son nulos, puedes devolver un error
+	    if (titulo == null && autor == null) {
+	        return new ResponseEntity<>("Introduzca al menos el título o el autor", HttpStatus.BAD_REQUEST);
+	    }
+
+	    // Tratar cadenas nulas como cadenas vacías para evitar problemas en la búsqueda
+	    if (titulo != null) {
+	        titulo = titulo.trim();
+	    }
+
+	    if (autor != null) {
+	        autor = autor.trim();
+	    }
+
+	    // Lógica de búsqueda en el servicio
+	    List<LibrosEntity> resultadosPorTitulo = new ArrayList<>();
+	    List<LibrosEntity> resultadosPorAutor = new ArrayList<>();
+
+	    if (titulo != null) {
+	        resultadosPorTitulo = libroService.getLibrosByTitulo(titulo);
+	    }
+
+	    if (autor != null) {
+	        resultadosPorAutor = libroService.getLibrosByAutor(autor);
+	    }
+
+	    // Puedes combinar o procesar los resultados según tus necesidades
+
+	    Map<String, List<LibrosEntity>> resultados = new HashMap<>();
+	    resultados.put("titulo", resultadosPorTitulo);
+	    resultados.put("autor", resultadosPorAutor);
+
+	    return new ResponseEntity<>(resultados, HttpStatus.OK);
+	}
 
 	// Put
 	@PutMapping
 	public LibrosEntity crearLibro(@RequestBody LibrosEntity libro) {
-		return libroService.createLibro(libro);
+		LibrosEntity newLibro = new LibrosEntity(
+				libro.getTitulo(),
+				libro.getGenero(),
+				libro.getAutor(),
+				libro.getNum_pag(),
+				libro.getEstado()
+				); 
+		System.out.println("Datos del libro creado:  "+newLibro.toString());
+		return libroService.createLibro(newLibro);
 	}
+
 
 	// Patch
 	@PatchMapping("/{id}")

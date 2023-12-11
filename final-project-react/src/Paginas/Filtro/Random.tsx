@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import "./Prestamo.css"
-import Header from '../../Componentes/Header/Header';
-import Footer from "../../Componentes/Footer/Footer";
-import Categorias from "../../Componentes/Categorias/Categorias";
+import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
-const Prestamos: React.FC = () => {
+const Random: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
     const idUsuarios = location.state?.id_usuarios;
@@ -23,11 +20,9 @@ const Prestamos: React.FC = () => {
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-
-
     const [prestamo, setPrestamo] = useState({
         idUsuarios: idUsuarios, 
-        id_libros: id_libros,
+        id_libros: id_libros, // Asegúrate de que id_libros no sea undefined
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
@@ -59,7 +54,7 @@ const Prestamos: React.FC = () => {
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: idUsuarios } });
+                navigate(`/`, { state: { id_usuarios: idUsuarios} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
@@ -70,12 +65,11 @@ const Prestamos: React.FC = () => {
             console.error('Error al crear el préstamo. Valores:', prestamo);
         }
     };
-
+    
     useEffect(() => {
         const getBookInfo = async () => {
-            console.log("el id del libro pulsado es:   " + id_libros)
             try {
-                const response = await fetch(`http://localhost:8080/libros/${id_libros}`, {
+                const response = await fetch(`http://localhost:8080/libros/random`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -84,6 +78,8 @@ const Prestamos: React.FC = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Datos del libro:', data);
+                    console.log('id_libros:', data.id_libros); 
                     setBook({
                         titulo: data.titulo,
                         genero: data.genero,
@@ -93,6 +89,11 @@ const Prestamos: React.FC = () => {
                         valor: data.valor,
                         sinopsis: data.sinopsis,
                         foto_portada: data.foto_portada
+                    });
+                    setPrestamo({
+                        idUsuarios: idUsuarios,
+                        id_libros: data.id_libros,
+                        fechaDevolucion: defaultReturnDate,
                     });
                 } else {
                     throw new Error('Error al obtener la información del libro');
@@ -107,63 +108,62 @@ const Prestamos: React.FC = () => {
         const today = new Date();
         const todayPlus30 = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
         setDefaultReturnDate(todayPlus30);
-
+        
     }, []);
     return (
         <>
-            <Header />
-            <Categorias num={0} />
-            <div className="container-infolibro">
-                <div className="texto-morado">
-                    <div className="row g-0 align-items-center">
-                        <div className="col-4 my-5 col-imagen">
-                            <div className="contenedor-imagen">
-                                <img src={book.foto_portada} alt={book.titulo} className='imagen' />
-                            </div>
-                        </div>
-                        <div className="col my-5 col-info">
-                            <div className="card-body">
-                                <h1 className="texto-morado my-5">{book.titulo}</h1>
-                                <div className="container-info">
-                                    <p className="texto-morado my-3"><strong>Autor: </strong> {book.autor}</p>
-                                    <p className="texto-morado my-3"><strong>Núm. de pág: </strong> {book.num_pag}</p>
-                                    <p className="texto-morado my-3"><strong>Estado: </strong> {book.estado}</p>
-                                    <p className="texto-morado my-3"><strong>Valor en BookCoins: </strong> {book.valor}</p>
-                                    <p className="texto-morado texto-justificado my-3"><strong>Sinopsis: </strong>{book.sinopsis}</p>
-                                </div>
-                                <div className="boton">
-                                    <button type="submit" className="btn boton-prestamo btn-lg  my-4" onClick={handleShowModal}>¡Tomar prestado!</button>
-                                </div>
-                            </div>
+            <HeaderOnlyTitle />
+            <div className="cajatextoinicio">
+                <h2>¡Alquila un libro!</h2>
+            </div>
+            <div className="texto-morado">
+                <div className="row p-2 rowsinputsregis">
+                    <div className="col-4">
+                        <img src={book.foto_portada} className="card-img-top img-fluid contenedor-imagen" alt={book.titulo} />
+                    </div>
+                    <div className="col-8">
+                        <div className="card-body">
+                            <h1 className="texto-morado mt-3">{book.titulo}</h1>
+                            <p className="texto-morado"><strong>Autor: </strong> {book.autor}</p>
+                            <p className="texto-morado"><strong>Núm. de pág: </strong> {book.num_pag}</p>
+                            <p className="texto-morado"><strong>Estado: </strong> {book.estado}</p>
+                            <p className="texto-morado"><strong>Valor en BookCoins: </strong> {book.valor}</p>
+                            <p className="texto-morado texto-justificado"><strong>Sinopsis: </strong>{book.sinopsis}</p>
                         </div>
                     </div>
                 </div>
-                <Modal show={showModal} onHide={handleCloseModal} className='texto-morado'>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Fecha de Devolución</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Form>
-                            <Form.Group controlId="formFechaDevolucion">
-                                <Form.Label>Selecciona la fecha de devolución:</Form.Label>
-                                <Form.Control type="date" name="fechaDevolucion" defaultValue={defaultReturnDate.toISOString().split('T')[0]} onChange={handleInputChange} />
-                            </Form.Group>
-                        </Form>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModal}>
-                            Cancelar
-                        </Button>
-                        <Button onClick={handleConfirmLoan} className='boton-dev'>
-                            Confirmar Devolución
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
+            </div>
+            <div className="row rowbtn p-2 rowsinputsregis">
+                <div className="col">
+                    <button type="submit" className="btn btn-login btn-lg mt-5" onClick={handleShowModal}>¡Tomar prestado!</button>
+                </div>
+            </div>
+            <div className="row rowicon">
+                <img src="icono.png" className='iconologin' alt="icono" />
             </div>
 
-            <Footer />
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Fecha de Devolución</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>                    
+                        <Form.Group controlId="formFechaDevolucion">
+                            <Form.Label>Selecciona la fecha de devolución:</Form.Label>
+                            <Form.Control type="date" name="fechaDevolucion" defaultValue={defaultReturnDate.toISOString().split('T')[0]} onChange={handleInputChange} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModal}>
+                        Cancelar
+                    </Button>
+                    <Button variant="primary" onClick={handleConfirmLoan}>
+                        Confirmar Devolución
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };
-export default Prestamos;
+export default Random;

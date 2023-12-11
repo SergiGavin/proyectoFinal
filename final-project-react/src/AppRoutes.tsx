@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './Paginas/Home/Home';
+import HomeLoged from './Paginas/Home/HomeLoged';
 import Login from './Paginas/Login/Login';
 import Register from './Paginas/NuevaCuenta/registro';
 import Fantasia from './Paginas/Filtro/Fantasia';
@@ -15,11 +16,15 @@ import Todos from './Paginas/Filtro/Todos';
 import React from 'react';
 import Donaciones from './Paginas/Donaciones/Donacion';
 import Prestamos from './Paginas/Prestamos/Prestamo';
+import Historial from './Paginas/Historial/Historial';
+import Random from './Paginas/Filtro/Random';
+import Buscador from './Paginas/Filtro/Buscador';
 
 function AppRoutes() {
     return (
         <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/home' element={<HomeLoged />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/clasica' element={<Clasica />} />
@@ -34,6 +39,10 @@ function AppRoutes() {
             <Route path='/todos' element={<Todos />} />
             <Route path='/donaciones' element={<Donaciones />} />
             <Route path='/prestamos' element={<Prestamos />} />
+            <Route path='/historial' element={<Historial />} />
+            <Route path='/random' element={<Random />} />
+            <Route path='/buscador' element={<Buscador />} />
+
         </Routes>
     );
 }

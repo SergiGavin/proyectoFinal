@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown de Bootstrap
 
-const Header: React.FC = () => {
+
+const HeaderLoged: React.FC = () => {
 
     interface Book {
         id: number;
@@ -52,43 +54,37 @@ const Header: React.FC = () => {
             (event.target as HTMLInputElement).value = '';
         }
     };
+
+    const coins: number = 500;
+
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchValue(event.target.value);
     };
-
     const navigate = useNavigate();
 
-    const handleLoginClick = () => {
-        navigate('/home');
-    };
-
-    const handleSearch = () => {
+    const handleLoginSearch = () => {
         navigate('/login');
-        //navigate(')
-    };
-
-    const location = useLocation();
-    const id_usuarios = location.state?.id_usuarios
-    const handleDonarClick = () => {
-        navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios } });
-    };
-    const handleVolverInicio = () => {
-        navigate(`/`, { state: { id_usuarios: id_usuarios } });
-    };
-    const handleHistorialClick = () => {
-        navigate(`/Historial`, { state: { id_usuarios: id_usuarios } });
     };
 
     const handleHomeClick = () => {
         navigate('/');
     };
 
+    const handleDonateClick = () => {
+        navigate('/donaciones');
+    };
+    const handleHistorialClick = () => {
+        navigate('/historial');
+    };
+
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios
     const handleBuscarClick = () => {
         navigate('/Buscador', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
     };
-    
+
     const [query, setQuery] = useState('');
-    console.log("dato del usuario introducido: " + searchValue)
+
     return (
         <>
             <nav className="navbar navbarOrange">
@@ -97,13 +93,8 @@ const Header: React.FC = () => {
                         <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
                         SwapReads
                     </a>
-                    {/*Todo lo de dentro de form es el buscador sergi  
-                        Buscar por titulo y autor(si se puede)-- back json buscados por titulo
-                        al darle te lleve a pagina de filtro donde salgan esos libros
-                        copiar de Filtro una y adaptarla a ResultadoBuscador
-                    */}
                     <form className="d-flex" role="search">
-                        <input className="form-control me-2 buscador" onKeyPress={handleKeyPress} onChange={handleInputChange} type="search" list="datalistOptions" placeholder="Buscar" aria-label="Buscar" />
+                        <input className="form-control me-2 buscador" type="search" list="datalistOptions" onChange={handleInputChange} placeholder="Buscar" aria-label="Buscar" />
                         <datalist id="datalistOptions">
                             {books.map((book, index) => (
                                 <option key={index} value={`${book.titulo}`}>
@@ -111,14 +102,28 @@ const Header: React.FC = () => {
                                 </option>
                             ))}
                         </datalist>
-                        {/* <button className="btn buscar-btn" onClick={handleSearch} type="submit">Buscar</button> */}
+                        {/* <button className="btn buscar-btn" onClick={handleLoginSearch} type="submit">Buscar</button> */}
                         <button className="btn buscar-btn" onClick={handleBuscarClick} type="submit">Buscar</button>
                     </form>
-                    <button className="btn sesion-btn" onClick={handleLoginClick} type="submit">Iniciar Sesión</button>
+                    <div className='d-flex mt-4'>
+                        <p className='coins'>{coins} <img src="./images/coin (3).png" className='coin' alt="coin" /> Bookcoins</p>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" className='loged-button'>
+                                Usuario
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Ajustes de cuenta</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
                 </div>
             </nav>
         </>
     );
 };
 
-export default Header;
+export default HeaderLoged;

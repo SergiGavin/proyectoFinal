@@ -9,29 +9,17 @@
 
 .cabecero{
     background-color: var(--orange);
-    margin: 10px 48px 10px;
-    border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
     color: var(--violet);
     text-align: left;
+
+    && .tag{
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        padding-left: 5vh;
+        font-size: x-large;
+        font-weight: 600;
+    }
 }
 
-.tag{
-    margin: 30px 20px 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-}
-
-.rowlibros{
-    text-align: -webkit-center;
-    margin-left: 35px;
-    margin-right: 35px;
-    margin-top: 20px;
-}
-
-.collibros{
-    margin-top: 10px;
-    margin-bottom: 10px;
-}

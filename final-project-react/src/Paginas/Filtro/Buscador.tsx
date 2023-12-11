@@ -4,24 +4,48 @@ import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import Footer from '../../Componentes/Footer/Footer';
+import Footer from "../../Componentes/Footer/Footer"
 
 export default function Todos() {
-    // Recibir la prop
     const location = useLocation();
     const num = location.state?.categoryId;
-
-    const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar los libros
-
+    const datoBuscador = location.state?.searchValue;
+    const [libros, setLibros] = useState<any[]>([]);
+    console.log(datoBuscador);
     useEffect(() => {
-        // Llama a la API y actualiza el estado con los resultados
-        fetch('http://localhost:8080/libros/genero/fantasia')
-            .then(response => response.json())
-            .then(data => setLibros(data))
-            .catch(error => console.error('Error al obtener los libros:', error));
-    }, []);
+        const fetchLibros = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/libros/tituloautor/${datoBuscador}/${datoBuscador}`);
 
-    const cantidadDeFilas = Math.ceil(libros.length / 5); // Calcula la cantidad de filas necesarias
+                if (!response.ok) {
+                    throw new Error('Error al obtener los libros');
+                }
+
+                const data = await response.json();
+
+                const librosResponseTitulo = data.titulo;
+                const librosResponseAutor = data.autor;
+
+                // Combina los resultados de título y autor en un solo array
+                const librosResponse = librosResponseTitulo.concat(librosResponseAutor);
+
+                console.log("Libros obtenidos:", JSON.stringify(librosResponse, null, 2));
+
+                setLibros(librosResponse);
+            } catch (error) {
+                console.error('Error al obtener los libros:', error);
+            }
+        };
+
+        // Verifica si hay datos de búsqueda antes de realizar la llamada a la API
+        if (datoBuscador) {
+            fetchLibros();
+        }
+    }, [datoBuscador]);
+
+
+
+    const cantidadDeFilas = Math.ceil(libros.length / 5);
 
     return (
         <>
@@ -52,4 +76,3 @@ export default function Todos() {
         </>
     );
 }
-
