@@ -10,7 +10,12 @@ const Footer: React.FC = () => {
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
-        navigate('/donaciones', { state: {id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        if (!id_usuarios) {
+            navigate(`/login`);
+        } else {
+            navigate(`/donaciones`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        }
+        
     };
 
     return (

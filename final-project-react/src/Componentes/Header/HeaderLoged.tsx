@@ -11,12 +11,6 @@ const HeaderLoged: React.FC = () => {
         autor: String;
     }
 
-    interface User {
-        id: number;
-        username: String;
-        bookcoins: number;
-    }
-
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
@@ -73,17 +67,15 @@ const HeaderLoged: React.FC = () => {
     const navigate = useNavigate();
 
     const handleHomeClick = () => {
-        if (!id_usuarios){
-            navigate('/');
-        } else {
-            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
-        }
-        
-        
+            if (!id_usuarios){
+                navigate("/");
+            } else {
+                navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+            }
     };
 
     const handleDonateClick = () => {
-        navigate(`/donaciones`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        navigate('/donaciones', { state: {id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
     const handleHistorialClick = () => {
         navigate(`/historial`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
@@ -94,13 +86,11 @@ const HeaderLoged: React.FC = () => {
         navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue, username: username, saldo: saldo } });
     };
 
-    const [query, setQuery] = useState('');
-
     return (
         <>
             <nav className="navbar navbarOrange">
                 <div className="container-fluid">
-                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick} href="#">
+                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick} href=''>
                         <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
                         SwapReads
                     </a>
