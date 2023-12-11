@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
 
@@ -70,10 +70,6 @@ const Header: React.FC = () => {
         navigate(`/Historial`, { state: { id_usuarios: id_usuarios } });
     };
 
-    const handleHomeClick = () => {
-        navigate('/');
-    };
-
     const currentPath = window.location.pathname.toLowerCase();
 
     const handleBuscarClick = () => {
@@ -103,10 +99,10 @@ const Header: React.FC = () => {
         <>
             <nav className="navbar navbarOrange">
                 <div className="container-fluid">
-                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick}>
+                    <Link to="/" className="navbar-brand swapreadsTitulo mt-2">
                         <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
                         SwapReads
-                    </a>
+                    </Link>
                     {/*Todo lo de dentro de form es el buscador sergi  
                         Buscar por titulo y autor(si se puede)-- back json buscados por titulo
                         al darle te lleve a pagina de filtro donde salgan esos libros

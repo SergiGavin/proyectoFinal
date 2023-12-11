@@ -17,7 +17,7 @@ const HeaderLoged: React.FC = () => {
     const saldo = location.state?.saldo;
 
     const currentPath = window.location.pathname.toLowerCase();
-    
+
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
@@ -46,12 +46,12 @@ const HeaderLoged: React.FC = () => {
                 const response = await fetch(`http://localhost:8080/libros/tituloautor/${searchTerm}/${searchTerm}`);
                 if (response.ok) {
                     const data: Book[] = await response.json();
-                    console.log("info del data:  "+data);
+                    console.log("info del data:  " + data);
                     setBooks(data);
-                }else{
+                } else {
                     console.log("error");
                 }
-                
+
             } catch (error) {
                 console.error('Error al obtener los libros:', error);
             }
@@ -61,30 +61,37 @@ const HeaderLoged: React.FC = () => {
         }
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value);
-    };
     const navigate = useNavigate();
 
     const handleHomeClick = () => {
-            if (!id_usuarios){
-                navigate("/");
-            } else {
-                navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
-            }
+            navigate("/");
     };
 
     const handleDonateClick = () => {
-        navigate('/donaciones', { state: {id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        navigate('/donaciones', { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
     const handleHistorialClick = () => {
         navigate(`/historial`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
-    
+
     const handleBuscarClick = () => {
         navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue, username: username, saldo: saldo } });
     };
+
+    // MOSTRAR 5 RESULTADOS DEL BUSCADOR Y QUE SE ACTUALICE
+
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(event.target.value);
+        setInputValue(event.target.value);
+    };
+
+    const filteredBooks = books.filter((book) =>
+        book.titulo.toLowerCase().includes(inputValue.toLowerCase()) ||
+        book.autor.toLowerCase().includes(inputValue.toLowerCase())
+    ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
 
     return (
         <>
@@ -95,16 +102,26 @@ const HeaderLoged: React.FC = () => {
                         SwapReads
                     </a>
                     <form className="d-flex" role="search">
-                        <input className="form-control me-2 buscador" type="search" list="datalistOptions" onChange={handleInputChange} placeholder="Buscar" aria-label="Buscar" />
+                        <input
+                            className="form-control me-2 buscador"
+                            onChange={handleInputChange}
+                            onKeyPress={handleKeyPress}
+                            type="search"
+                            list="datalistOptions"
+                            placeholder="Buscar"
+                            aria-label="Buscar"
+                            value={searchValue} // Usar searchValue en lugar de inputValue
+                        />
                         <datalist id="datalistOptions">
-                            {books.map((book, index) => (
+                            {filteredBooks.map((book, index) => (
                                 <option key={index} value={`${book.titulo}`}>
-                                    <strong className='negrita'>{book.autor}</strong>
+                                    <p className='negrita'>{book.autor}</p>
                                 </option>
                             ))}
                         </datalist>
-                        {/* <button className="btn buscar-btn" onClick={handleLoginSearch} type="submit">Buscar</button> */}
-                        <button className="btn buscar-btn" onClick={handleBuscarClick} type="submit">Buscar</button>
+                        <button className="btn buscar-btn" type="submit" onClick={handleBuscarClick}>
+                            Buscar
+                        </button>
                     </form>
                     <div className='d-flex mt-4'>
                         <p className='coins'>{saldo} <img src="./images/coin (3).png" className='coin' alt="coin" /> BookCoins</p>
@@ -113,10 +130,10 @@ const HeaderLoged: React.FC = () => {
                                 {username}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Ajustes de cuenta</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                                <Dropdown.Item href="" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
+                                <Dropdown.Item href="" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
+                                <Dropdown.Item href="">Ajustes de cuenta</Dropdown.Item>
+                                <Dropdown.Item href="" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
