@@ -9,6 +9,7 @@ const Login: React.FC = () => {
     const [id_usuarios, setIdUsuario] = useState('');
     const [username, setUsername] = useState('');
     const [pass, setPass] = useState('');
+    const [saldo, setSaldo] = useState('');
     let userData;
     const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
@@ -19,7 +20,7 @@ const Login: React.FC = () => {
     };
     const handleUsuarioInicioSesion = () => {
         console.log('ID del usuario en handleUsuarioInicioSesion:', userData.id_usuarios);
-        navigate(`/`, { state: { id_usuarios: userData.id_usuarios } });
+        navigate(`/home`, { state: { id_usuarios: userData.id_usuarios, username: userData.username, saldo: userData.saldo } });
     };
 
     const navigate = useNavigate(); // Aquí se declara useNavigate correctamente
@@ -39,12 +40,16 @@ const Login: React.FC = () => {
                 // Manejar la autenticación exitosa aquí, como redirigir a otra página.
                 userData = await response.json();
                 setIdUsuario(userData.id_usuarios);
-                console.log('ID del usuario que ha iniciado sesion:', userData.id_usuarios);
+                setSaldo(userData.saldo);
+                console.log('ID del usuario que ha iniciado sesion:', userData);
+                // TOASTY DE OK
                 handleUsuarioInicioSesion();
+                
             } else {
                 // Manejar la autenticación fallida aquí, mostrar mensaje de error, etc.
                 const errorMessage = await response.text();
                 console.error('Error en la autenticación:', errorMessage);
+                // HACER TOASTY DE ERROR
             }
         } catch (error) {
             // Manejar errores de conexión, etc.

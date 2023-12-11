@@ -4,11 +4,16 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 import Footer from "../../Componentes/Footer/Footer";
 import "./Donaciones.css";
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import Header from '../../Componentes/Header/Header';
 
 const Donaciones: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+    
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -135,18 +140,28 @@ const Donaciones: React.FC = () => {
         event.preventDefault();
         await registrarLibroAndDonacion();
         console.log('Redireccionando a la página de inicio');
-        if(id_usuarios){
-            navigate(`/home`, { state: { id_usuarios: id_usuarios} });
-        }else if(!id_usuarios){
-            navigate(`/`, { state: { id_usuarios: id_usuarios} });
+        if (id_usuarios) {
+            navigate(`/home`, { state: { id_usuarios: id_usuarios } });
+        } else if (!id_usuarios) {
+            navigate(`/`, { state: { id_usuarios: id_usuarios } });
         }
-        
+
     };
+
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
 
     return (
         <>
-            <HeaderOnlyTitle />
+            <div>
+                {renderHeader()}
+            </div>
             <div className="container donaciones-box">
                 <h2 className='text-donacion my-5'>¡Comparte lo que has vivido!</h2>
                 <div className="card donaciones-box d-flex justify-content-center align-items-center text-donacionesinputs my-4">

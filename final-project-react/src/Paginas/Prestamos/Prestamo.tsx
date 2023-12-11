@@ -5,11 +5,16 @@ import "./Prestamo.css"
 import Header from '../../Componentes/Header/Header';
 import Footer from "../../Componentes/Footer/Footer";
 import Categorias from "../../Componentes/Categorias/Categorias";
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 
 const Prestamos: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
+    const id_usuarios = location.state?.id_usuarios;
     const idUsuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -26,7 +31,7 @@ const Prestamos: React.FC = () => {
 
 
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios, 
+        idUsuarios: idUsuarios,
         id_libros: id_libros,
         fechaDevolucion: defaultReturnDate,
     });
@@ -59,7 +64,7 @@ const Prestamos: React.FC = () => {
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: idUsuarios } });
+                navigate(`/`, { state: { id_usuarios: id_usuarios } });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
@@ -70,6 +75,14 @@ const Prestamos: React.FC = () => {
             console.error('Error al crear el préstamo. Valores:', prestamo);
         }
     };
+
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
     useEffect(() => {
         const getBookInfo = async () => {
@@ -111,7 +124,9 @@ const Prestamos: React.FC = () => {
     }, []);
     return (
         <>
-            <Header />
+            <div>
+                {renderHeader()}
+            </div>
             <Categorias num={0} />
             <div className="container-infolibro">
                 <div className="texto-morado">

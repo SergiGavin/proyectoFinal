@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../../Componentes/Header/Header';
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
@@ -9,6 +10,9 @@ import Footer from "../../Componentes/Footer/Footer"
 export default function Todos() {
     const location = useLocation();
     const num = location.state?.categoryId;
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
     const datoBuscador = location.state?.searchValue;
     const [libros, setLibros] = useState<any[]>([]);
     console.log(datoBuscador);
@@ -46,10 +50,19 @@ export default function Todos() {
 
 
     const cantidadDeFilas = Math.ceil(libros.length / 5);
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
     return (
         <>
-            <Header />
+            <div>
+                {renderHeader()}
+            </div>
             <Categorias num={num} />
             <div className="row justify-content-center mx-3 my-5">
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => {
