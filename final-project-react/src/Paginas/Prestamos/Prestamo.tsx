@@ -50,30 +50,37 @@ const Prestamos: React.FC = () => {
         }));
     };
     const handleConfirmLoan = async () => {
-        try {
-            const response = await fetch('http://localhost:8080/prestamos', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(prestamo),
-            });
-            console.log(JSON.stringify(prestamo));
-            if (response.ok) {
-                // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log('Préstamo creado exitosamente');
-                handleCloseModal();
-                //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: id_usuarios } });
-            } else {
-                // La solicitud falló, maneja el error según tus necesidades
-                console.error('Error al crear el préstamo');
+        if (!id_usuarios){
+            // TOASTY
+            navigate("/login");
+        } else {
+            try {
+                const response = await fetch('http://localhost:8080/prestamos', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(prestamo),
+                });
+                // TOASTY
+                console.log(JSON.stringify(prestamo));
+                if (response.ok) {
+                    // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
+                    console.log('Préstamo creado exitosamente');
+                    handleCloseModal();
+                    //Devolvemos el id_usuario al inicio para no cortar el flujo
+                    navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+                } else {
+                    // La solicitud falló, maneja el error según tus necesidades
+                    console.error('Error al crear el préstamo');
+                    console.error('Error al crear el préstamo. Valores:', prestamo);
+                }
+            } catch (error) {
+                console.error('Error al procesar la solicitud:', error);
                 console.error('Error al crear el préstamo. Valores:', prestamo);
             }
-        } catch (error) {
-            console.error('Error al procesar la solicitud:', error);
-            console.error('Error al crear el préstamo. Valores:', prestamo);
         }
+        
     };
 
     const renderHeader = () => {

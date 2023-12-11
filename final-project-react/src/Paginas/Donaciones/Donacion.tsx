@@ -78,6 +78,7 @@ const Donaciones: React.FC = () => {
     }
 
 
+    // TOASTY
     const registrarDonacion = async () => {
         try {
             const response = await fetch('http://localhost:8080/donaciones', {
@@ -138,18 +139,27 @@ const Donaciones: React.FC = () => {
     };
     const handleDonarClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        await registrarLibroAndDonacion();
-        console.log('Redireccionando a la página de inicio');
-        if (id_usuarios) {
-            navigate(`/home`, { state: { id_usuarios: id_usuarios } });
-        } else if (!id_usuarios) {
-            navigate(`/`, { state: { id_usuarios: id_usuarios } });
+        
+        const fields = Object.values(book);
+        const emptyFields = fields.some((field) => field === '' || field === null);
+    
+        if (emptyFields) {
+            // Mostrar mensaje de error indicando que algunos campos están vacíos
+            console.error('Por favor, completa todos los campos');
+        } else {
+            await registrarLibroAndDonacion();
+            //TOASTY DE SI NO RE LLENA Y SE DONA TAMBIEN
+            console.log('Redireccionando a la página de inicio');
+            if (id_usuarios) {
+                navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+            } else if (!id_usuarios) {
+                navigate(`/login`);
+            }
         }
-
     };
 
     const renderHeader = () => {
-        if (id_usuarios == null) {
+        if (id_usuarios == null || id_usuarios == 0) {
             return <Header />;
         } else {
             return <HeaderLoged />;
@@ -252,7 +262,9 @@ const Donaciones: React.FC = () => {
                             </div>
                             <div className="col"></div>
                         </div>
+                        <div className="container caja-boton-donar">
                         <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
+                        </div>
                     </Form>
 
                 </div>

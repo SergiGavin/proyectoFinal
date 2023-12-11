@@ -27,25 +27,34 @@ const Register: React.FC = () => {
         });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        navigate('/');
-        e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:8080/usuarios/registro', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
-
-            if (response.ok) {
-                console.log("Éxito")
-            } else {
-                throw new Error('Error al registrar usuario');
+    const handleRegistro = async (e: React.FormEvent) => {
+        //TOASTY PARA FALTAN CAMPOS Y TODO OK
+        e.preventDefault(); // Evita el envío del formulario por defecto
+        const fields = Object.values(userData);
+        const emptyFields = fields.some((field) => field === '');
+    
+        if (emptyFields) {
+            // Mostrar mensaje de error indicando que algunos campos están vacíos
+            console.error('Por favor, completa todos los campos');
+        } else {
+            try {
+                const response = await fetch('http://localhost:8080/usuarios/registro', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData),
+                });
+    
+                if (response.ok) {
+                    console.log("Éxito")
+                    navigate('/login');
+                } else {
+                    throw new Error('Error al registrar usuario');
+                }
+            } catch (error) {
+                console.error('Error al registrar usuario:', error);
             }
-        } catch (error) {
-            console.error('Error al registrar usuario:', error);
         }
     };
 
@@ -55,7 +64,7 @@ const Register: React.FC = () => {
             <div className="register-box">
                 <h2 className='text-register my-5'>¡Comienza tu nueva aventura en Swapreads!</h2>
                 <div className="card container-form register-box d-flex justify-content-center align-items-center text-inputs my-5">
-                    <Form onSubmit={handleSubmit}>
+                    <Form>
                         {/* NOMBRE Y APELLIDOS */}
                         <div className="row my-4 box-inputs">
                             <div className="col">
@@ -162,7 +171,7 @@ const Register: React.FC = () => {
                         </div>
                         {/* BOTÓN */}
                         <div className="container box-button mt-3">
-                        <button type="submit" className="btn boton-register btn-lg my-4">Registrarse</button>
+                        <button className="btn boton-register btn-lg my-4" onClick={handleRegistro}>Registrarse</button>
                         </div>
                     </Form>
                 </div>
