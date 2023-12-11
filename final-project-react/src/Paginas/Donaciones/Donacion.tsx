@@ -132,7 +132,12 @@ const Donaciones: React.FC = () => {
         event.preventDefault();
         await registrarLibroAndDonacion();
         console.log('Redireccionando a la página de inicio');
-        navigate(`/`, { state: { id_usuarios: id_usuarios} });
+        if(id_usuarios){
+            navigate(`/home`, { state: { id_usuarios: id_usuarios} });
+        }else if(!id_usuarios){
+            navigate(`/`, { state: { id_usuarios: id_usuarios} });
+        }
+        
     };
 
 

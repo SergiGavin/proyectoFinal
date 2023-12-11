@@ -40,6 +40,10 @@ const Historial: React.FC = () => {
         estado: string;
         foto_portada: string;
     }
+
+    const handleInicioClick = () => {
+        navigate('/home', { state: { id_usuarios: location.state?.id_usuarios} });
+    };
     const [prestamos, setPrestamos] = useState<Prestamo[]>([]);
     const [books, setBooks] = useState<Libro[]>([]);
 
@@ -104,7 +108,7 @@ const Historial: React.FC = () => {
 
         <div>
             <div className="bg-pantalla">
-                <h1 className="title">SwapReads</h1>
+                <h1 className="title" onClick={handleInicioClick}>SwapReads</h1>
             </div>
             <div className="cajatextoinicio">
                 <h2>Historial de préstamos</h2>
