@@ -28,7 +28,8 @@ const Categorias: React.FC<CategoriasProps> = ({ num}) => {
         { id: 8, name: 'Romance' },
         { id: 9, name: 'Terror' },
         { id: 10, name: 'Todos' },
-        { id: 11, name: '¡Libro aleatorio!' }
+        { id: 11, name: '¡Libro aleatorio!'},
+        { id: 12, name: ' '},
         // Asegúrate de importar las imágenes correspondientes aquí
     ];
 
@@ -61,7 +62,10 @@ const Categorias: React.FC<CategoriasProps> = ({ num}) => {
         }
         else if (categoryId === 11) {
             navigate("/random", { state: { id_usuarios: id_usuarios} });
+        }else if (categoryId === 12) {
+            navigate("/buscador", { state: { categoryId: categoryId} });
         }
+
     };
 
     return (

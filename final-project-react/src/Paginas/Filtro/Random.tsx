@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import "./Prestamo.css"
 import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 
-const Prestamos: React.FC = () => {
+const Random: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
     const idUsuarios = location.state?.id_usuarios;
@@ -21,11 +20,9 @@ const Prestamos: React.FC = () => {
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-    
-
     const [prestamo, setPrestamo] = useState({
         idUsuarios: idUsuarios, 
-        id_libros: id_libros,
+        id_libros: id_libros, // Asegúrate de que id_libros no sea undefined
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
@@ -71,9 +68,8 @@ const Prestamos: React.FC = () => {
     
     useEffect(() => {
         const getBookInfo = async () => {
-            console.log("el id del libro pulsado es:   "+id_libros)
             try {
-                const response = await fetch(`http://localhost:8080/libros/${id_libros}`, {
+                const response = await fetch(`http://localhost:8080/libros/random`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -82,6 +78,8 @@ const Prestamos: React.FC = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Datos del libro:', data);
+                    console.log('id_libros:', data.id_libros); 
                     setBook({
                         titulo: data.titulo,
                         genero: data.genero,
@@ -91,6 +89,11 @@ const Prestamos: React.FC = () => {
                         valor: data.valor,
                         sinopsis: data.sinopsis,
                         foto_portada: data.foto_portada
+                    });
+                    setPrestamo({
+                        idUsuarios: idUsuarios,
+                        id_libros: data.id_libros,
+                        fechaDevolucion: defaultReturnDate,
                     });
                 } else {
                     throw new Error('Error al obtener la información del libro');
@@ -163,4 +166,4 @@ const Prestamos: React.FC = () => {
         </>
     );
 };
-export default Prestamos;
+export default Random;

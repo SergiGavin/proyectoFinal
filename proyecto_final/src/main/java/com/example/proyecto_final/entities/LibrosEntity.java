@@ -3,20 +3,16 @@ package com.example.proyecto_final.entities;
 
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -47,6 +43,11 @@ public class LibrosEntity {
 		this.autor = autor;
 		this.num_pag = num_pag;
 		this.estado = estado;
+	}
+	public LibrosEntity(String titulo, String autor) {
+		super();
+		this.titulo = titulo;
+		this.autor = autor;
 	}
 	
 	
