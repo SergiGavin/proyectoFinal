@@ -3,10 +3,7 @@ package com.example.proyecto_final.entities;
 
 
 import java.math.BigDecimal;
-<<<<<<< HEAD
-=======
 import java.util.List;
->>>>>>> 0640c9d5b0b6dbabd8fa4207dbe53e6c4b7201db
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -54,9 +51,4 @@ public class LibrosEntity {
 		this.autor = autor;
 	}
 	
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> 0640c9d5b0b6dbabd8fa4207dbe53e6c4b7201db
 }
