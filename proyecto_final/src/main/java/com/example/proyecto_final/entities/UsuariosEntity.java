@@ -1,5 +1,7 @@
 package com.example.proyecto_final.entities;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -28,12 +30,12 @@ public class UsuariosEntity {
 	private String correo;
 
 	private Integer telefono;
-	private String saldo;
+	private BigDecimal saldo;
 	private String username;
 	private String pass;
 	public UsuariosEntity () {}
 	
-	public UsuariosEntity(String nombre, String apellidos, String dni, String correo, Integer telefono, String saldo,
+	public UsuariosEntity(String nombre, String apellidos, String dni, String correo, Integer telefono, BigDecimal saldo,
 			String username, String pass) {
 		super();
 		this.nombre = nombre;

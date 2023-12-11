@@ -1,5 +1,6 @@
 package com.example.proyecto_final.controllers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.LibrosEntity;
-import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.LibroService;
 
 
@@ -208,10 +208,15 @@ public class LibroController {
 				libro.getNum_pag(),
 				libro.getEstado()
 				); 
+		BigDecimal precioInicial = calcularPrecio(libro.getNum_pag(), libro.getEstado());
+		BigDecimal factorDescuento = new BigDecimal("0.67");
+		BigDecimal precioConDescuento = precioInicial.multiply(factorDescuento);
+	    newLibro.setValor(precioConDescuento);
+		
 		System.out.println("Datos del libro creado:  "+newLibro.toString());
 		return libroService.createLibro(newLibro);
 	}
-
+	
 
 	// Patch
 	@PatchMapping("/{id}")
@@ -255,4 +260,31 @@ public class LibroController {
 	public void eliminarLibro(@PathVariable Long id) {
 		libroService.deleteLibroById(id);
 	}
+	
+	private BigDecimal calcularPrecio(int paginas, String estado) {
+	    // Coeficientes para el cálculo
+	    BigDecimal factorPaginas = new BigDecimal("0.03");
+	    BigDecimal factorEstado = obtenerFactorEstado(estado);
+
+	    // Calcula el precio sin el factor de antigüedad
+	    BigDecimal precio = BigDecimal.valueOf(paginas)
+	            .multiply(factorPaginas)
+	            .multiply(factorEstado);
+
+	    return precio;
+	}
+
+	private BigDecimal obtenerFactorEstado(String estado) {
+	    switch (estado.toLowerCase()) {
+	        case "malo":
+	            return BigDecimal.ONE;
+	        case "decente":
+	            return new BigDecimal("1.1");
+	        case "bueno":
+	            return new BigDecimal("1.2");
+	        default:
+	            return BigDecimal.ONE;
+	    }
+	}
+	
 }

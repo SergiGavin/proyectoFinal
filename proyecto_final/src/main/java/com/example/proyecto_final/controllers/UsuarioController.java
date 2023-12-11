@@ -1,5 +1,6 @@
 package com.example.proyecto_final.controllers;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
+import com.example.proyecto_final.services.DonacionService;
 import com.example.proyecto_final.services.UsuarioService;
 
 
@@ -160,6 +163,25 @@ public class UsuarioController {
         }
     }
     
+    @PatchMapping("/updatesaldo/{id}")
+    public ResponseEntity<?> actualizarSaldo(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+        Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+        if (usuarioActualizar.isPresent()) {
+            UsuariosEntity usuarioExistente = usuarioActualizar.get();
+            if (usuario.getSaldo() != null) {
+                usuarioExistente.setSaldo(usuario.getSaldo());
+            }
+
+            // Guardar en la base de datos
+            UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
+
+            return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+        } else {
+            // Responder con un mensaje indicando que no se encontró el usuario
+            String mensaje = "No se encontró ningún usuario con el ID: " + id;
+            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+        }
+    }
     
 	
 }

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.services.DonacionService;
+import com.example.proyecto_final.services.UsuarioService;
 
 
 
@@ -54,4 +54,5 @@ public class DonacionesController {
 		public void eliminarDonacion(@PathVariable Long id) {
 			donacionService.deleteDonacionById(id);
 		}
+		
 }

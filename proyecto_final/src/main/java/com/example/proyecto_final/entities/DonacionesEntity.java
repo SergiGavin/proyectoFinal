@@ -1,5 +1,6 @@
 package com.example.proyecto_final.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,5 @@ public class DonacionesEntity {
 		this.id_usuarios = id_usuarios;
 		this.id_libros = id_libros;
 	}
-	
-	   
-	
-	
+
 }

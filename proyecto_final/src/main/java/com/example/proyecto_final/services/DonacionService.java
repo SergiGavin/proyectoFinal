@@ -1,10 +1,12 @@
 package com.example.proyecto_final.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.proyecto_final.entities.DonacionesEntity;
+import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.repository.DonacionesRepository;
 
 @Service

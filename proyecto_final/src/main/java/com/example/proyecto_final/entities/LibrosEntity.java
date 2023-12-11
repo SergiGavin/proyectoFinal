@@ -50,5 +50,4 @@ public class LibrosEntity {
 		this.titulo = titulo;
 		this.autor = autor;
 	}
-	
 }
