@@ -59,7 +59,7 @@ const Header: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate('/home');
+        navigate('/login');
     };
 
     const handleSearch = () => {

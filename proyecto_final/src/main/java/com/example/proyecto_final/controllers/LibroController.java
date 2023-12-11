@@ -261,7 +261,7 @@ public class LibroController {
 		libroService.deleteLibroById(id);
 	}
 	
-	private BigDecimal calcularPrecio(int paginas, String estado) {
+	public BigDecimal calcularPrecio(int paginas, String estado) {
 	    // Coeficientes para el cálculo
 	    BigDecimal factorPaginas = new BigDecimal("0.03");
 	    BigDecimal factorEstado = obtenerFactorEstado(estado);
@@ -274,7 +274,7 @@ public class LibroController {
 	    return precio;
 	}
 
-	private BigDecimal obtenerFactorEstado(String estado) {
+	public BigDecimal obtenerFactorEstado(String estado) {
 	    switch (estado.toLowerCase()) {
 	        case "malo":
 	            return BigDecimal.ONE;

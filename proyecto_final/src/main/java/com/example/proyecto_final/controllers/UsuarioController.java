@@ -1,6 +1,5 @@
 package com.example.proyecto_final.controllers;
 
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.proyecto_final.entities.DonacionesEntity;
+import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
-import com.example.proyecto_final.services.DonacionService;
 import com.example.proyecto_final.services.UsuarioService;
 
 
@@ -70,6 +68,7 @@ public class UsuarioController {
 				usuario.getUsername(),
 				encryptPassword(usuario.getPass()));
 		
+		
 		return usuarioService.createUsuario(newUsuario);
 
 	}
@@ -78,12 +77,17 @@ public class UsuarioController {
 	@PatchMapping("/{id}")
 	// Pasamos como variable el id ya que se necesitará para editar el usuario en
 	// especifico.
-	public ResponseEntity<?> actualizarPass(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+	public ResponseEntity<?> actualizarUser(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
 		Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
-	    if (usuarioActualizar.isPresent()) {
+	    LibroController libro = new LibroController();
+	    LibrosEntity l = new LibrosEntity();
+		if (usuarioActualizar.isPresent()) {
 	    	UsuariosEntity usuarioExistente = usuarioActualizar.get();
 	    	if (usuario.getPass() != null) {
 	    		usuarioExistente.setPass(usuario.getPass());
+	    	}
+	    	if (usuario.getSaldo() != null) {
+	    		usuarioExistente.setSaldo(usuario.getSaldo().add(libro.calcularPrecio(l.getNum_pag(), l.getEstado())));
 	    	}
 	    //Para guardar en la bbdd
 	    UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
