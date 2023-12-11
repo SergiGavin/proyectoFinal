@@ -103,7 +103,7 @@ const HeaderLoged: React.FC = () => {
         <>
             <nav className="navbar navbarOrange">
                 <div className="container-fluid">
-                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick}>
+                    <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick} href=''>
                         <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
                         SwapReads
                     </a>
