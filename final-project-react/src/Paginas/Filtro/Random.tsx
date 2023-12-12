@@ -13,7 +13,7 @@ const Random: React.FC = () => {
     const location = useLocation();
 
     const id_libros = location.state?.id_libros;
-    const idUsuarios = location.state?.id_usuarios;
+    //const idUsuarios = location.state?.id_usuarios;
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
@@ -33,14 +33,14 @@ const Random: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
 
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios, 
+        idUsuarios: id_usuarios, 
         id_libros: id_libros, // Asegúrate de que id_libros no sea undefined
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
 
     const handleShowModal = () =>{
-        if(!idUsuarios){
+        if(!id_usuarios){
             mostrarToastPrestamoNoExito()
             setShowModal(false);
         }else{
@@ -100,7 +100,7 @@ const Random: React.FC = () => {
                 handleCloseModal();
                 mostrarToastPrestamoExito()
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: idUsuarios} });
+                navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
@@ -137,7 +137,7 @@ const Random: React.FC = () => {
                         foto_portada: data.foto_portada
                     });
                     setPrestamo({
-                        idUsuarios: idUsuarios,
+                        idUsuarios: id_usuarios,
                         id_libros: data.id_libros,
                         fechaDevolucion: defaultReturnDate,
                     });
