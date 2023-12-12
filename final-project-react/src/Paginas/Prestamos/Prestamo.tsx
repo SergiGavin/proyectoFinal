@@ -5,11 +5,18 @@ import "./Prestamo.css"
 import Header from '../../Componentes/Header/Header';
 import Footer from "../../Componentes/Footer/Footer";
 import Categorias from "../../Componentes/Categorias/Categorias";
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Prestamos: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
+    const id_usuarios = location.state?.id_usuarios;
     const idUsuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -26,13 +33,40 @@ const Prestamos: React.FC = () => {
 
 
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios, 
+        idUsuarios: idUsuarios,
         id_libros: id_libros,
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
 
-    const handleShowModal = () => setShowModal(true);
+    const handleShowModal = () =>{
+        if(!idUsuarios){
+            mostrarToastPrestamoNoExito()
+            setShowModal(false);
+        }else{
+            setShowModal(true);
+        }
+        
+    } 
+    const mostrarToastPrestamoNoExito = () => {
+        toast.error('Para tomar prestado un libro debe iniciar sesión', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+        navigate('/login');
+    };
+    const mostrarToastPrestamoExito = () => {
+        toast.success('¡Prestamo realizado con éxito!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -58,18 +92,29 @@ const Prestamos: React.FC = () => {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
+                mostrarToastPrestamoExito();
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: idUsuarios } });
+                navigate(`/home`, { state: { id_usuarios: id_usuarios, idUsuarios: idUsuarios, username: username, saldo: saldo} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
                 console.error('Error al crear el préstamo. Valores:', prestamo);
             }
-        } catch (error) {
+        }catch (error) {
             console.error('Error al procesar la solicitud:', error);
             console.error('Error al crear el préstamo. Valores:', prestamo);
         }
+        
     };
+
+
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
     useEffect(() => {
         const getBookInfo = async () => {
@@ -111,7 +156,9 @@ const Prestamos: React.FC = () => {
     }, []);
     return (
         <>
-            <Header />
+            <div>
+                {renderHeader()}
+            </div>
             <Categorias num={0} />
             <div className="container-infolibro">
                 <div className="texto-morado">

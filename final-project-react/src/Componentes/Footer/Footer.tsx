@@ -1,12 +1,21 @@
 import React from 'react';
 import "./Footer.css"
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Footer: React.FC = () => {
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
     const navigate = useNavigate();
 
     const handleDonateClick = () => {
-        navigate('/donaciones');
+        if (!id_usuarios) {
+            navigate(`/login`);
+        } else {
+            navigate(`/donaciones`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        }
+        
     };
 
     return (

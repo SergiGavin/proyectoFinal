@@ -4,11 +4,18 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 import Footer from "../../Componentes/Footer/Footer";
 import "./Donaciones.css";
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import Header from '../../Componentes/Header/Header';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Donaciones: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+    
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -46,8 +53,28 @@ const Donaciones: React.FC = () => {
             [name]: value,
         });
     };
+    const mostrarToastDonacionNoExito = () => {
+        toast.error('Para donar un libro debe iniciar sesión', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+        navigate('/login');
+    };
+    const mostrarToastDonacionExito = () => {
+        toast.success('¡Donación realizada con éxito!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
 
-
+       
+    
 
     const registrarLibro = async () => {
         try {
@@ -73,6 +100,7 @@ const Donaciones: React.FC = () => {
     }
 
 
+    // TOASTY
     const registrarDonacion = async () => {
         try {
             const response = await fetch('http://localhost:8080/donaciones', {
@@ -135,18 +163,40 @@ const Donaciones: React.FC = () => {
         event.preventDefault();
         await registrarLibroAndDonacion();
         console.log('Redireccionando a la página de inicio');
-        if(id_usuarios){
-            navigate(`/home`, { state: { id_usuarios: id_usuarios} });
-        }else if(!id_usuarios){
-            navigate(`/`, { state: { id_usuarios: id_usuarios} });
+        if (id_usuarios) {
+            if (!book.titulo || !book.genero || !book.autor || !book.estado || !book.num_pag) {
+                // Mostrar un toast de error indicando que todos los campos son obligatorios
+                toast.error('Todos los campos del formulario son obligatorios', {
+                    position: toast.POSITION.TOP_CENTER,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    draggable: false,
+                    autoClose: 2000
+                });
+            return;
+            }
+            mostrarToastDonacionExito()
+            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
+        } else if (!id_usuarios) {
+            mostrarToastDonacionNoExito()
+            navigate(`/login`, { state: { id_usuarios: id_usuarios } });
         }
-        
     };
+
+    const renderHeader = () => {
+        if (id_usuarios == null || id_usuarios == 0) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
 
     return (
         <>
-            <HeaderOnlyTitle />
+            <div>
+                {renderHeader()}
+            </div>
             <div className="container donaciones-box">
                 <h2 className='text-donacion my-5'>¡Comparte lo que has vivido!</h2>
                 <div className="card donaciones-box d-flex justify-content-center align-items-center text-donacionesinputs my-4">
@@ -237,7 +287,9 @@ const Donaciones: React.FC = () => {
                             </div>
                             <div className="col"></div>
                         </div>
+                        <div className="container caja-boton-donar">
                         <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
+                        </div>
                     </Form>
 
                 </div>

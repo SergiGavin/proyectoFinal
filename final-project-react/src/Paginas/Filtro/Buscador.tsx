@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import Header from '../../Componentes/Header/Header';
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 import Categorias from '../../Componentes/Categorias/Categorias';
 import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from "../../Componentes/Footer/Footer"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Todos() {
     const location = useLocation();
     const num = location.state?.categoryId;
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
     const datoBuscador = location.state?.searchValue;
     const [libros, setLibros] = useState<any[]>([]);
     console.log(datoBuscador);
@@ -43,13 +49,33 @@ export default function Todos() {
         }
     }, [datoBuscador]);
 
+    
+    const mostrarToastBuscadorVacio = () => {
+        toast.error('Introduzca algun titulo o autor para buscar', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 1000
+        });
+    };
+    
 
 
     const cantidadDeFilas = Math.ceil(libros.length / 5);
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
     return (
         <>
-            <Header />
+            <div>
+                {renderHeader()}
+            </div>
             <Categorias num={num} />
             <div className="row justify-content-center mx-3 my-5">
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => {
