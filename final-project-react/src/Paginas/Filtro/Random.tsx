@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import "./Prestamo.css"
 import Header from '../../Componentes/Header/Header';
 import Footer from "../../Componentes/Footer/Footer";
 import Categorias from "../../Componentes/Categorias/Categorias";
@@ -9,13 +8,16 @@ import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Prestamos: React.FC = () => {
+const Random: React.FC = () => {
+    // Recibir la prop
     const location = useLocation();
+
     const id_libros = location.state?.id_libros;
-    const id_usuarios = location.state?.id_usuarios;
     const idUsuarios = location.state?.id_usuarios;
+    const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
+    const num = location.state?.categoryId;
 
     const [book, setBook] = useState({
         titulo: '',
@@ -23,18 +25,16 @@ const Prestamos: React.FC = () => {
         autor: '',
         num_pag: '',
         estado: '',
-        valor: '',
+        valor: '',  
         sinopsis: '',
         foto_portada: '',
     });
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-
-
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios,
-        id_libros: id_libros,
+        idUsuarios: idUsuarios, 
+        id_libros: id_libros, // Asegúrate de que id_libros no sea undefined
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
@@ -46,8 +46,12 @@ const Prestamos: React.FC = () => {
         }else{
             setShowModal(true);
         }
-        
     } 
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
     const mostrarToastPrestamoNoExito = () => {
         toast.error('Para tomar prestado un libro debe iniciar sesión', {
             position: toast.POSITION.TOP_CENTER,
@@ -66,10 +70,6 @@ const Prestamos: React.FC = () => {
             draggable: false,
             autoClose: 2000
         });
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -92,35 +92,24 @@ const Prestamos: React.FC = () => {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
-                mostrarToastPrestamoExito();
+                mostrarToastPrestamoExito()
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/home`, { state: { id_usuarios: id_usuarios, idUsuarios: idUsuarios, username: username, saldo: saldo} });
+                navigate(`/`, { state: { id_usuarios: idUsuarios} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
                 console.error('Error al crear el préstamo. Valores:', prestamo);
             }
-        }catch (error) {
+        } catch (error) {
             console.error('Error al procesar la solicitud:', error);
             console.error('Error al crear el préstamo. Valores:', prestamo);
         }
-        
     };
-
-
-    const renderHeader = () => {
-        if (id_usuarios == null) {
-            return <Header />;
-        } else {
-            return <HeaderLoged />;
-        }
-    }
-
+    
     useEffect(() => {
         const getBookInfo = async () => {
-            console.log("el id del libro pulsado es:   " + id_libros)
             try {
-                const response = await fetch(`http://localhost:8080/libros/${id_libros}`, {
+                const response = await fetch(`http://localhost:8080/libros/random`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -129,6 +118,8 @@ const Prestamos: React.FC = () => {
 
                 if (response.ok) {
                     const data = await response.json();
+                    console.log('Datos del libro:', data);
+                    console.log('id_libros:', data.id_libros); 
                     setBook({
                         titulo: data.titulo,
                         genero: data.genero,
@@ -138,6 +129,11 @@ const Prestamos: React.FC = () => {
                         valor: data.valor,
                         sinopsis: data.sinopsis,
                         foto_portada: data.foto_portada
+                    });
+                    setPrestamo({
+                        idUsuarios: idUsuarios,
+                        id_libros: data.id_libros,
+                        fechaDevolucion: defaultReturnDate,
                     });
                 } else {
                     throw new Error('Error al obtener la información del libro');
@@ -152,14 +148,22 @@ const Prestamos: React.FC = () => {
         const today = new Date();
         const todayPlus30 = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
         setDefaultReturnDate(todayPlus30);
-
+        
     }, []);
+
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
     return (
         <>
             <div>
                 {renderHeader()}
             </div>
-            <Categorias num={0} />
+            <Categorias num={num} />
             <div className="container-infolibro">
                 <div className="texto-morado">
                     <div className="row g-0 align-items-center">
@@ -213,4 +217,4 @@ const Prestamos: React.FC = () => {
         </>
     );
 };
-export default Prestamos;
+export default Random;

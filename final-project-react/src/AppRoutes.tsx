@@ -17,6 +17,8 @@ import React from 'react';
 import Donaciones from './Paginas/Donaciones/Donacion';
 import Prestamos from './Paginas/Prestamos/Prestamo';
 import Historial from './Paginas/Historial/Historial';
+import Random from './Paginas/Filtro/Random';
+import Buscador from './Paginas/Filtro/Buscador';
 
 function AppRoutes() {
     return (
@@ -38,6 +40,9 @@ function AppRoutes() {
             <Route path='/donaciones' element={<Donaciones />} />
             <Route path='/prestamos' element={<Prestamos />} />
             <Route path='/historial' element={<Historial />} />
+            <Route path='/random' element={<Random />} />
+            <Route path='/buscador' element={<Buscador />} />
+
         </Routes>
     );
 }

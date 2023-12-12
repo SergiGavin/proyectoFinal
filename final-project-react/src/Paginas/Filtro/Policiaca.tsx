@@ -5,11 +5,15 @@ import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from '../../Componentes/Footer/Footer';
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 
 export default function Todos() {
     // Recibir la prop
     const location = useLocation();
     const num = location.state?.categoryId;
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
 
     const [libros, setLibros] = useState<any[]>([]); // Estado para almacenar los libros
 
@@ -22,10 +26,19 @@ export default function Todos() {
     }, []);
 
     const cantidadDeFilas = Math.ceil(libros.length / 5); // Calcula la cantidad de filas necesarias
+    const renderHeader = () => {
+        if (id_usuarios == null) {
+            return <Header />;
+        } else {
+            return <HeaderLoged />;
+        }
+    }
 
     return (
         <>
-            <Header />
+            <div>
+                {renderHeader()}
+            </div>
             <Categorias num={num} />
             <div className="row justify-content-center mx-3 my-5">
                 {[...Array(cantidadDeFilas)].map((_, rowIndex) => {

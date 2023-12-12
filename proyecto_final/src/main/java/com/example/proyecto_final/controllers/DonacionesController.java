@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.services.DonacionService;
+import com.example.proyecto_final.services.UsuarioService;
 
 
 
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
 @RequestMapping("/donaciones")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
+//@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
+
 public class DonacionesController {
 
 	@Autowired
@@ -53,4 +56,5 @@ public class DonacionesController {
 		public void eliminarDonacion(@PathVariable Long id) {
 			donacionService.deleteDonacionById(id);
 		}
+		
 }

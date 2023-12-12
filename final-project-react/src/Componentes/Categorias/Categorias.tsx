@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Categorias.css"
 import { useState } from 'react';
-import {useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface Category {
     id: number;
@@ -12,10 +12,12 @@ interface CategoriasProps {
     num: number; // Recibe el número de la categoría
 }
 
-const Categorias: React.FC<CategoriasProps> = ({ num}) => {
+const Categorias: React.FC<CategoriasProps> = ({ num }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
 
     const categories: Category[] = [
         { id: 1, name: 'Clásica' },
@@ -28,40 +30,50 @@ const Categorias: React.FC<CategoriasProps> = ({ num}) => {
         { id: 8, name: 'Romance' },
         { id: 9, name: 'Terror' },
         { id: 10, name: 'Todos' },
-        { id: 11, name: '¡Libro aleatorio!' }
+        { id: 11, name: '¡Libro aleatorio!' },
+        { id: 12, name: ' ' },
         // Asegúrate de importar las imágenes correspondientes aquí
     ];
 
     const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
+    const currentPath = window.location.pathname.toLowerCase();
+
     const handleCategoryClick = (categoryId: number) => {
         setSelectedCategoryId(categoryId);
-        navigate(`/${categories.find(cat => cat.id === categoryId)?.name.toLowerCase()}`, { state: { categoryId } });
+        // navigate(`/${categories.find(cat => cat.id === categoryId && bucle)?.name.toLowerCase()}`, { state: { categoryId } });
         if (categoryId === 1) {
-            navigate("/clasica", { state: { categoryId: categoryId } });
+            navigate("/clasica", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 2) {
-            navigate("/drama", { state: { categoryId: categoryId } });
+            navigate("/drama", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 3) {
-            navigate("/ficcion", { state: { categoryId: categoryId } });
+            navigate("/ficcion", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 4) {
-            navigate("/fantasia", { state: { categoryId: categoryId } });
+            navigate("/fantasia", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 5) {
-            navigate("/historica", { state: { categoryId: categoryId } });
+            navigate("/historica", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 6) {
-            navigate("/policiaca", { state: { categoryId: categoryId } });
+            navigate("/policiaca", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 7) {
-            navigate("/infantil", { state: { categoryId: categoryId } });
+            navigate("/infantil", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 8) {
-            navigate("/romance", { state: { categoryId: categoryId } });
+            navigate("/romance", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (categoryId === 9) {
-            navigate("/terror", { state: { categoryId: categoryId } });
+            navigate("/terror", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         }
         else if (categoryId === 10) {
-            navigate("/todos", { state: { categoryId: categoryId } });
+            navigate("/todos", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         }
         else if (categoryId === 11) {
-            navigate("/random", { state: { id_usuarios: id_usuarios} });
+            if (currentPath !== '/random') {
+                navigate("/random", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
+            } else {
+                window.location.reload();
+            }
+        } else if (categoryId === 12) {
+            navigate("/buscador", { state: { categoryId: categoryId, id_usuarios: id_usuarios, username: username, saldo: saldo } });
         }
+
     };
 
     return (

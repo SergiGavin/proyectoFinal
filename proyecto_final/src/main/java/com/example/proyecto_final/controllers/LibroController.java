@@ -1,8 +1,11 @@
 package com.example.proyecto_final.controllers;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -17,17 +20,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.proyecto_final.entities.LibrosEntity;
-import com.example.proyecto_final.entities.PrestamosEntity;
 import com.example.proyecto_final.services.LibroService;
 
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
+
 @RequestMapping("/libros")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5500",
-		"http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173" })
+//@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5500",
+	//	"http://127.0.0.1:5500", "http://localhost:5173", "http://127.0.0.1:5173" })
+
 public class LibroController {
 
 	@Autowired
@@ -123,8 +129,25 @@ public class LibroController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping("/titulo/{titulo}")
+    public ResponseEntity<?> obtenerLibrosPorTitulo(@PathVariable String titulo) {
+        if (titulo != null) {
+            titulo = titulo.trim();
+        } else {
+            return new ResponseEntity<>("Introduzca el título", HttpStatus.BAD_REQUEST);
+        }
 
-	// MIRAR DE AÑADIR QUE NO SALGA LIBRO QUE HAYA TOMADO PRESTADO
+        List<LibrosEntity> librosPorTitulo = libroService.getLibrosByTitulo(titulo);
+
+        if (!librosPorTitulo.isEmpty()) {
+            return new ResponseEntity<>(librosPorTitulo, HttpStatus.OK);
+        } else {
+            String mensaje = "No se encontraron libros para el título: " + titulo;
+            return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+        }
+    }
+
 	@GetMapping("/random")
 	public ResponseEntity<?> obtenerLibroRandom() {
 		List<LibrosEntity> todosLosLibros = libroService.getAllLibros();
@@ -138,6 +161,45 @@ public class LibroController {
 
 		return new ResponseEntity<>(libroAleatorio, HttpStatus.OK);
 	}
+	@GetMapping("/tituloautor/{titulo}/{autor}")
+	public ResponseEntity<?> buscarLibros(
+	        @PathVariable(name = "titulo", required = false) String titulo,
+	        @PathVariable(name = "autor", required = false) String autor) {
+
+	    // Si ambos parámetros son nulos, puedes devolver un error
+	    if (titulo == null && autor == null) {
+	        return new ResponseEntity<>("Introduzca al menos el título o el autor", HttpStatus.BAD_REQUEST);
+	    }
+
+	    // Tratar cadenas nulas como cadenas vacías para evitar problemas en la búsqueda
+	    if (titulo != null) {
+	        titulo = titulo.trim();
+	    }
+
+	    if (autor != null) {
+	        autor = autor.trim();
+	    }
+
+	    // Lógica de búsqueda en el servicio
+	    List<LibrosEntity> resultadosPorTitulo = new ArrayList<>();
+	    List<LibrosEntity> resultadosPorAutor = new ArrayList<>();
+
+	    if (titulo != null) {
+	        resultadosPorTitulo = libroService.getLibrosByTitulo(titulo);
+	    }
+
+	    if (autor != null) {
+	        resultadosPorAutor = libroService.getLibrosByAutor(autor);
+	    }
+
+	    // Puedes combinar o procesar los resultados según tus necesidades
+
+	    Map<String, List<LibrosEntity>> resultados = new HashMap<>();
+	    resultados.put("titulo", resultadosPorTitulo);
+	    resultados.put("autor", resultadosPorAutor);
+
+	    return new ResponseEntity<>(resultados, HttpStatus.OK);
+	}
 
 	// Put
 	@PutMapping
@@ -149,10 +211,15 @@ public class LibroController {
 				libro.getNum_pag(),
 				libro.getEstado()
 				); 
+		BigDecimal precioInicial = calcularPrecio(libro.getNum_pag(), libro.getEstado());
+		BigDecimal factorDescuento = new BigDecimal("0.67");
+		BigDecimal precioConDescuento = precioInicial.multiply(factorDescuento);
+	    newLibro.setValor(precioConDescuento);
+		
 		System.out.println("Datos del libro creado:  "+newLibro.toString());
 		return libroService.createLibro(newLibro);
 	}
-
+	
 
 	// Patch
 	@PatchMapping("/{id}")
@@ -196,4 +263,31 @@ public class LibroController {
 	public void eliminarLibro(@PathVariable Long id) {
 		libroService.deleteLibroById(id);
 	}
+	
+	public BigDecimal calcularPrecio(int paginas, String estado) {
+	    // Coeficientes para el cálculo
+	    BigDecimal factorPaginas = new BigDecimal("0.03");
+	    BigDecimal factorEstado = obtenerFactorEstado(estado);
+
+	    // Calcula el precio sin el factor de antigüedad
+	    BigDecimal precio = BigDecimal.valueOf(paginas)
+	            .multiply(factorPaginas)
+	            .multiply(factorEstado);
+
+	    return precio;
+	}
+
+	public BigDecimal obtenerFactorEstado(String estado) {
+	    switch (estado.toLowerCase()) {
+	        case "malo":
+	            return BigDecimal.ONE;
+	        case "decente":
+	            return new BigDecimal("1.1");
+	        case "bueno":
+	            return new BigDecimal("1.2");
+	        default:
+	            return BigDecimal.ONE;
+	    }
+	}
+	
 }

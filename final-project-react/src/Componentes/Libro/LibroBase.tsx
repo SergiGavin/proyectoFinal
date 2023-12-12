@@ -4,11 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 const LibroBase = ({ libro }: { libro: any }) => {
+    const location = useLocation();
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
+
     const navigate = useNavigate();
 
     const handleLibroClick = () => {
         console.log("ID del libro seleccionado:", libro.id_libros);
-        navigate(`/prestamos`, { state: { id_libros: libro.id_libros } });
+        navigate(`/prestamos`, { state: { id_libros: libro.id_libros, id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
     return (

@@ -6,28 +6,30 @@
     --violet: #5e405b;
 }
 
-.register-box {
+.donaciones-box {
     color: var(--violet);
     font-size: larger;
-    text-align: -webkit-center;
+    margin-bottom: 10vh;  
+    text-align: left;  
 
 
-    && .boton-register {
+    && .boton-donacion {
         background-color: var(--dark-orange);
         color: white;
         font-size: large;
         width: 20vh;
     }
 
-    && .boton-register:hover {
+    && .boton-donacion:hover {
         background-color: var(--violet);
     }
 
-    && .text-register {
+    && .text-donacion {
         color: var(--dark-orange);
+        text-align: center;
     }
 
-    && .text-inputs {
+    && .text-donacionesinputs {
         font-size: larger;
         font-weight: 500;
         color: var(--violet);
@@ -38,7 +40,7 @@
     }
 
     && .input-texto {
-        width: 45vh;
+        width: 50vh;
     }
 
     && .input-texto:focus {
@@ -50,22 +52,12 @@
         border-color: var(--dark-orange);
     }
 
-    && .fomr-select:hover{
-        background-color: var(--orange);
-    }
-
     && .card {
-        width: 120vh;
+        width: 140vh;
         align-items: center;
     }
 
-    && .box-inputs {
-        text-align: justify;
-    }
-
-    && .pass-text{
-        font-size: medium;
-        font-weight: 300;
-        color: darkgray;
+    && .caja-boton-donar{
+        text-align-last: center;
     }
 }

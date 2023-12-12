@@ -44,7 +44,9 @@ public class LibrosEntity {
 		this.num_pag = num_pag;
 		this.estado = estado;
 	}
-	
-	
-	
+	public LibrosEntity(String titulo, String autor) {
+		super();
+		this.titulo = titulo;
+		this.autor = autor;
+	}
 }
