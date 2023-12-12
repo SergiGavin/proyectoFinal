@@ -15,7 +15,7 @@ const Donaciones: React.FC = () => {
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
-    
+
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -79,8 +79,8 @@ const Donaciones: React.FC = () => {
         });
     };
 
-       
-    
+
+
 
     const registrarLibro = async () => {
         try {
@@ -182,10 +182,10 @@ const Donaciones: React.FC = () => {
                     progress: undefined,
                     theme: "light",
                 });
-            return;
+                return;
             }
             mostrarToastDonacionExito()
-            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
+            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
         } else if (!id_usuarios) {
             mostrarToastDonacionNoExito()
             navigate(`/login`, { state: { id_usuarios: id_usuarios } });
@@ -202,7 +202,7 @@ const Donaciones: React.FC = () => {
 
 
     return (
-        <>
+        <> 
             <div>
                 {renderHeader()}
             </div>
@@ -297,16 +297,14 @@ const Donaciones: React.FC = () => {
                             <div className="col"></div>
                         </div>
                         <div className="container caja-boton-donar">
-                        <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
+                            <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
                         </div>
                     </Form>
 
                 </div>
 
             </div>
-
             <Footer />
-
         </>
     );
 
