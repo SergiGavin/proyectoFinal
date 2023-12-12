@@ -1,4 +1,38 @@
-.margin{
-    margin-top: 23vh;
-    text-align: left;
+/* PALETA DE COLORES */
+:root {
+    --salmon: #ff5252;
+    ;
+    --dark-orange: #ff7752;
+    --orange: #ff9a52;
+    --dark-yellow: #ffb752;
+    --violet: #5e405b;
+}
+
+.tabla-libros {
+    margin: 5vh 20vh 5vh;
+    font-size: larger;
+    color: var(--violet);
+
+    && .table td {
+        color: var(--violet);
+        vertical-align: middle;
+        font-weight: 400;
+        font-size: large;
+    }
+
+    && .table th {
+        color: var(--violet);
+        font-size: larger;
+        vertical-align: middle;
+        height: 10vh;
+        font-weight: 500;
+    }
+
+    && .imagen-libro img {
+        width: 17vh; /* Define el ancho máximo */
+        height: 25vh; /* Define la altura máxima */
+        object-fit: cover; /* Recorta y cubre el espacio */
+        display: block; /* Asegura el centrado horizontal */
+        margin: auto; /* Centra horizontalmente */
+      }
 }
