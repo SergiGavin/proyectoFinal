@@ -1,5 +1,6 @@
 package com.example.proyecto_final.controllers;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
+import com.example.proyecto_final.services.DonacionService;
 import com.example.proyecto_final.services.UsuarioService;
 
 
@@ -32,7 +35,8 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-
+	@Autowired
+	private DonacionService donacionService;
 	// GET
 	@GetMapping
 	public List<UsuariosEntity> listarUsuarios() {
@@ -78,28 +82,41 @@ public class UsuarioController {
 	// Pasamos como variable el id ya que se necesitará para editar el usuario en
 	// especifico.
 	public ResponseEntity<?> actualizarUser(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
-		Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
-	    LibroController libro = new LibroController();
-	    LibrosEntity l = new LibrosEntity();
-		if (usuarioActualizar.isPresent()) {
-	    	UsuariosEntity usuarioExistente = usuarioActualizar.get();
-	    	if (usuario.getPass() != null) {
-	    		usuarioExistente.setPass(usuario.getPass());
-	    	}
-	    	if (usuario.getSaldo() != null) {
-	    		usuarioExistente.setSaldo(usuario.getSaldo().add(libro.calcularPrecio(l.getNum_pag(), l.getEstado())));
-	    	}
-	    //Para guardar en la bbdd
-	    UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
-	   
-        return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
-	    }else{
-	    	 // Responder con un mensaje indicando que no se encontró el usuario
+	    Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+
+	    if (usuarioActualizar.isPresent()) {
+	        UsuariosEntity usuarioExistente = usuarioActualizar.get();
+
+	        if (usuario.getPass() != null) {
+	            usuarioExistente.setPass(usuario.getPass());
+	        }
+
+	        // Obtener la donación por usuario
+	        Optional<DonacionesEntity> donacionOptional = donacionService.obtenerDonacionPorUsuario(usuarioExistente);
+
+	        if (donacionOptional.isPresent()) {
+	            DonacionesEntity donacion = donacionOptional.get();
+
+	            // Calcular el valor de la donación utilizando el nuevo método
+	            BigDecimal valorDonacion = calcularValorDonacion(donacion.getLibro());
+
+	            // Actualizar el saldo del usuario sumando el valor de la donación
+	            usuarioExistente.setSaldo(usuarioExistente.getSaldo().add(valorDonacion));
+
+	            // Guardar el usuario actualizado en la base de datos
+	            UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
+
+	            return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+	        } else {
+	            // Manejar el caso en que no hay donación para el usuario
+	            return new ResponseEntity<>("No se encontró ninguna donación para el usuario con ID: " + id, HttpStatus.NOT_FOUND);
+	        }
+	    } else {
+	        // Responder con un mensaje indicando que no se encontró el usuario
 	        String mensaje = "No se encontró ningún usuario con el ID: " + id;
 	        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 	    }
 	}
-
 	// DELETE
 	@DeleteMapping("/{id}")
 	public void eliminarUsuario(@PathVariable Long id) {
@@ -167,7 +184,7 @@ public class UsuarioController {
         }
     }
     
-    @PatchMapping("/updatesaldo/{id}")
+  /*  @PatchMapping("/updatesaldo/{id}")
     public ResponseEntity<?> actualizarSaldo(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
         Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
         if (usuarioActualizar.isPresent()) {
@@ -185,7 +202,37 @@ public class UsuarioController {
             String mensaje = "No se encontró ningún usuario con el ID: " + id;
             return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
         }
+    }*/
+    private BigDecimal calcularValorDonacion(LibrosEntity donacion) {
+    	
+        // Reutiliza la lógica de calcular el precio en LibroController
+        BigDecimal precioInicial = calcularPrecio(donacion.getNum_pag(), donacion.getEstado());
+        return precioInicial;
     }
-    
+	public BigDecimal calcularPrecio(int paginas, String estado) {
+	    // Coeficientes para el cálculo
+	    BigDecimal factorPaginas = new BigDecimal("0.03");
+	    BigDecimal factorEstado = obtenerFactorEstado(estado);
+
+	    // Calcula el precio sin el factor de antigüedad
+	    BigDecimal precio = BigDecimal.valueOf(paginas)
+	            .multiply(factorPaginas)
+	            .multiply(factorEstado);
+
+	    return precio;
+	}
+
+	public BigDecimal obtenerFactorEstado(String estado) {
+	    switch (estado.toLowerCase()) {
+	        case "malo":
+	            return BigDecimal.ONE;
+	        case "decente":
+	            return new BigDecimal("1.1");
+	        case "bueno":
+	            return new BigDecimal("1.2");
+	        default:
+	            return BigDecimal.ONE;
+	    }
+	}
 	
 }
