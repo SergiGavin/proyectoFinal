@@ -133,7 +133,7 @@ const HeaderLoged: React.FC = () => {
                                 <Dropdown.Item href="" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
                                 <Dropdown.Item href="" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
                                 <Dropdown.Item href="">Ajustes de cuenta</Dropdown.Item>
-                                <Dropdown.Item href="" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                                <Dropdown.Item href="/login">Cerrar sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
