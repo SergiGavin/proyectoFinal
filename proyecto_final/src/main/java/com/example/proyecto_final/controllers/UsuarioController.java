@@ -54,6 +54,17 @@ public class UsuarioController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
+	@GetMapping("/saldo/{id}")
+	public ResponseEntity<?> obtenerUsuarioSoloSaldo(@PathVariable Long id) {
+		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);
+		if (usuarioPorId.isPresent()) {
+			 BigDecimal saldo = usuarioPorId.get().getSaldo();
+			return new ResponseEntity<>(saldo, HttpStatus.OK);
+		} else {
+			String mensaje = "No se encontró ningún usuario con el ID: " + id;
+			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		}
+	}
 	
 	@GetMapping("/saldo/{id}")
 	public ResponseEntity<?> obtenerUsuarioSoloSaldo(@PathVariable Long id) {
