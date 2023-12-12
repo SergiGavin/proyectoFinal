@@ -1,6 +1,8 @@
 import React from 'react';
 import "./Footer.css"
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Footer: React.FC = () => {
     const location = useLocation();
@@ -8,9 +10,38 @@ const Footer: React.FC = () => {
     const username = location.state?.username;
     const saldo = location.state?.saldo;
     const navigate = useNavigate();
+    
+
+
+    const mostrarToastDonacionNoExito = () => {
+        toast.error('Para donar un libro debe iniciar sesión', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+        navigate('/login');
+    };
+    const mostrarToastDonacionExito = () => {
+        toast.success('¡Donación realizada con éxito!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    };
 
     const handleDonateClick = () => {
         if (!id_usuarios) {
+            mostrarToastDonacionNoExito();
             navigate(`/login`);
         } else {
             navigate(`/donaciones`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });

@@ -52,11 +52,14 @@ export default function Todos() {
     
     const mostrarToastBuscadorVacio = () => {
         toast.error('Introduzca algun titulo o autor para buscar', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 1000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
     
