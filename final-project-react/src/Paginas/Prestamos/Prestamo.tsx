@@ -41,6 +41,24 @@ const Prestamos: React.FC = () => {
         pass: ''
     };
 
+    const [usuario, setUsuario] = useState({
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    });
+
+    const calcularSaldo = (saldo: number, book: { valor: number }): number => {
+        let newSaldo = saldo - book.valor;
+    
+    return newSaldo;
+}
+
 
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
@@ -131,7 +149,7 @@ const Prestamos: React.FC = () => {
                     mostrarToastPrestamoExito();
                     let restante = saldo - valorLibroNumerico;
                     setSaldo(restante);
-                    //saldo -= valorLibroNumerico;
+                    saldo -= valorLibroNumerico;
                     
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
                     navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
@@ -197,6 +215,38 @@ const Prestamos: React.FC = () => {
         setDefaultReturnDate(todayPlus30);
 
     }, []);
+
+    const actualizarUsuario = async () => {
+
+        try {
+
+            const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // No body for GET requests
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status}`);
+            }
+            const result = await response.json();
+            usuarioBack = result;
+            usuarioBack.saldo = calcularSaldo(result.saldo, result.valor);
+
+            const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuarioBack),
+            });
+            const responseData = await responsePut.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error as needed
+        }}
     return (
         <>
             <div>
