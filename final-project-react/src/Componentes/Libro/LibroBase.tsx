@@ -17,14 +17,12 @@ const LibroBase = ({ libro }: { libro: any }) => {
     };
 
     return (
-        <div>
-            <div className="card card-libro texto-morado mx-3 my-3" onClick={handleLibroClick}>
-                <img src={libro.foto_portada} className="card-img-top contenedor-imagen libro-img" alt={libro.titulo} />
-                <div className="card-body">
-                    <h5 className="texto-morado">{libro.titulo}</h5>
-                    <p className="texto-morado">{libro.autor}</p>
-                    {/* Otros campos del libro */}
-                </div>
+        <div className="card card-libro texto-morado mx-3 my-3" onClick={handleLibroClick}>
+            <img src={libro.foto_portada} className="card-img-top contenedor-imagen libro-img" alt={libro.titulo} />
+            <div className="card-body">
+                <h5 className="texto-morado">{libro.titulo}</h5>
+                <p className="texto-morado">{libro.autor}</p>
+                {/* Otros campos del libro */}
             </div>
         </div>
     );
