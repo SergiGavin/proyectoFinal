@@ -1,5 +1,7 @@
 package com.example.proyecto_final.dtos;
 
+import java.math.BigDecimal;
+
 import com.example.proyecto_final.entities.UsuariosEntity;
 
 import lombok.Data;
@@ -12,7 +14,7 @@ public class UsuariosDTO {
 	private String dni;
 	private String correo;
 	private Integer telefono;
-	private String saldo;
+	private BigDecimal saldo;
 	private String username;
 	private String pass;
 

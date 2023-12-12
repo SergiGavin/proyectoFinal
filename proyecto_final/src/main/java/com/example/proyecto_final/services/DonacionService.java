@@ -1,10 +1,14 @@
 package com.example.proyecto_final.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.proyecto_final.entities.DonacionesEntity;
+import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.repository.DonacionesRepository;
 
 @Service
@@ -33,5 +37,20 @@ public class DonacionService {
 	public void deleteDonacionById(Long id) {
 		donacionesRepository.deleteById(id);
 	}
+	
+    public Optional<DonacionesEntity> obtenerDonacionPorUsuario(UsuariosEntity usuario) {
+        List<DonacionesEntity> donacionesUsuario = donacionesRepository.findAll()
+                .stream()
+                .filter(d -> d.getId_usuarios().equals(usuario.getId_usuarios()))
+                .collect(Collectors.toList());
 
+        if (!donacionesUsuario.isEmpty()) {
+            // Si hay donaciones para el usuario, puedes decidir qué donación devolver aquí.
+            // En este caso, devolveré la primera donación encontrada.
+            return Optional.of(donacionesUsuario.get(0));
+        } else {
+            // Si no hay donaciones para el usuario, devolver un Optional vacío.
+            return Optional.empty();
+        }
+    }
 }
