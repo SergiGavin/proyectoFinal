@@ -9,8 +9,6 @@ target/
 .settings
 .springBeans
 .sts4-cache
-.metadata
-.classpath
 
 ### IntelliJ IDEA ###
 .idea
