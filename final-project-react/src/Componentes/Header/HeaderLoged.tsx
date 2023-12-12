@@ -15,6 +15,7 @@ const HeaderLoged: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+    const idUsuarios = location.state?.idUsuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
 

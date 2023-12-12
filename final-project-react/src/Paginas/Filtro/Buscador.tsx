@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Header from '../../Componentes/Header/Header';
 import HeaderLoged from '../../Componentes/Header/HeaderLoged';
 import Categorias from '../../Componentes/Categorias/Categorias';
@@ -18,6 +18,8 @@ export default function Todos() {
     const datoBuscador = location.state?.searchValue;
     const [libros, setLibros] = useState<any[]>([]);
     console.log(datoBuscador);
+
+    const showToastRef = useRef(false);
     useEffect(() => {
         const fetchLibros = async () => {
             try {
@@ -38,6 +40,7 @@ export default function Todos() {
                 console.log("Libros obtenidos:", JSON.stringify(librosResponse, null, 2));
 
                 setLibros(librosResponse);
+                
             } catch (error) {
                 console.error('Error al obtener los libros:', error);
             }
@@ -46,9 +49,12 @@ export default function Todos() {
         // Verifica si hay datos de búsqueda antes de realizar la llamada a la API
         if (datoBuscador) {
             fetchLibros();
+        }else if(!datoBuscador && !showToastRef.current){
+            mostrarToastBuscadorVacio();
+            showToastRef.current = true;
         }
-    }, [datoBuscador]);
-
+    }, [datoBuscador]);  
+    
     
     const mostrarToastBuscadorVacio = () => {
         toast.error('Introduzca algun titulo o autor para buscar', {
@@ -62,7 +68,6 @@ export default function Todos() {
             theme: "light",
         });
     };
-    
 
 
     const cantidadDeFilas = Math.ceil(libros.length / 5);
