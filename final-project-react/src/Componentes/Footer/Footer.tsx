@@ -26,18 +26,6 @@ const Footer: React.FC = () => {
         });
         navigate('/login');
     };
-    const mostrarToastDonacionExito = () => {
-        toast.success('¡Donación realizada con éxito!', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-        });
-    };
 
     const handleDonateClick = () => {
         if (!id_usuarios) {
