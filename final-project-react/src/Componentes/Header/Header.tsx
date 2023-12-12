@@ -73,11 +73,7 @@ const Header: React.FC = () => {
     const currentPath = window.location.pathname.toLowerCase();
 
     const handleBuscarClick = () => {
-        if (currentPath === '/buscador') {
-            navigate('/buscador#', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
-        } else {
-            navigate('/buscador', { state: { id_usuarios: location.state?.id_usuarios, searchValue: searchValue } });
-        }
+        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue} });
         
     };
 

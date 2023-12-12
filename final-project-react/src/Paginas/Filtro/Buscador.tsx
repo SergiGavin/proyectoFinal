@@ -6,6 +6,8 @@ import LibroBase from '../../Componentes/Libro/LibroBase';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from "../../Componentes/Footer/Footer"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Todos() {
     const location = useLocation();
@@ -47,6 +49,17 @@ export default function Todos() {
         }
     }, [datoBuscador]);
 
+    
+    const mostrarToastBuscadorVacio = () => {
+        toast.error('Introduzca algun titulo o autor para buscar', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 1000
+        });
+    };
+    
 
 
     const cantidadDeFilas = Math.ceil(libros.length / 5);

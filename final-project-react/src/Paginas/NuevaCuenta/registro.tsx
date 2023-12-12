@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import "./registro.css"
 import HeaderOnlyTitle from '../../Componentes/Header/HeaderOnlyTitle';
 import Footer from "../../Componentes/Footer/Footer";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register: React.FC = () => {
     const [userData, setUserData] = useState({
@@ -26,7 +28,33 @@ const Register: React.FC = () => {
             [name]: value,
         });
     };
-
+    const mostrarToastRegistroNoExito = () => {
+        toast.error('No se ha podido registrar. Revise los datos', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
+    const mostrarToastRegistroUsuarioExistente = () => {
+        toast.error('Ese nombre de usuario ya esta en uso. Revise los datos', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
+    const mostrarToastRegistroExito = () => {
+        toast.success('¡Registro completado!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
     const handleRegistro = async (e: React.FormEvent) => {
         //TOASTY PARA FALTAN CAMPOS Y TODO OK
         e.preventDefault(); // Evita el envío del formulario por defecto
@@ -37,24 +65,27 @@ const Register: React.FC = () => {
             // Mostrar mensaje de error indicando que algunos campos están vacíos
             console.error('Por favor, completa todos los campos');
         } else {
-            try {
-                const response = await fetch('http://localhost:8080/usuarios/registro', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData),
-                });
-    
-                if (response.ok) {
-                    console.log("Éxito")
-                    navigate('/login');
-                } else {
-                    throw new Error('Error al registrar usuario');
-                }
-            } catch (error) {
-                console.error('Error al registrar usuario:', error);
+        try {
+            const response = await fetch('http://localhost:8080/usuarios/registro', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+
+            if (response.ok) {
+                mostrarToastRegistroExito();
+                navigate('/login');
+                console.log("Éxito")
+            } else {
+                mostrarToastRegistroNoExito();
+                throw new Error('Error al registrar usuario');
             }
+        } catch (error) {
+            mostrarToastRegistroUsuarioExistente()
+            console.error('Error al registrar usuario:', error);
+        }
         }
     };
 
@@ -104,6 +135,8 @@ const Register: React.FC = () => {
                                         type="text"
                                         placeholder="DNI"
                                         name="dni"
+                                        maxLength={9}
+                                        minLength={9}
                                         value={userData.dni}
                                         onChange={handleChange}
                                     />
@@ -117,6 +150,8 @@ const Register: React.FC = () => {
                                         type="text"
                                         placeholder="Teléfono"
                                         name="telefono"
+                                        maxLength={9}
+                                        minLength={9}
                                         value={userData.telefono}
                                         onChange={handleChange}
                                     />
@@ -162,6 +197,7 @@ const Register: React.FC = () => {
                                         type="password"
                                         placeholder="Contraseña"
                                         name="pass"
+                                        minLength={8}
                                         value={userData.pass}
                                         onChange={handleChange}
                                     />

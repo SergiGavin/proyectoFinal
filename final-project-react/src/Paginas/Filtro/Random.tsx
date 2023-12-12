@@ -5,6 +5,8 @@ import Header from '../../Componentes/Header/Header';
 import Footer from "../../Componentes/Footer/Footer";
 import Categorias from "../../Componentes/Categorias/Categorias";
 import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Random: React.FC = () => {
     // Recibir la prop
@@ -37,10 +39,37 @@ const Random: React.FC = () => {
     });
     const navigate = useNavigate();
 
-    const handleShowModal = () => setShowModal(true);
+    const handleShowModal = () =>{
+        if(!idUsuarios){
+            mostrarToastPrestamoNoExito()
+            setShowModal(false);
+        }else{
+            setShowModal(true);
+        }
+    } 
 
     const handleCloseModal = () => {
         setShowModal(false);
+    };
+
+    const mostrarToastPrestamoNoExito = () => {
+        toast.error('Para tomar prestado un libro debe iniciar sesión', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+        navigate('/login');
+    };
+    const mostrarToastPrestamoExito = () => {
+        toast.success('¡Prestamo realizado con éxito!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -63,6 +92,7 @@ const Random: React.FC = () => {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
+                mostrarToastPrestamoExito()
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
                 navigate(`/`, { state: { id_usuarios: idUsuarios} });
             } else {

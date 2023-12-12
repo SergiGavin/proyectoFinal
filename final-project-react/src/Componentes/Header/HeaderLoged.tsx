@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown de Bootstrap
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const HeaderLoged: React.FC = () => {
@@ -62,9 +64,20 @@ const HeaderLoged: React.FC = () => {
     };
 
     const navigate = useNavigate();
+ 
+    const mostrarToastCierreSesionExito = () => {
+        toast.success('¡Sesión cerrada!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
+
 
     const handleHomeClick = () => {
-            navigate("/");
+            navigate("/home");
     };
 
     const handleDonateClick = () => {
@@ -93,6 +106,8 @@ const HeaderLoged: React.FC = () => {
         book.autor.toLowerCase().includes(inputValue.toLowerCase())
     ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
 
+
+    console.log("id usuario: "+id_usuarios+" username: "+username)
     return (
         <>
             <nav className="navbar navbarOrange">
