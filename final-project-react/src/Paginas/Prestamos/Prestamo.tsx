@@ -15,7 +15,8 @@ const Prestamos: React.FC = () => {
     const id_usuarios = location.state?.id_usuarios;
     //const idUsuarios = location.state?.id_usuarios;
     const username = location.state?.username;
-    let saldo = location.state?.saldo;
+    // let saldo = location.state?.saldo;
+    let [saldo, setSaldo] = useState(location.state?.saldo);
 
     const [book, setBook] = useState({
         titulo: '',
@@ -23,15 +24,28 @@ const Prestamos: React.FC = () => {
         autor: '',
         num_pag: '',
         estado: '',
-        valor: '',
+        valor: 0,
         sinopsis: '',
         foto_portada: '',
     });
+
+    let usuarioBack = {
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    };
+
+
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-    let saldoNumerico = parseFloat(saldo);
-    let valorLibroNumerico = parseFloat(book.valor);
+    let valorLibroNumerico = book.valor;
 
     const [prestamo, setPrestamo] = useState({
         idUsuarios: id_usuarios,
@@ -109,19 +123,18 @@ const Prestamos: React.FC = () => {
             console.log(JSON.stringify(prestamo));
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log("saldo usuario:"+saldoNumerico)
+                console.log("saldo usuario:"+saldo)
                 console.log("valor libro:"+valorLibroNumerico)
                 if(saldo >= valorLibroNumerico){
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
                     mostrarToastPrestamoExito();
-
-
-                    //OBTENER SALDO DE LA BBDD --- aqui estará restado
+                    let restante = saldo - valorLibroNumerico;
+                    setSaldo(restante);
                     //saldo -= valorLibroNumerico;
                     
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
-                    navigate(`/home`, { state: { id_usuarios: id_usuarios, /*idUsuarios: idUsuarios,*/ username: username, saldo: saldo} });
+                    navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
                 }else{
                     mostrarToastPrestamoNoSaldo();
                 }
