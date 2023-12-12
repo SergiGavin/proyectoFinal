@@ -62,19 +62,11 @@ const Header: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios
-    const handleDonarClick = () => {
-        navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios } });
-    };
 
-    const handleHistorialClick = () => {
-        navigate(`/Historial`, { state: { id_usuarios: id_usuarios } });
-    };
-
-    const currentPath = window.location.pathname.toLowerCase();
 
     const handleBuscarClick = () => {
-        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue} });
-        
+        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue } });
+
     };
 
     // MOSTRAR 5 RESULTADOS DEL BUSCADOR Y QUE SE ACTUALICE
@@ -92,44 +84,42 @@ const Header: React.FC = () => {
     ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
 
     return (
-        <>
-            <nav className="navbar navbarOrange">
-                <div className="container-fluid">
-                    <Link to="/" className="navbar-brand swapreadsTitulo mt-2">
-                        <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
-                        SwapReads
-                    </Link>
-                    {/*Todo lo de dentro de form es el buscador sergi  
+        <nav className="navbar navbarOrange">
+            <div className="container-fluid">
+                <Link to="/" className="navbar-brand swapreadsTitulo mt-2">
+                    <img src="./images/SRicono2.png" alt="Logo" className="d-inline-block align-text-top logoSR" />
+                    SwapReads
+                </Link>
+                {/*Todo lo de dentro de form es el buscador sergi  
                         Buscar por titulo y autor(si se puede)-- back json buscados por titulo
                         al darle te lleve a pagina de filtro donde salgan esos libros
                         copiar de Filtro una y adaptarla a ResultadoBuscador
                     */}
-                    <form className="d-flex" role="search">
-                        <input
-                            className="form-control me-2 buscador"
-                            onChange={handleInputChange}
-                            onKeyPress={handleKeyPress}
-                            type="search"
-                            list="datalistOptions"
-                            placeholder="Buscar"
-                            aria-label="Buscar"
-                            value={searchValue} // Usar searchValue en lugar de inputValue
-                        />
-                        <datalist id="datalistOptions">
-                            {filteredBooks.map((book, index) => (
-                                <option key={index} value={`${book.titulo}`}>
-                                    <p className='negrita'>{book.autor}</p>
-                                </option>
-                            ))}
-                        </datalist>
-                        <button className="btn buscar-btn" type="submit" onClick={handleBuscarClick}>
-                            Buscar
-                        </button>
-                    </form>
-                    <button className="btn sesion-btn" onClick={handleLoginClick} type="submit">Iniciar Sesión</button>
-                </div>
-            </nav>
-        </>
+                <form className="d-flex" role="search">
+                    <input
+                        className="form-control me-2 buscador"
+                        onChange={handleInputChange}
+                        onKeyPress={handleKeyPress}
+                        type="search"
+                        list="datalistOptions"
+                        placeholder="Buscar"
+                        aria-label="Buscar"
+                        value={searchValue} // Usar searchValue en lugar de inputValue
+                    />
+                    <datalist id="datalistOptions">
+                        {filteredBooks.map((book, index) => (
+                            <option key={index} value={`${book.titulo}`}>
+                                <p className='negrita'>{book.autor}</p>
+                            </option>
+                        ))}
+                    </datalist>
+                    <button className="btn buscar-btn" type="submit" onClick={handleBuscarClick}>
+                        Buscar
+                    </button>
+                </form>
+                <button className="btn sesion-btn" onClick={handleLoginClick} type="submit">Iniciar Sesión</button>
+            </div>
+        </nav>
     );
 };
 

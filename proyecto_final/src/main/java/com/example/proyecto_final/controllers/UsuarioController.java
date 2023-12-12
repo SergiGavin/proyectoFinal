@@ -54,7 +54,6 @@ public class UsuarioController {
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 		}
 	}
-	
 	@GetMapping("/saldo/{id}")
 	public ResponseEntity<?> obtenerUsuarioSoloSaldo(@PathVariable Long id) {
 		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);

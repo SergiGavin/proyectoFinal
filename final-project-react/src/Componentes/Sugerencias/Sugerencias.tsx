@@ -45,20 +45,20 @@ function Sugerencias() {
 
     return (
         <>
-            <div>
-                {Tags.map(tag => (
-                    <div key={tag.id} className="">
-                        <div className="cabecero mt-3"><p className="tag">{tag.name}</p></div>
-                        <div className="row justify-content-center mx-3 my-5">
-                            {(librosPorTag[tag.name] || []).map((libro, index) => (
-                                <div key={index} className="col">
-                                    <LibroBase libro={libro} />
-                                </div>
-                            ))}
+                <div>
+                    {Tags.map(tag => (
+                        <div key={tag.id} className="">
+                            <div className="cabecero mt-3"><p className="tag">{tag.name}</p></div>
+                            <div className="row justify-content-center mx-3 my-5">
+                                {(librosPorTag[tag.name] || []).map((libro, index) => (
+                                    <div key={index} className="col">
+                                        <LibroBase libro={libro} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
         </>
     );
 }

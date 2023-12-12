@@ -8,19 +8,24 @@
     --violet: #5e405b;
 }
 
+.toast-message {
+    border: 2px solid red;
+    /* Change the border properties as desired */
+    /* Add other styling properties as needed */
+}
 
-.footer{
-        background-color: var(--dark-yellow);
-        
+.footer {
+    background-color: var(--dark-yellow);
 
-    && .foot-donarlibros{
+
+    && .foot-donarlibros {
         color: var(--violet);
 
         && .donar-foot-btn:hover {
             background-color: var(--dark-orange);
         }
-    
-        && .donar-foot-btn{
+
+        && .donar-foot-btn {
             background-color: var(--violet);
             color: white;
             border: none;
@@ -29,7 +34,19 @@
         }
     }
 
-    .foot-copy{
+    .foot-copy {
         background-color: var(--orange);
     }
+}
+
+/* TOASTY */
+
+.Toastify__close-button--light {
+    color: #fff !important;
+}
+
+.Toastify__toast-theme--light {
+    background-color: var(--bs-gray-800) !important;
+    color: #fff !important;
+    font-size: large !important;
 }
