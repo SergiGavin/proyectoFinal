@@ -13,9 +13,9 @@ const Prestamos: React.FC = () => {
     const location = useLocation();
     const id_libros = location.state?.id_libros;
     const id_usuarios = location.state?.id_usuarios;
-    const idUsuarios = location.state?.id_usuarios;
+    //const idUsuarios = location.state?.id_usuarios;
     const username = location.state?.username;
-    const saldo = location.state?.saldo;
+    let saldo = location.state?.saldo;
 
     const [book, setBook] = useState({
         titulo: '',
@@ -30,17 +30,18 @@ const Prestamos: React.FC = () => {
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-
+    let saldoNumerico = parseFloat(saldo);
+    let valorLibroNumerico = parseFloat(book.valor);
 
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios,
+        idUsuarios: id_usuarios,
         id_libros: id_libros,
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
 
     const handleShowModal = () =>{
-        if(!idUsuarios){
+        if(!id_usuarios){
             mostrarToastPrestamoNoExito()
             setShowModal(false);
         }else{
@@ -50,21 +51,39 @@ const Prestamos: React.FC = () => {
     } 
     const mostrarToastPrestamoNoExito = () => {
         toast.error('Para tomar prestado un libro debe iniciar sesión', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
         navigate('/login');
     };
     const mostrarToastPrestamoExito = () => {
         toast.success('¡Prestamo realizado con éxito!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    };
+    const mostrarToastPrestamoNoSaldo = () => {
+        toast.error('¡Saldo insuficiente para el préstamo!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
 
@@ -90,11 +109,22 @@ const Prestamos: React.FC = () => {
             console.log(JSON.stringify(prestamo));
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log('Préstamo creado exitosamente');
-                handleCloseModal();
-                mostrarToastPrestamoExito();
-                //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/home`, { state: { id_usuarios: id_usuarios, idUsuarios: idUsuarios, username: username, saldo: saldo} });
+                console.log("saldo usuario:"+saldoNumerico)
+                console.log("valor libro:"+valorLibroNumerico)
+                if(saldo >= valorLibroNumerico){
+                    console.log('Préstamo creado exitosamente');
+                    handleCloseModal();
+                    mostrarToastPrestamoExito();
+
+
+                    //OBTENER SALDO DE LA BBDD --- aqui estará restado
+                    //saldo -= valorLibroNumerico;
+                    
+                    //Devolvemos el id_usuario al inicio para no cortar el flujo
+                    navigate(`/home`, { state: { id_usuarios: id_usuarios, /*idUsuarios: idUsuarios,*/ username: username, saldo: saldo} });
+                }else{
+                    mostrarToastPrestamoNoSaldo();
+                }
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');

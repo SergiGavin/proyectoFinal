@@ -15,6 +15,7 @@ const HeaderLoged: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios;
+    const idUsuarios = location.state?.idUsuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
 
@@ -38,6 +39,9 @@ const HeaderLoged: React.FC = () => {
 
         fetchBooks();
     }, []);
+
+    // BUSCADOR
+
     const [searchValue, setSearchValue] = useState('');
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,31 +57,39 @@ const HeaderLoged: React.FC = () => {
                 } else {
                     console.log("error");
                 }
-
             } catch (error) {
                 console.error('Error al obtener los libros:', error);
             }
-            // Realiza la búsqueda en la base de datos usando el valor de searchTerm
-            // Limpia el input después de presionar Enter (si es necesario)
             (event.target as HTMLInputElement).value = '';
         }
     };
 
+    const handleBuscarClick = () => {
+        navigate(`/Buscador`, { state: { id_usuarios, searchValue: searchValue, username, saldo } });
+    };
+
     const navigate = useNavigate();
- 
+
     const mostrarToastCierreSesionExito = () => {
         toast.success('¡Sesión cerrada!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
 
 
     const handleHomeClick = () => {
-            navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+    };
+    const handleCierreSesionClick = () => {
+        mostrarToastCierreSesionExito()
+        navigate("/");
     };
 
     const handleDonateClick = () => {
@@ -87,10 +99,6 @@ const HeaderLoged: React.FC = () => {
         navigate(`/historial`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
-
-    const handleBuscarClick = () => {
-        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue, username: username, saldo: saldo } });
-    };
 
     // MOSTRAR 5 RESULTADOS DEL BUSCADOR Y QUE SE ACTUALICE
 
@@ -107,7 +115,7 @@ const HeaderLoged: React.FC = () => {
     ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
 
 
-    console.log("id usuario: "+id_usuarios+" username: "+username)
+    console.log("id usuario: " + id_usuarios + " username: " + username)
     return (
         <>
             <nav className="navbar navbarOrange">
@@ -148,7 +156,7 @@ const HeaderLoged: React.FC = () => {
                                 <Dropdown.Item href="" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
                                 <Dropdown.Item href="" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
                                 <Dropdown.Item href="">Ajustes de cuenta</Dropdown.Item>
-                                <Dropdown.Item href="/login">Cerrar sesión</Dropdown.Item>
+                                <Dropdown.Item href="" onClick={handleCierreSesionClick}>Cerrar sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>

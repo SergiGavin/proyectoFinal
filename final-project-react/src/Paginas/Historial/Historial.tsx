@@ -2,29 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Form } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import "./Historial.css"
+import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import Footer from '../../Componentes/Footer/Footer';
+import Table from 'react-bootstrap/Table';
 
 const Historial: React.FC = () => {
 
     const location = useLocation();
     const idUsuarios = location.state?.id_usuarios;
-    //const idUsuarios = 3;
+    const id_usuarios = location.state?.id_usuarios;
+    const username = location.state?.username;
+    const saldo = location.state?.saldo;
     const navigate = useNavigate();
-    /*
-        const [prestamo, setPrestamo] = useState({
-            id_prestamo: '',
-            idUsuario: '',
-            id_libros: '',
-            fechaPrestamo: '',
-            fechaDevolucion: ''
-        });
-    
-        const [book, setBook] = useState({
-            titulo: '',
-            autor: '',
-            genero: '',
-            estado: '',
-            foto_portada: ''
-        });*/
+
     interface Prestamo {
         id_prestamo: string;
         idUsuario: string;
@@ -41,9 +31,6 @@ const Historial: React.FC = () => {
         foto_portada: string;
     }
 
-    const handleInicioClick = () => {
-        navigate('/home', { state: { id_usuarios: location.state?.id_usuarios} });
-    };
     const [prestamos, setPrestamos] = useState<Prestamo[]>([]);
     const [books, setBooks] = useState<Libro[]>([]);
 
@@ -62,14 +49,11 @@ const Historial: React.FC = () => {
 
                 if (response.ok) {
                     const prestamoLibros = await response.json();
-                    console.log(prestamoLibros);
 
                     if (prestamoLibros.length > 0) {
-                        const promises = prestamoLibros.map(async (prestamo) => {
+                        const results = await Promise.all(prestamoLibros.map(async (prestamo) => {
                             const idLibroPrestado = prestamo.id_libros;
-                            console.log('idLibroPrestado: ', idLibroPrestado);
                             const libroURL = `http://localhost:8080/libros/${idLibroPrestado}`;
-                            console.log('URL del libro:', libroURL);
 
                             const libroResponse = await fetch(libroURL, {
                                 method: 'GET',
@@ -77,20 +61,33 @@ const Historial: React.FC = () => {
                                     'Content-Type': 'application/json',
                                 },
                             });
-                            console.log("respuesta fetch libros: " + libroResponse)
+
                             if (libroResponse.ok) {
                                 const libroData = await libroResponse.json();
                                 return { prestamo, libroData };
                             } else {
                                 throw new Error('Error al obtener la información del libro');
                             }
-                        });
-                        // Esperar a que todas las promesas se resuelvan
-                        const results = await Promise.all(promises);
+                        }));
 
-                        // Actualizar los estados después de que todas las promesas se hayan resuelto
-                        setPrestamos(results.map(result => result.prestamo));
-                        setBooks(results.map(result => result.libroData));
+                        // Combinar los datos de préstamos y libros en un solo objeto
+                        const combinedData = results.map(result => {
+                            return {
+                                prestamo: result.prestamo,
+                                libroData: result.libroData
+                            };
+                        });
+
+                        // Ordenar los préstamos por fecha de manera descendente
+                        combinedData.sort((a, b) => {
+                            const dateA = new Date(a.prestamo.fechaDevolucion).getTime();
+                            const dateB = new Date(b.prestamo.fechaDevolucion).getTime();
+                            return dateB - dateA;
+                        });
+
+                        // Actualizar el estado con los datos combinados y ordenados
+                        setPrestamos(combinedData.map(item => item.prestamo));
+                        setBooks(combinedData.map(item => item.libroData));
                     } else {
                         console.error('No hay préstamos para este usuario');
                     }
@@ -102,55 +99,52 @@ const Historial: React.FC = () => {
             }
         };
 
-        getBookInfo();
+        if (idUsuarios) {
+            getBookInfo();
+        }
     }, [idUsuarios]);
+
     return (
-
         <div>
-            <div className="bg-pantalla">
-                <h1 className="title" onClick={handleInicioClick}>SwapReads</h1>
+            <HeaderLoged />
+            <div className='tabla-libros'>
+                <Form>
+                    <Table striped>
+                        <thead>
+                            <tr>
+                                <th>Portada</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Género</th>
+                                <th>Estado</th>
+                                <th>Fecha de préstamo</th>
+                                <th>Fecha de devolución</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {prestamos.map((prestamo, index) => (
+                                <tr key={index}>
+                                    <td className='imagen-libro'>
+                                        {books[index]?.foto_portada && (
+                                            <img
+                                                src={books[index]?.foto_portada}
+                                                alt={books[index]?.titulo}
+                                            />
+                                        )}
+                                    </td>
+                                    <td>{books[index]?.titulo}</td>
+                                    <td>{books[index]?.autor}</td>
+                                    <td>{books[index]?.genero}</td>
+                                    <td>{books[index]?.estado}</td>
+                                    <td>{new Date(prestamo.fechaPrestamo).toLocaleDateString()}</td>
+                                    <td>{new Date(prestamo.fechaDevolucion).toLocaleDateString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Form>
             </div>
-            <div className="cajatextoinicio">
-                <h2>Historial de préstamos</h2>
-            </div>
-            <Form>
-
-            
-            {prestamos.slice().reverse().map((prestamo, index) => (
-                    <div key={index} className="row p-2 rowsinputsregis">
-                        <div className="col-5">
-                            <img src={books[index]?.foto_portada} className="card-img-top img-fluid contenedor-imagen" alt={books[index]?.titulo} />
-                        </div>
-                        <div className="col-7 margin">
-                            <div>
-                                <span className='texto-color'><strong>Título: </strong></span>
-                                <span className='texto-color'>{books[index]?.titulo}</span>
-                            </div>
-                            <div>
-                                <span className='texto-color'><strong>Autor: </strong></span>
-                                <span className='texto-color'>{books[index]?.autor}</span>
-                            </div>
-                            <div>
-                                <span className='texto-color'><strong>Género: </strong></span>
-                                <span className='texto-color'>{books[index]?.genero}</span>
-                            </div>
-                            <div>
-                                <span className='texto-color'><strong>Estado: </strong></span>
-                                <span className='texto-color'>{books[index]?.estado}</span>
-                            </div>
-                            <div>
-                                <span className='texto-color'><strong>Fecha del préstamo: </strong></span>
-                                <span className='texto-color'>{new Date(prestamo.fechaPrestamo).toLocaleDateString()}</span>
-                            </div>
-                            <div>
-                                <span className='texto-color'><strong>Fecha de la devolución: </strong></span>
-                                <span className='texto-color'>{new Date(prestamo.fechaDevolucion).toLocaleDateString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </Form>
-
+            <Footer />
         </div>
     );
 }

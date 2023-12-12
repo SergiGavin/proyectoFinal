@@ -94,21 +94,27 @@ const Donaciones: React.FC = () => {
     };
     const mostrarToastDonacionNoExito = () => {
         toast.error('Para donar un libro debe iniciar sesión', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
         navigate('/login');
     };
     const mostrarToastDonacionExito = () => {
         toast.success('¡Donación realizada con éxito!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
 
@@ -244,11 +250,14 @@ const Donaciones: React.FC = () => {
             if (!book.titulo || !book.genero || !book.autor || !book.estado || !book.num_pag) {
                 // Mostrar un toast de error indicando que todos los campos son obligatorios
                 toast.error('Todos los campos del formulario son obligatorios', {
-                    position: toast.POSITION.TOP_CENTER,
-                    hideProgressBar: false,
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: true,
                     closeOnClick: true,
-                    draggable: false,
-                    autoClose: 2000
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
                 });
             return;
             }
@@ -261,7 +270,7 @@ const Donaciones: React.FC = () => {
     };
 
     const renderHeader = () => {
-        if (id_usuarios == null || id_usuarios == 0) {
+        if (!id_usuarios) {
             return <Header />;
         } else {
             return <HeaderLoged />;
