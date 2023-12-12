@@ -64,7 +64,7 @@ const HeaderLoged: React.FC = () => {
     const navigate = useNavigate();
 
     const handleHomeClick = () => {
-            navigate("/");
+            navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
     const handleDonateClick = () => {
