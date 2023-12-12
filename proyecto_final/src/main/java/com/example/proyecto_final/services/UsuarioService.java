@@ -1,14 +1,12 @@
 package com.example.proyecto_final.services;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.proyecto_final.entities.DonacionesEntity;
-import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
 import com.example.proyecto_final.repository.UsuariosRepository;
 
@@ -39,6 +37,7 @@ public class UsuarioService {
 	// Editar usuario --> el codigo es igual que el crear pero en este caso como ya
 	// habrá un ID existente de ese usuario
 	// en vez de crearlo, lo actualizará.
+	@Transactional
 	public UsuariosEntity updateUsuario(UsuariosEntity usuario) {
 		return usuariosRepository.save(usuario);
 	}

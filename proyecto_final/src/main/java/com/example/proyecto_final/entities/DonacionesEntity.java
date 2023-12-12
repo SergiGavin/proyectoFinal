@@ -34,9 +34,6 @@ public class DonacionesEntity {
 	private Long id_libros;
 	public DonacionesEntity () {}
 	
-	@ManyToOne
-    @JoinColumn(name = "id_libros")
-    private LibrosEntity libro;
 	
 	public DonacionesEntity(Long id_usuarios, Long id_libros) {
 		super();

@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,22 +20,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.proyecto_final.entities.DonacionesEntity;
 import com.example.proyecto_final.entities.LibrosEntity;
 import com.example.proyecto_final.entities.UsuariosEntity;
-import com.example.proyecto_final.services.DonacionService;
 import com.example.proyecto_final.services.UsuarioService;
 
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:5173", "http://127.0.0.1:5173"})
 @RequestMapping("/usuarios")
-@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
+//@CrossOrigin(origins = { "http://localhost:3000", "http://127.0.0.1:3000","http://localhost:5500", "http://127.0.0.1:5500","http://localhost:5173","http://127.0.0.1:5173" })
+
 public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-	@Autowired
-	private DonacionService donacionService;
+
 	// GET
 	@GetMapping
 	public List<UsuariosEntity> listarUsuarios() {
@@ -51,6 +49,18 @@ public class UsuarioController {
 		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);
 		if (usuarioPorId.isPresent()) {
 			return new ResponseEntity<>(usuarioPorId.get(), HttpStatus.OK);
+		} else {
+			String mensaje = "No se encontró ningún usuario con el ID: " + id;
+			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@GetMapping("/saldo/{id}")
+	public ResponseEntity<?> obtenerUsuarioSoloSaldo(@PathVariable Long id) {
+		Optional<UsuariosEntity> usuarioPorId = usuarioService.getUsuarioById(id);
+		if (usuarioPorId.isPresent()) {
+			 BigDecimal saldo = usuarioPorId.get().getSaldo();
+			return new ResponseEntity<>(saldo, HttpStatus.OK);
 		} else {
 			String mensaje = "No se encontró ningún usuario con el ID: " + id;
 			return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
@@ -76,15 +86,22 @@ public class UsuarioController {
 		return usuarioService.createUsuario(newUsuario);
 
 	}
-
+	
 	// Patch
-	@PatchMapping("/{id}")
-	// Pasamos como variable el id ya que se necesitará para editar el usuario en
-	// especifico.
-	public ResponseEntity<?> actualizarUser(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+	@PutMapping("/{id}")
+	public UsuariosEntity actualizarUser(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
 	    Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
 
-	    if (usuarioActualizar.isPresent()) {
+	    return usuarioService.updateUsuario(usuario);
+	}
+	
+	@PutMapping("/saldo/{id}")
+	public UsuariosEntity actualizarUserSaldo(@RequestBody UsuariosEntity usuario, @PathVariable Long id) {
+	    Optional<UsuariosEntity> usuarioActualizar = usuarioService.getUsuarioById(id);
+	    
+	    return usuarioService.updateUsuario(usuario);
+	}
+	   /* if (usuarioActualizar.isPresent()) {
 	        UsuariosEntity usuarioExistente = usuarioActualizar.get();
 
 	        if (usuario.getPass() != null) {
@@ -97,12 +114,20 @@ public class UsuarioController {
 	        if (donacionOptional.isPresent()) {
 	            DonacionesEntity donacion = donacionOptional.get();
 
+	            // Obtener el LibrosEntity asociado a la donación
+	            Long idLibro = donacion.getId_libros();
+
+	            // Get LibrosEntity from LibroService
+	            LibrosEntity libro = libroService.getLibroById(idLibro)
+	                    .orElseThrow(() -> new RuntimeException("Libro not found for ID: " + idLibro));
+
 	            // Calcular el valor de la donación utilizando el nuevo método
-	            BigDecimal valorDonacion = calcularValorDonacion(donacion.getLibro());
+	            BigDecimal valorDonacion = calcularValorDonacion(libro);
 
 	            // Actualizar el saldo del usuario sumando el valor de la donación
-	            usuarioExistente.setSaldo(usuarioExistente.getSaldo().add(valorDonacion));
-
+	            BigDecimal saldoNuevo = usuarioExistente.getSaldo().add(valorDonacion);
+	            usuarioExistente.setSaldo(saldoNuevo);
+	            System.out.print("Usuario existente: " + usuarioExistente);
 	            // Guardar el usuario actualizado en la base de datos
 	            UsuariosEntity usuarioActualizado = usuarioService.updateUsuario(usuarioExistente);
 
@@ -116,7 +141,9 @@ public class UsuarioController {
 	        String mensaje = "No se encontró ningún usuario con el ID: " + id;
 	        return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
 	    }
-	}
+	}*/
+	
+
 	// DELETE
 	@DeleteMapping("/{id}")
 	public void eliminarUsuario(@PathVariable Long id) {
@@ -203,11 +230,8 @@ public class UsuarioController {
             return new ResponseEntity<>(mensaje, HttpStatus.NOT_FOUND);
         }
     }*/
-    private BigDecimal calcularValorDonacion(LibrosEntity donacion) {
-    	
-        // Reutiliza la lógica de calcular el precio en LibroController
-        BigDecimal precioInicial = calcularPrecio(donacion.getNum_pag(), donacion.getEstado());
-        return precioInicial;
+    private BigDecimal calcularValorDonacion(LibrosEntity libro) {
+        return calcularPrecio(libro.getNum_pag(), libro.getEstado());
     }
 	public BigDecimal calcularPrecio(int paginas, String estado) {
 	    // Coeficientes para el cálculo
