@@ -50,21 +50,27 @@ const Prestamos: React.FC = () => {
     } 
     const mostrarToastPrestamoNoExito = () => {
         toast.error('Para tomar prestado un libro debe iniciar sesión', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
         navigate('/login');
     };
     const mostrarToastPrestamoExito = () => {
         toast.success('¡Prestamo realizado con éxito!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
 

@@ -67,18 +67,25 @@ const HeaderLoged: React.FC = () => {
  
     const mostrarToastCierreSesionExito = () => {
         toast.success('¡Sesión cerrada!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
 
 
     const handleHomeClick = () => {
-            navigate("/home");
+            navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
+    const handleCierreSesionClick = () => {
+        mostrarToastCierreSesionExito()
+        navigate("/");
+};
 
     const handleDonateClick = () => {
         navigate('/donaciones', { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
@@ -148,7 +155,7 @@ const HeaderLoged: React.FC = () => {
                                 <Dropdown.Item href="" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
                                 <Dropdown.Item href="" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
                                 <Dropdown.Item href="">Ajustes de cuenta</Dropdown.Item>
-                                <Dropdown.Item href="" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                                <Dropdown.Item href="" onClick={handleCierreSesionClick}>Cerrar sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
