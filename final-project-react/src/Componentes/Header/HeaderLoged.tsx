@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap'; // Importa el componente de dropdown de Bootstrap
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const HeaderLoged: React.FC = () => {
@@ -71,6 +73,17 @@ const HeaderLoged: React.FC = () => {
         setSearchValue(event.target.value);
     };
     const navigate = useNavigate();
+ 
+    const mostrarToastCierreSesionExito = () => {
+        toast.success('¡Sesión cerrada!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
+
 
     const handleHomeClick = () => {
         console.log('Valor de id_usuarios:', id_usuarios);
@@ -79,8 +92,11 @@ const HeaderLoged: React.FC = () => {
         } else {
             navigate(`/home`, { state: {id_usuarios, username, saldo } });
         }
-        
-        
+    };
+    const handleCierreSesionClick = () => {
+        console.log('Valor de id_usuarios:', id_usuarios);
+            mostrarToastCierreSesionExito();
+            navigate('/');   
     };
 
     const handleDonateClick = () => {
@@ -129,7 +145,7 @@ const HeaderLoged: React.FC = () => {
                                 <Dropdown.Item href="#/action-1" onClick={handleDonateClick}>Donar libros</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2" onClick={handleHistorialClick}>Mis préstamos</Dropdown.Item>
                                 <Dropdown.Item href="#/action-2">Ajustes de cuenta</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3" onClick={handleHomeClick}>Cerrar sesión</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3" onClick={handleCierreSesionClick}>Cerrar sesión</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>

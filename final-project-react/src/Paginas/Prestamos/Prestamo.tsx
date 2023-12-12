@@ -6,6 +6,8 @@ import Header from '../../Componentes/Header/Header';
 import Footer from "../../Componentes/Footer/Footer";
 import Categorias from "../../Componentes/Categorias/Categorias";
 import HeaderLoged from '../../Componentes/Header/HeaderLoged';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Prestamos: React.FC = () => {
     const location = useLocation();
@@ -37,7 +39,34 @@ const Prestamos: React.FC = () => {
     });
     const navigate = useNavigate();
 
-    const handleShowModal = () => setShowModal(true);
+    const handleShowModal = () =>{
+        if(!idUsuarios){
+            mostrarToastPrestamoNoExito()
+            setShowModal(false);
+        }else{
+            setShowModal(true);
+        }
+        
+    } 
+    const mostrarToastPrestamoNoExito = () => {
+        toast.error('Para tomar prestado un libro debe iniciar sesión', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+        navigate('/login');
+    };
+    const mostrarToastPrestamoExito = () => {
+        toast.success('¡Prestamo realizado con éxito!', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: false,
+            autoClose: 2000
+        });
+    };
 
     const handleCloseModal = () => {
         setShowModal(false);
@@ -63,8 +92,9 @@ const Prestamos: React.FC = () => {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
                 console.log('Préstamo creado exitosamente');
                 handleCloseModal();
+                mostrarToastPrestamoExito();
                 //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: id_usuarios } });
+                navigate(`/home`, { state: { id_usuarios: id_usuarios, idUsuarios: idUsuarios, username: username, saldo: saldo} });
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
