@@ -27,21 +27,26 @@ const Login: React.FC = () => {
     };
     const mostrarToastLoginExito = () => {
         toast.success('¡Sesión iniciada con éxito!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
-            autoClose: 2000
+            progress: undefined,
+            theme: "light",
         });
     };
     const mostrarToastLoginNoExito = () => {
         toast.error('¡Los datos introducidos no son correctos!', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
             closeOnClick: true,
-            draggable: false,
-            autoClose: 2000
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         });
     };
     const navigate = useNavigate(); // Aquí se declara useNavigate correctamente
