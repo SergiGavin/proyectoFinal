@@ -15,14 +15,53 @@ const Donaciones: React.FC = () => {
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
     const saldo = location.state?.saldo;
+    let usuarioBack = {
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    };
     
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
         autor: '',
-        num_pag: '',
+        num_pag: 0,
         estado: '',
     });
+
+    
+    const [usuario, setUsuario] = useState({
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    });
+
+
+    const calcularSaldo = (saldo: number, estado: String, book: { num_pag: number }): number => {
+        let newSaldo = saldo + book.num_pag * 0.03;
+        switch (estado){
+            case "malo":
+                newSaldo*= 1;
+                break; 
+            case "decente":
+                newSaldo*=1.1;
+            case "bueno":
+                newSaldo*=1.2;
+        }
+        return newSaldo;
+    }
 
     const today = new Date();
 
@@ -158,6 +197,7 @@ const Donaciones: React.FC = () => {
 
                 // Registrar la donacion
                 await registrarDonacion();
+                await actualizarUsuario();
             } else {
                 console.error('ID del libro no disponible después de registrar el libro.');
             }
@@ -165,6 +205,43 @@ const Donaciones: React.FC = () => {
             console.error('Error al registrar libro y donacion:', error);
         }
     };
+
+    const actualizarUsuario = async () => {
+
+        try {
+            
+            const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              // No body for GET requests
+            });
+        
+            if (!response.ok) {
+              throw new Error(`Failed to fetch data: ${response.status}`);
+            }
+            const result = await response.json();
+            usuarioBack = result;
+            usuarioBack.saldo = calcularSaldo(result.saldo, result.estado, book);
+
+
+           const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuarioBack),
+            });
+            const responseData = await responsePut.json();
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error as needed
+          }
+
+
+    }
+
     const handleDonarClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         await registrarLibroAndDonacion();
@@ -185,7 +262,7 @@ const Donaciones: React.FC = () => {
             return;
             }
             mostrarToastDonacionExito()
-            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
+           navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
         } else if (!id_usuarios) {
             mostrarToastDonacionNoExito()
             navigate(`/login`, { state: { id_usuarios: id_usuarios } });

@@ -13,3 +13,8 @@ body{
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #ffffff;
 }
+
+img{
+  max-width: 100%;
+  height: auto;
+}

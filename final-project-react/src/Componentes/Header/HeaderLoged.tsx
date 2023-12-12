@@ -39,6 +39,9 @@ const HeaderLoged: React.FC = () => {
 
         fetchBooks();
     }, []);
+
+    // BUSCADOR
+
     const [searchValue, setSearchValue] = useState('');
 
     const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -54,18 +57,19 @@ const HeaderLoged: React.FC = () => {
                 } else {
                     console.log("error");
                 }
-
             } catch (error) {
                 console.error('Error al obtener los libros:', error);
             }
-            // Realiza la búsqueda en la base de datos usando el valor de searchTerm
-            // Limpia el input después de presionar Enter (si es necesario)
             (event.target as HTMLInputElement).value = '';
         }
     };
 
+    const handleBuscarClick = () => {
+        navigate(`/Buscador`, { state: { id_usuarios, searchValue: searchValue, username, saldo } });
+    };
+
     const navigate = useNavigate();
- 
+
     const mostrarToastCierreSesionExito = () => {
         toast.success('¡Sesión cerrada!', {
             position: "top-center",
@@ -81,12 +85,12 @@ const HeaderLoged: React.FC = () => {
 
 
     const handleHomeClick = () => {
-            navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
+        navigate("/home", { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
     const handleCierreSesionClick = () => {
         mostrarToastCierreSesionExito()
         navigate("/");
-};
+    };
 
     const handleDonateClick = () => {
         navigate('/donaciones', { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
@@ -95,10 +99,6 @@ const HeaderLoged: React.FC = () => {
         navigate(`/historial`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo } });
     };
 
-
-    const handleBuscarClick = () => {
-        navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue, username: username, saldo: saldo } });
-    };
 
     // MOSTRAR 5 RESULTADOS DEL BUSCADOR Y QUE SE ACTUALICE
 
@@ -115,7 +115,7 @@ const HeaderLoged: React.FC = () => {
     ).slice(0, 5); // Filtrar y obtener solo las primeras 5 opciones
 
 
-    console.log("id usuario: "+id_usuarios+" username: "+username)
+    console.log("id usuario: " + id_usuarios + " username: " + username)
     return (
         <>
             <nav className="navbar navbarOrange">

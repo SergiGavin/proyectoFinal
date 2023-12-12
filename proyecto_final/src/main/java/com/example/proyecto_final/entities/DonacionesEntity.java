@@ -1,5 +1,6 @@
 package com.example.proyecto_final.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class DonacionesEntity {
 	private Long id_libros;
 	public DonacionesEntity () {}
 	
-
+	
 	public DonacionesEntity(Long id_usuarios, Long id_libros) {
 		super();
 		this.id_usuarios = id_usuarios;
 		this.id_libros = id_libros;
+		
+		
 	}
-	
-	   
 	
 	
 }

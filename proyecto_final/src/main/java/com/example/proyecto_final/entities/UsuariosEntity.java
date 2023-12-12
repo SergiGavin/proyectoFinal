@@ -33,8 +33,7 @@ public class UsuariosEntity {
 	private BigDecimal saldo;
 	private String username;
 	private String pass;
-	
-	public UsuariosEntity() {}
+	public UsuariosEntity () {}
 	
 	public UsuariosEntity(String nombre, String apellidos, String dni, String correo, Integer telefono, BigDecimal saldo,
 			String username, String pass) {

@@ -62,15 +62,7 @@ const Header: React.FC = () => {
 
     const location = useLocation();
     const id_usuarios = location.state?.id_usuarios
-    const handleDonarClick = () => {
-        navigate(`/Donaciones`, { state: { id_usuarios: id_usuarios } });
-    };
 
-    const handleHistorialClick = () => {
-        navigate(`/Historial`, { state: { id_usuarios: id_usuarios } });
-    };
-
-    const currentPath = window.location.pathname.toLowerCase();
 
     const handleBuscarClick = () => {
         navigate('/Buscador', { state: { id_usuarios: id_usuarios, searchValue: searchValue} });

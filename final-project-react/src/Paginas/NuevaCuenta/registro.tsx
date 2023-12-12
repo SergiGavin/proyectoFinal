@@ -14,9 +14,9 @@ const Register: React.FC = () => {
         dni: '',
         correo: '',
         telefono: '',
-        saldo: 0,
         username: '',
         pass: '',
+        saldo: 0,
     });
 
     const navigate = useNavigate();

@@ -30,9 +30,10 @@ export default function Todos() {
                 }
 
                 const data = await response.json();
-
+                setLibros(data);
                 const librosResponseTitulo = data.titulo;
                 const librosResponseAutor = data.autor;
+                
 
                 // Combina los resultados de título y autor en un solo array
                 const librosResponse = librosResponseTitulo.concat(librosResponseAutor);
@@ -55,9 +56,8 @@ export default function Todos() {
         }
     }, [datoBuscador]);  
     
-    
     const mostrarToastBuscadorVacio = () => {
-        toast.error('Introduzca algun titulo o autor para buscar', {
+        toast.error('No se han obtenido resultados', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: true,
@@ -78,6 +78,43 @@ export default function Todos() {
             return <HeaderLoged />;
         }
     }
+
+
+    // NUEVA BUSQUEDA
+
+    const realizarBusqueda = async (searchTerm: string) => {
+        try {
+            const response = await fetch(`http://localhost:8080/libros/tituloautor/${searchTerm}/${searchTerm}`);
+
+            if (!response.ok) {
+                throw new Error('Error al obtener los libros');
+            }
+
+            const data = await response.json();
+
+            const librosResponseTitulo = data.titulo;
+            const librosResponseAutor = data.autor;
+
+            // Combina los resultados de título y autor en un solo array
+            const librosResponse = librosResponseTitulo.concat(librosResponseAutor);
+
+            console.log("Libros obtenidos:", JSON.stringify(librosResponse, null, 2));
+
+            setLibros(librosResponse);
+            
+        } catch (error) {
+            console.error('Error al obtener los libros:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (location.pathname === '/Buscador' && datoBuscador) {
+            realizarBusqueda(datoBuscador);
+        } else if (location.pathname === '/Buscador' && !datoBuscador && !showToastRef.current) {
+            mostrarToastBuscadorVacio();
+            showToastRef.current = true;
+        }
+    }, [location, datoBuscador]); 
 
     return (
         <>
