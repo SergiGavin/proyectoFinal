@@ -55,11 +55,11 @@ const Random: React.FC = () => {
         pass: ''
     });
 
-    const calcularSaldo = (saldo: number, book: { valor: number }): number => {
-        let newSaldo = saldo - book.valor;
-    
-    return newSaldo;
-}
+const calcularSaldo = (saldo: number, book: { valor: number }): number => {
+    let newSaldo = saldo - book.valor;
+    // Redondear el resultado a dos decimales
+    return Number(newSaldo.toFixed(2));
+};
 
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
