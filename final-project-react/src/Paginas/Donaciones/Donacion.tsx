@@ -50,7 +50,7 @@ const Donaciones: React.FC = () => {
 
 
     const calcularSaldo = (saldo: number, estado: String, book: { num_pag: number }): number => {
-        let newSaldo = saldo + book.num_pag * 0.03;
+        let newSaldo = saldo + book.num_pag * 0.06;
         switch (estado) {
             case "malo":
                 newSaldo *= 1;
