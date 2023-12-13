@@ -15,8 +15,8 @@ const Prestamos: React.FC = () => {
     const id_usuarios = location.state?.id_usuarios;
     //const idUsuarios = location.state?.id_usuarios;
     const username = location.state?.username;
-    // let saldo = location.state?.saldo;
-    let [saldo, setSaldo] = useState(location.state?.saldo);
+    let saldo = location.state?.saldo;
+    //let [saldo, setSaldo] = useState(location.state?.saldo);
 
     const [book, setBook] = useState({
         titulo: '',
@@ -138,19 +138,20 @@ const Prestamos: React.FC = () => {
                 },
                 body: JSON.stringify(prestamo),
             });
+
             console.log(JSON.stringify(prestamo));
+
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log("saldo usuario:"+saldo)
-                console.log("valor libro:"+valorLibroNumerico)
+                console.log("saldo usuario:" + saldo)
+                console.log("valor libro:" + valorLibroNumerico)
                 if(saldo >= valorLibroNumerico){
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
                     mostrarToastPrestamoExito();
-                    let restante = saldo - valorLibroNumerico;
-                    setSaldo(restante);
                     saldo -= valorLibroNumerico;
-                    
+                    await actualizarUsuario();
+
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
                     navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
                 }else{
@@ -219,7 +220,7 @@ const Prestamos: React.FC = () => {
     const actualizarUsuario = async () => {
 
         try {
-
+            
             const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
                 method: 'GET',
                 headers: {
@@ -230,11 +231,10 @@ const Prestamos: React.FC = () => {
 
             if (!response.ok) {
                 throw new Error(`Failed to fetch data: ${response.status}`);
-            }
+            } else {
             const result = await response.json();
             usuarioBack = result;
-            usuarioBack.saldo = calcularSaldo(result.saldo, result.valor);
-
+            usuarioBack.saldo = calcularSaldo(result.saldo, book);
             const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
                 method: 'PUT',
                 headers: {
@@ -243,7 +243,8 @@ const Prestamos: React.FC = () => {
                 body: JSON.stringify(usuarioBack),
             });
             const responseData = await responsePut.json();
-        } catch (error) {
+        }
+     } catch (error) {
             console.error('Error fetching data:', error);
             // Handle error as needed
         }}

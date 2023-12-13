@@ -16,8 +16,8 @@ const Random: React.FC = () => {
     //const idUsuarios = location.state?.id_usuarios;
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
-    // let saldo = location.state?.saldo;
-    let [saldo, setSaldo] = useState(location.state?.saldo);
+    let saldo = location.state?.saldo;
+    //let [saldo, setSaldo] = useState(location.state?.saldo);
     const num = location.state?.categoryId;
 
     const [book, setBook] = useState({
@@ -150,9 +150,8 @@ const Random: React.FC = () => {
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
                     mostrarToastPrestamoExito();
-                    let restante = saldo - valorLibroNumerico;
-                    setSaldo(restante);
                     saldo -= valorLibroNumerico;
+                    await actualizarUsuario();                    
                     
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
                     navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
@@ -232,7 +231,7 @@ const Random: React.FC = () => {
             }
             const result = await response.json();
             usuarioBack = result;
-            usuarioBack.saldo = calcularSaldo(result.saldo, result.valor);
+            usuarioBack.saldo = calcularSaldo(result.saldo, book);
 
             const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
                 method: 'PUT',
