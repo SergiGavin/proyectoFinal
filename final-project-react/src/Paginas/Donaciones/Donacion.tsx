@@ -26,7 +26,7 @@ const Donaciones: React.FC = () => {
         username: '',
         pass: ''
     };
-    
+
     const [book, setBook] = useState({
         titulo: '',
         genero: '',
@@ -35,7 +35,7 @@ const Donaciones: React.FC = () => {
         estado: '',
     });
 
-    
+
     const [usuario, setUsuario] = useState({
         id_usuarios: '',
         nombre: '',
@@ -51,14 +51,14 @@ const Donaciones: React.FC = () => {
 
     const calcularSaldo = (saldo: number, estado: String, book: { num_pag: number }): number => {
         let newSaldo = saldo + book.num_pag * 0.03;
-        switch (estado){
+        switch (estado) {
             case "malo":
-                newSaldo*= 1;
-                break; 
+                newSaldo *= 1;
+                break;
             case "decente":
-                newSaldo*=1.1;
+                newSaldo *= 1.1;
             case "bueno":
-                newSaldo*=1.2;
+                newSaldo *= 1.2;
         }
         return newSaldo;
     }
@@ -118,8 +118,8 @@ const Donaciones: React.FC = () => {
         });
     };
 
-       
-    
+
+
 
     const registrarLibro = async () => {
         try {
@@ -209,24 +209,23 @@ const Donaciones: React.FC = () => {
     const actualizarUsuario = async () => {
 
         try {
-            
+
             const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              // No body for GET requests
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // No body for GET requests
             });
-        
+
             if (!response.ok) {
-              throw new Error(`Failed to fetch data: ${response.status}`);
+                throw new Error(`Failed to fetch data: ${response.status}`);
             }
             const result = await response.json();
             usuarioBack = result;
             usuarioBack.saldo = calcularSaldo(result.saldo, result.estado, book);
 
-
-           const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+            const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -234,10 +233,10 @@ const Donaciones: React.FC = () => {
                 body: JSON.stringify(usuarioBack),
             });
             const responseData = await responsePut.json();
-          } catch (error) {
+        } catch (error) {
             console.error('Error fetching data:', error);
             // Handle error as needed
-          }
+        }
 
 
     }
@@ -259,10 +258,10 @@ const Donaciones: React.FC = () => {
                     progress: undefined,
                     theme: "light",
                 });
-            return;
+                return;
             }
             mostrarToastDonacionExito()
-           navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
+            navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: usuarioBack.saldo } });
         } else if (!id_usuarios) {
             mostrarToastDonacionNoExito()
             navigate(`/login`, { state: { id_usuarios: id_usuarios } });
@@ -374,16 +373,14 @@ const Donaciones: React.FC = () => {
                             <div className="col"></div>
                         </div>
                         <div className="container caja-boton-donar">
-                        <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
+                            <button type="submit" onClick={handleDonarClick} className="btn boton-donacion btn-lg my-4 mb-4">Donar libro</button>
                         </div>
                     </Form>
 
                 </div>
 
             </div>
-
             <Footer />
-
         </>
     );
 

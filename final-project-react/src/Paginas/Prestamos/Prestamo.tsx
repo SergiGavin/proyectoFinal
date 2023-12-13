@@ -16,6 +16,7 @@ const Prestamos: React.FC = () => {
     //const idUsuarios = location.state?.id_usuarios;
     const username = location.state?.username;
     let saldo = location.state?.saldo;
+    //let [saldo, setSaldo] = useState(location.state?.saldo);
 
     const [book, setBook] = useState({
         titulo: '',
@@ -23,15 +24,46 @@ const Prestamos: React.FC = () => {
         autor: '',
         num_pag: '',
         estado: '',
-        valor: '',
+        valor: 0,
         sinopsis: '',
         foto_portada: '',
     });
+
+    let usuarioBack = {
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    };
+
+    const [usuario, setUsuario] = useState({
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    });
+
+    const calcularSaldo = (saldo: number, book: { valor: number }): number => {
+        let newSaldo = saldo - book.valor;
+    
+    return newSaldo;
+}
+
+
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-    let saldoNumerico = parseFloat(saldo);
-    let valorLibroNumerico = parseFloat(book.valor);
+    let valorLibroNumerico = book.valor;
 
     const [prestamo, setPrestamo] = useState({
         idUsuarios: id_usuarios,
@@ -106,22 +138,22 @@ const Prestamos: React.FC = () => {
                 },
                 body: JSON.stringify(prestamo),
             });
+
             console.log(JSON.stringify(prestamo));
+
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log("saldo usuario:"+saldoNumerico)
-                console.log("valor libro:"+valorLibroNumerico)
+                console.log("saldo usuario:" + saldo)
+                console.log("valor libro:" + valorLibroNumerico)
                 if(saldo >= valorLibroNumerico){
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
                     mostrarToastPrestamoExito();
+                    saldo -= valorLibroNumerico;
+                    await actualizarUsuario();
 
-
-                    //OBTENER SALDO DE LA BBDD --- aqui estará restado
-                    //saldo -= valorLibroNumerico;
-                    
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
-                    navigate(`/home`, { state: { id_usuarios: id_usuarios, /*idUsuarios: idUsuarios,*/ username: username, saldo: saldo} });
+                    navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
                 }else{
                     mostrarToastPrestamoNoSaldo();
                 }
@@ -184,6 +216,38 @@ const Prestamos: React.FC = () => {
         setDefaultReturnDate(todayPlus30);
 
     }, []);
+
+    const actualizarUsuario = async () => {
+
+        try {
+            
+            const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // No body for GET requests
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status}`);
+            } else {
+            const result = await response.json();
+            usuarioBack = result;
+            usuarioBack.saldo = calcularSaldo(result.saldo, book);
+            const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuarioBack),
+            });
+            const responseData = await responsePut.json();
+        }
+     } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error as needed
+        }}
     return (
         <>
             <div>

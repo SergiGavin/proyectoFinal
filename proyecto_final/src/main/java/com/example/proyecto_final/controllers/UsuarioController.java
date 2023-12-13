@@ -82,7 +82,6 @@ public class UsuarioController {
 		
 		
 		return usuarioService.createUsuario(newUsuario);
-
 	}
 	
 	// Patch

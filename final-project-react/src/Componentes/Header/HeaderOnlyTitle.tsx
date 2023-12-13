@@ -10,7 +10,6 @@ const HeaderOnlyTitle: React.FC = () => {
     };
 
     return (
-        <>
             <nav className="navbar navbarOrange">
                 <div className="container-fluid">
                     <a className="navbar-brand swapreadsTitulo mt-2" onClick={handleHomeClick} href=''>
@@ -24,7 +23,6 @@ const HeaderOnlyTitle: React.FC = () => {
 
                 </div>
             </nav>
-        </>
     );
 };
 

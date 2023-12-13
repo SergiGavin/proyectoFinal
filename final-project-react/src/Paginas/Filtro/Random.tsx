@@ -13,10 +13,11 @@ const Random: React.FC = () => {
     const location = useLocation();
 
     const id_libros = location.state?.id_libros;
-    const idUsuarios = location.state?.id_usuarios;
+    //const idUsuarios = location.state?.id_usuarios;
     const id_usuarios = location.state?.id_usuarios;
     const username = location.state?.username;
-    const saldo = location.state?.saldo;
+    let saldo = location.state?.saldo;
+    //let [saldo, setSaldo] = useState(location.state?.saldo);
     const num = location.state?.categoryId;
 
     const [book, setBook] = useState({
@@ -25,22 +26,55 @@ const Random: React.FC = () => {
         autor: '',
         num_pag: '',
         estado: '',
-        valor: '',  
+        valor: 0,  
         sinopsis: '',
         foto_portada: '',
     });
+
+    let usuarioBack = {
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    };
+
+    const [usuario, setUsuario] = useState({
+        id_usuarios: '',
+        nombre: '',
+        apellidos: '',
+        dni: '',
+        correo: '',
+        telefono: '',
+        saldo: 0,
+        username: '',
+        pass: ''
+    });
+
+    const calcularSaldo = (saldo: number, book: { valor: number }): number => {
+        let newSaldo = saldo - book.valor;
+    
+    return newSaldo;
+}
+
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
+    let valorLibroNumerico = book.valor;
+
     const [prestamo, setPrestamo] = useState({
-        idUsuarios: idUsuarios, 
+        idUsuarios: id_usuarios, 
         id_libros: id_libros, // Asegúrate de que id_libros no sea undefined
         fechaDevolucion: defaultReturnDate,
     });
     const navigate = useNavigate();
 
     const handleShowModal = () =>{
-        if(!idUsuarios){
+        if(!id_usuarios){
             mostrarToastPrestamoNoExito()
             setShowModal(false);
         }else{
@@ -77,6 +111,20 @@ const Random: React.FC = () => {
             theme: "light",
         });
     };
+
+    const mostrarToastPrestamoNoSaldo = () => {
+        toast.error('¡Saldo insuficiente para el préstamo!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    };
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setPrestamo((prevLoanForm) => ({
@@ -96,11 +144,20 @@ const Random: React.FC = () => {
             console.log(JSON.stringify(prestamo));
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log('Préstamo creado exitosamente');
-                handleCloseModal();
-                mostrarToastPrestamoExito()
-                //Devolvemos el id_usuario al inicio para no cortar el flujo
-                navigate(`/`, { state: { id_usuarios: idUsuarios} });
+                console.log("saldo usuario:"+saldo)
+                console.log("valor libro:"+valorLibroNumerico)
+                if(saldo >= valorLibroNumerico){
+                    console.log('Préstamo creado exitosamente');
+                    handleCloseModal();
+                    mostrarToastPrestamoExito();
+                    saldo -= valorLibroNumerico;
+                    await actualizarUsuario();                    
+                    
+                    //Devolvemos el id_usuario al inicio para no cortar el flujo
+                    navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
+                }else{
+                    mostrarToastPrestamoNoSaldo();
+                }
             } else {
                 // La solicitud falló, maneja el error según tus necesidades
                 console.error('Error al crear el préstamo');
@@ -137,7 +194,7 @@ const Random: React.FC = () => {
                         foto_portada: data.foto_portada
                     });
                     setPrestamo({
-                        idUsuarios: idUsuarios,
+                        idUsuarios: id_usuarios,
                         id_libros: data.id_libros,
                         fechaDevolucion: defaultReturnDate,
                     });
@@ -156,6 +213,38 @@ const Random: React.FC = () => {
         setDefaultReturnDate(todayPlus30);
         
     }, []);
+
+     const actualizarUsuario = async () => {
+
+        try {
+
+            const response = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // No body for GET requests
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch data: ${response.status}`);
+            }
+            const result = await response.json();
+            usuarioBack = result;
+            usuarioBack.saldo = calcularSaldo(result.saldo, book);
+
+            const responsePut = await fetch(`http://localhost:8080/usuarios/${id_usuarios}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(usuarioBack),
+            });
+            const responseData = await responsePut.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // Handle error as needed
+        }}
 
     const renderHeader = () => {
         if (id_usuarios == null) {
