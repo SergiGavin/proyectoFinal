@@ -33,6 +33,7 @@ const Donaciones: React.FC = () => {
         autor: '',
         num_pag: 0,
         estado: '',
+        foto_portada: "https://i.imgur.com/S9fIB5P.png"
     });
 
 
@@ -106,7 +107,7 @@ const Donaciones: React.FC = () => {
         navigate('/login');
     };
     const mostrarToastDonacionExito = () => {
-        toast.success('¡Donación realizada con éxito!', {
+        toast.success('¡Donación realizada! Recuerde llevar su libro al punto de recogida para hacerla efectiva.', {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: true,
@@ -122,6 +123,10 @@ const Donaciones: React.FC = () => {
 
 
     const registrarLibro = async () => {
+        setBook({
+            ...book,
+            foto_portada: "https://i.imgur.com/S9fIB5P.png"
+        });
         try {
             console.log(JSON.stringify(book))
             const response = await fetch('http://localhost:8080/libros', {

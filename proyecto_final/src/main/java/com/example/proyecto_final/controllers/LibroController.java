@@ -209,7 +209,8 @@ public class LibroController {
 				libro.getGenero(),
 				libro.getAutor(),
 				libro.getNum_pag(),
-				libro.getEstado()
+				libro.getEstado(),
+				libro.getFoto_portada()
 				); 
 		BigDecimal precioInicial = calcularPrecio(libro.getNum_pag(), libro.getEstado());
 		BigDecimal factorDescuento = new BigDecimal("0.67");

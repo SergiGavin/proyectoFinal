@@ -36,13 +36,14 @@ public class LibrosEntity {
 	private String sinopsis;
 	private String foto_portada;
 	public LibrosEntity () {}
-	public LibrosEntity(String titulo, String genero, String autor, Integer num_pag, String estado) {
+	public LibrosEntity(String titulo, String genero, String autor, Integer num_pag, String estado, String foto_portada) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
 		this.autor = autor;
 		this.num_pag = num_pag;
 		this.estado = estado;
+		this.foto_portada = foto_portada;
 	}
 	public LibrosEntity(String titulo, String autor) {
 		super();
