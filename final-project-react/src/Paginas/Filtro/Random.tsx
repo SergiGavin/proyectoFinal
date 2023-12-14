@@ -272,6 +272,7 @@ const calcularSaldo = (saldo: number, book: { valor: number }): number => {
                                 <h1 className="texto-morado my-5">{book.titulo}</h1>
                                 <div className="container-info">
                                     <p className="texto-morado my-3"><strong>Autor: </strong> {book.autor}</p>
+                                    <p className="texto-morado my-3"><strong>Género: </strong> {book.genero}</p>
                                     <p className="texto-morado my-3"><strong>Núm. de pág: </strong> {book.num_pag}</p>
                                     <p className="texto-morado my-3"><strong>Estado: </strong> {book.estado}</p>
                                     <p className="texto-morado my-3"><strong>Valor en BookCoins: </strong> {book.valor}</p>
