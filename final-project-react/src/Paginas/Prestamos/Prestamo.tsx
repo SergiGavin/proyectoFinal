@@ -63,11 +63,7 @@ const Prestamos: React.FC = () => {
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-<<<<<<< HEAD
-    let valorLibroNumerico = parseFloat(book.valor);
-=======
     let valorLibroNumerico = book.valor;
->>>>>>> 89ae5619d6a3d29f3995268c60875b02d5ce9467
 
     const [prestamo, setPrestamo] = useState({
         idUsuarios: id_usuarios,
@@ -147,13 +143,8 @@ const Prestamos: React.FC = () => {
 
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-<<<<<<< HEAD
-                console.log("saldo usuario:"+saldo)
-                console.log("valor libro:"+valorLibroNumerico)
-=======
                 console.log("saldo usuario:" + saldo)
                 console.log("valor libro:" + valorLibroNumerico)
->>>>>>> 89ae5619d6a3d29f3995268c60875b02d5ce9467
                 if(saldo >= valorLibroNumerico){
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
@@ -161,10 +152,6 @@ const Prestamos: React.FC = () => {
                     saldo -= valorLibroNumerico;
                     await actualizarUsuario();
 
-<<<<<<< HEAD
-                    
-=======
->>>>>>> 89ae5619d6a3d29f3995268c60875b02d5ce9467
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
                     navigate(`/home`, { state: { id_usuarios: id_usuarios, username: username, saldo: saldo} });
                 }else{
