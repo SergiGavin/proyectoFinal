@@ -30,7 +30,6 @@ const Prestamos: React.FC = () => {
     const [defaultReturnDate, setDefaultReturnDate] = useState<Date>(new Date());
     const [showModal, setShowModal] = useState(false);
 
-    let saldoNumerico = parseFloat(saldo);
     let valorLibroNumerico = parseFloat(book.valor);
 
     const [prestamo, setPrestamo] = useState({
@@ -109,16 +108,13 @@ const Prestamos: React.FC = () => {
             console.log(JSON.stringify(prestamo));
             if (response.ok) {
                 // La solicitud fue exitosa, puedes realizar acciones adicionales si es necesario
-                console.log("saldo usuario:"+saldoNumerico)
+                console.log("saldo usuario:"+saldo)
                 console.log("valor libro:"+valorLibroNumerico)
                 if(saldo >= valorLibroNumerico){
                     console.log('Préstamo creado exitosamente');
                     handleCloseModal();
                     mostrarToastPrestamoExito();
 
-
-                    //OBTENER SALDO DE LA BBDD --- aqui estará restado
-                    //saldo -= valorLibroNumerico;
                     
                     //Devolvemos el id_usuario al inicio para no cortar el flujo
                     navigate(`/home`, { state: { id_usuarios: id_usuarios, /*idUsuarios: idUsuarios,*/ username: username, saldo: saldo} });
